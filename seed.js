@@ -21,44 +21,49 @@ Refer to the q documentation for why and how q.invoke is used.
 
 var mongoose = require('mongoose');
 var connectToDb = require('./server/db');
+
 var User = mongoose.model('User');
+var Product = mongoose.model('Product');
+var Review = mongoose.model('Review');
+
+var seedReviews = require('./seed_reviews');
+var seedProducts = require('./seed_products');
+var seedUsers = require('./seed_users');
+
 var q = require('q');
 var chalk = require('chalk');
 
-var getCurrentUserData = function () {
-    return q.ninvoke(User, 'find', {});
+
+var wipeDB = function () {
+
+    var models = [User, Product, Review];
+
+    models.forEach(function (model) {
+        model.find({}).remove(function () {});
+    });
+
+    return q.resolve();
 };
 
-var seedUsers = function () {
+var seed = function () {
 
-    var users = [
-        {
-            email: 'testing@fsa.com',
-            password: 'password'
-        },
-        {
-            email: 'obama@gmail.com',
-            password: 'potus'
-        }
-    ];
-
-    return q.invoke(User, 'create', users);
-
-};
-
-connectToDb.then(function () {
-    getCurrentUserData().then(function (users) {
-        if (users.length === 0) {
-            return seedUsers();
-        } else {
-            console.log(chalk.magenta('Seems to already be user data, exiting!'));
-            process.kill(0);
-        }
-    }).then(function () {
+    seedUsers().then(function (users) {
+        console.log(chalk.magenta('Seeded Users!'));
+        return seedProducts();
+    }).then(function(products) {
+        console.log(chalk.magenta('Seeded Products!'));
+        return seedReviews();
+    }).then(function(reviews) {
+        console.log(chalk.magenta('Seeded Reviews!'));
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
     }).catch(function (err) {
         console.error(err);
         process.kill(1);
     });
+
+};
+
+mongoose.connection.once('open', function () {
+    wipeDB().then(seed);
 });
