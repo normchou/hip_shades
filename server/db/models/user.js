@@ -4,13 +4,16 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     email: {
-        type: String
+        type: String, // required, format validation
+        required: true
     },
     password: {
-        type: String
+        type: String, 
+        required: true
     },
     salt: {
-        type: String
+        type: String, 
+        required: true
     },
     twitter: {
         id: String,
@@ -56,5 +59,14 @@ schema.statics.encryptPassword = encryptPassword;
 schema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
 });
+
+schema.method('getReviews', function () {
+    return mongoose.model('Review').find({ userID: this._id }).exec();
+});
+
+schema.path('email').validate(function(email) {
+    var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    return emailRegex.test(email); // Assuming email has a text attribute
+}, "E-mail must be in correct form")
 
 mongoose.model('User', schema);

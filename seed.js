@@ -25,10 +25,13 @@ var connectToDb = require('./server/db');
 var User = mongoose.model('User');
 var Product = mongoose.model('Product');
 var Review = mongoose.model('Review');
+var Order = mongoose.model('Order');
 
 var seedReviews = require('./seed_reviews');
 var seedProducts = require('./seed_products');
 var seedUsers = require('./seed_users');
+var seedOrders = require('./seed_orders');
+
 
 var q = require('q');
 var chalk = require('chalk');
@@ -55,6 +58,9 @@ var seed = function () {
         return seedReviews();
     }).then(function(reviews) {
         console.log(chalk.magenta('Seeded Reviews!'));
+        return seedOrders();
+    }).then(function(orders) {
+        console.log(chalk.magenta('Seeded Orders!'));
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
     }).catch(function (err) {
