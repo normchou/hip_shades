@@ -6,7 +6,7 @@ This seed file seeds orders into the database.
 
 var mongoose = require('mongoose');
 var connectToDb = require('./server/db');
-var Order = mongoose.model('Orders');
+var Order = mongoose.model('Order');
 var q = require('q');
 
 var seedOrders = function () {

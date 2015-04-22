@@ -41,4 +41,6 @@ productSchema.methods.getReviews = function() {
 	return mongoose.model('Review').find({ productID: this._id }).exec();
 }
 
-mongoose.model('Product', productSchema);
+var Product = mongoose.model('Product', productSchema);
+
+module.exports = {"Product": Product};
