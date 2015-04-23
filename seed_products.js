@@ -18,7 +18,7 @@ var seedProducts = function () {
             price: 130.00,
             category: ['Oakley', 'women'],
             imageURL: 'http://s7d3.scene7.com/is/image/LuxotticaRetail/700285704289_shad_qt??$m_pdpSet$&layer=0&color=F3F2F2&wid=1100',
-            reviews: []
+            stock: 0
         },
         {
             title: 'Glare',
@@ -26,7 +26,7 @@ var seedProducts = function () {
             price: 255.00,
             category: ['Prada', 'women'],
             imageURL: 'http://s7d3.scene7.com/is/image/LuxotticaRetail/8053672383966_shad_qt??$m_pdpSet$&layer=0&color=F3F2F2&wid=1100',
-            reviews: [] 
+            stock: 50
         },
         {
             title: 'Wayfarer',
@@ -34,7 +34,7 @@ var seedProducts = function () {
             price: 179.95,
             category: ['Ray-Ban', 'men'],
             imageURL: 'http://s7d3.scene7.com/is/image/LuxotticaRetail/8053672131581_shad_qt??$m_pdpSet$&layer=0&color=F3F2F2&wid=1100',
-            reviews: []
+            stock: 5
         },
         {
             title: 'Frogskin',
@@ -42,7 +42,7 @@ var seedProducts = function () {
             price: 110.00,
             category: ['Oakley', 'men'],
             imageURL: 'http://s7d3.scene7.com/is/image/LuxotticaRetail/700285551371_shad_qt??$m_pdpSet$&layer=0&color=F3F2F2&wid=1100',
-            reviews: []
+            stock: 10000
         }
     ]
 

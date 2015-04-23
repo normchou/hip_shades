@@ -8,7 +8,7 @@ var reviewSchema = new mongoose.Schema({
 	userID: {
 		type: mongoose.Schema.Types.ObjectId, ref: 'User'
 	},
-	description: {
+	review: {
 		type: String
 	},
 	stars: {

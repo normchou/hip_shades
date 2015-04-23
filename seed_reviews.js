@@ -14,12 +14,12 @@ var q = require('q');
 
 var seedReviews = function () {
 
-	var dummyDescription = [	
+	var dummyReview = [	
 
-		{ description: 'love em sunglasses', stars: 5 }, 
-		{ description: 'runs small', stars: 2 }, 
-		{ description: 'great price', stars: 4 },
-		{ description: 'i hate them', stars: 1 } 
+		{ review: 'love em sunglasses', stars: 5 }, 
+		{ review: 'runs small', stars: 2 }, 
+		{ review: 'great price', stars: 4 },
+		{ review: 'i hate them', stars: 1 } 
 
 	];
 
@@ -39,13 +39,13 @@ var seedReviews = function () {
 
 				var randomProductIndex = Math.floor(Math.random() * productList.length);
 				var randomUserIndex = Math.floor(Math.random() * userList.length);
-				var randonDescriptionIndex = Math.floor(Math.random() * dummyDescription.length);
+				var randomReviewIndex = Math.floor(Math.random() * dummyReview.length);
 
 				reviews.push({
 					productID: productList[randomProductIndex]._id,
 					userID: userList[randomUserIndex]._id,
-					description: dummyDescription[randonDescriptionIndex].description,
-					stars: dummyDescription[randonDescriptionIndex].stars
+					review: dummyReview[randomReviewIndex].review,
+					stars: dummyReview[randomReviewIndex].stars
 				});
 			}
 

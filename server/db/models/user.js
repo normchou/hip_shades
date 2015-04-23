@@ -36,12 +36,7 @@ var userSchema = new mongoose.Schema({
         type: String, //This will be drop-down.
         default: 'US',
         required: false
-    },
-    order_history:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order',
-        required: false
-    }]
+    }
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
@@ -77,6 +72,10 @@ userSchema.method('correctPassword', function (candidatePassword) {
 
 userSchema.method('getReviews', function () {
     return mongoose.model('Review').find({ userID: this._id }).exec();
+});
+
+userSchema.method('getOrderHistory', function () {
+    return mongoose.model('Order').find({ user_ref: this._id }).exec();
 });
 
 userSchema.path('email').validate(function(email) {

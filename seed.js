@@ -39,7 +39,7 @@ var chalk = require('chalk');
 
 var wipeDB = function () {
 
-    var models = [User, Product, Review];
+    var models = [User, Product, Review, Order];
 
     models.forEach(function (model) {
         model.find({}).remove(function () {});

@@ -30,6 +30,9 @@ var productSchema = new mongoose.Schema({
 	},
 	imageURL: {
 		type: [String]
+	},
+	stock: {
+		type: Number
 	}
 });
 
