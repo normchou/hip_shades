@@ -2,27 +2,40 @@
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 
-var schema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
     email: {
-        type: String
+        type: String,
+        required: true
     },
     password: {
-        type: String
+        type: String,
+        required: true
     },
-    salt: {
-        type: String
+    first_name:{
+        type: String,
+        required: true
     },
-    twitter: {
-        id: String,
-        username: String,
-        token: String,
-        tokenSecret: String
+    last_name:{
+        type: String,
+        required: true
     },
-    facebook: {
-        id: String
+    admin:{
+        type: Boolean,
+        required: true,
+        default: false
     },
-    google: {
-        id: String
+    street:{
+        type: String,
+        required: false
+    },
+    state:{
+        type: String, //This will be drop-down. To be updated in the future.
+        required: false //Required if your country is US
+    },
+    country:{
+        type: String, //This will be drop-down.
+        default: 'US',
+        required: false
     }
 });
 
@@ -39,7 +52,7 @@ var encryptPassword = function (plainText, salt) {
     return hash.digest('hex');
 };
 
-schema.pre('save', function (next) {
+userSchema.pre('save', function (next) {
 
     if (this.isModified('password')) {
         this.salt = this.constructor.generateSalt();
@@ -50,11 +63,26 @@ schema.pre('save', function (next) {
 
 });
 
-schema.statics.generateSalt = generateSalt;
-schema.statics.encryptPassword = encryptPassword;
+userSchema.statics.generateSalt = generateSalt;
+userSchema.statics.encryptPassword = encryptPassword;
 
-schema.method('correctPassword', function (candidatePassword) {
+userSchema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
 });
 
-mongoose.model('User', schema);
+userSchema.method('getReviews', function () {
+    return mongoose.model('Review').find({ userID: this._id }).exec();
+});
+
+userSchema.method('getOrderHistory', function () {
+    return mongoose.model('Order').find({ user_ref: this._id }).exec();
+});
+
+userSchema.path('email').validate(function(email) {
+    var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    return emailRegex.test(email); // Assuming email has a text attribute
+}, "E-mail must be in correct form");
+
+var User = mongoose.model('User', userSchema);
+
+module.exports = {"User": User};

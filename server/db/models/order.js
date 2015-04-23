@@ -2,20 +2,19 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var schema;
-schema = new mongoose.Schema({
+var orderSchema = new mongoose.Schema({
     create_date: {
         type: Date,
         default: Date.now
     },
     product_list: [{
-        type: Schema.types.ObjectId,
-        ref: 'Products',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
         required: true
     }],
     user_ref: {
-        type: Schema.types.ObjectId,
-        ref: 'Users',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: false
     },
     checked_out: {
@@ -25,6 +24,6 @@ schema = new mongoose.Schema({
     }
 });
 
-var Orders = mongoose.model('Orders', schema);
+var Order = mongoose.model('Order', orderSchema);
 
-module.exports = {"Orders": Orders};
+module.exports = {"Order": Order};
