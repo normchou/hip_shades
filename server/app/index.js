@@ -1,8 +1,12 @@
 'use strict';
 var path = require('path');
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 module.exports = app;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Pass our express application pipeline into the configuration
 // function located at server/app/configure/index.js
@@ -11,7 +15,6 @@ require('./configure')(app);
 // Routes that will be accessed via AJAX should be prepended with
 // /api so they are isolated from our GET /* wildcard.
 app.use('/api', require('./routes'));
-
 
 /*
     This middleware will catch any URLs resembling a file extension
