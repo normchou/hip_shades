@@ -39,6 +39,10 @@ var userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.methods.getOrders = function() {
+	return mongoose.model('Order').find({user_ref: this._id}).exec();
+}
+
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
 // are all used for local authentication security.
 var generateSalt = function () {

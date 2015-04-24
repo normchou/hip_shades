@@ -10,6 +10,7 @@
 
 'use strict';
 var mongoose = require('mongoose');
+var Promise = require('q');
 
 var productSchema = new mongoose.Schema({
 	title: {
@@ -41,7 +42,20 @@ var productSchema = new mongoose.Schema({
 // })
 
 productSchema.methods.getReviews = function() {
-	return mongoose.model('Review').find({ productID: this._id }).exec();
+	return mongoose.model('Review').find({productID: this._id }).exec();
+}
+
+productSchema.statics.getByCategory = function(cat) {
+	return mongoose.model('Product').find({category: {"$in": [cat]}}).exec();
+}
+
+productSchema.statics.getAllCategories = function() {
+	return ['Prada', 'Ray-Ban', 'Oakley', 'men', 'women'];
+//	return new Promise(function(resolve, reject) {
+//		mongoose.model('Product').find({}, function (products) {
+//			resolve(products);
+//		});
+//	})
 }
 
 var Product = mongoose.model('Product', productSchema);
