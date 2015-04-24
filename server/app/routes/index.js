@@ -2,9 +2,10 @@
 var router = require('express').Router();
 module.exports = router;
 
-// router.use('/tutorial', require('./tutorial'));
-// router.use('/members', require('./members'));
 router.use('/product', require('./product'));
+router.use('/category', require('./category'));
+router.use('/user', require('./user'));
+router.use('/order', require('./order'));
 
 // Make sure this is after all of
 // the registered routes!
