@@ -13,8 +13,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             console.log('link fn called')
             scope.items = [
                 { label: 'Home', state: 'home' },
-                { label: 'Products', state: 'about' },
-                { label: '', state: 'tutorial' },
+                { label: 'Products', state: 'products' },
                 { label: 'Members Only', state: 'membersOnly', auth: true }
             ];
 
