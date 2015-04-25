@@ -21,7 +21,7 @@ router.get('/:id/reviews', function(req, res, next) {
 });
 
 router.param('id', function(req, res, next, id) {
-	Product.findOne({'_id': id}, function(err, product) {
+	Product.findById(id, function(err, product) {
 		if(err) return next(err)
 		if(!product) return res.status(404).end()
 		req.product = product

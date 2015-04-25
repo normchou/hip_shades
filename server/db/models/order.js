@@ -1,18 +1,18 @@
 'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var q = require('q');
 
 var orderSchema = new mongoose.Schema({
     create_date: {
         type: Date,
         default: Date.now
     },
-    product_list: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+    product_ids: {
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
         required: true
-    }],
-    user_ref: {
+    },
+    user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: false
@@ -23,6 +23,14 @@ var orderSchema = new mongoose.Schema({
         default: false
     }
 });
+
+orderSchema.methods.calculatePrice = function() {
+    return mongoose.model('Product').find({
+        '_id': { $in: this.product_id}
+    }, function(err, docs){
+         console.log(docs);
+    });
+}
 
 var Order = mongoose.model('Order', orderSchema);
 

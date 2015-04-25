@@ -2,14 +2,15 @@
 var mongoose = require('mongoose');
 
 var reviewSchema = new mongoose.Schema({
-	productID: {
+	product_id: {
 		type: mongoose.Schema.Types.ObjectId, ref: 'Product'
 	},
-	userID: {
+	user_id: {
 		type: mongoose.Schema.Types.ObjectId, ref: 'User'
 	},
 	review: {
-		type: String
+		type: String,
+		minlength: 3
 	},
 	stars: {
 		type: Number,

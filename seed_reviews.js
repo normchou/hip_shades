@@ -42,8 +42,8 @@ var seedReviews = function () {
 				var randomReviewIndex = Math.floor(Math.random() * dummyReview.length);
 
 				reviews.push({
-					productID: productList[randomProductIndex]._id,
-					userID: userList[randomUserIndex]._id,
+					product_id: productList[randomProductIndex]._id,
+					user_id: userList[randomUserIndex]._id,
 					review: dummyReview[randomReviewIndex].review,
 					stars: dummyReview[randomReviewIndex].stars
 				});

@@ -5,10 +5,12 @@ var mongoose = require('mongoose');
 var userSchema = new mongoose.Schema({
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
-        type: String
+        type: String,
+        unique: true
     },
     first_name:{
         type: String
@@ -49,7 +51,7 @@ var userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.getOrders = function() {
-	return mongoose.model('Order').find({user_ref: this._id}).exec();
+	return mongoose.model('Order').find({user_id: this._id}).exec();
 }
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
@@ -84,11 +86,7 @@ userSchema.method('correctPassword', function (candidatePassword) {
 });
 
 userSchema.method('getReviews', function () {
-    return mongoose.model('Review').find({ userID: this._id }).exec();
-});
-
-userSchema.method('getOrderHistory', function () {
-    return mongoose.model('Order').find({ user_ref: this._id }).exec();
+    return mongoose.model('Review').find({ user_id: this._id }).exec();
 });
 
 userSchema.path('email').validate(function(email) {
