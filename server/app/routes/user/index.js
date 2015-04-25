@@ -3,23 +3,40 @@ var router = require('express').Router();
 var mongoose = require('mongoose')
 var User = mongoose.model('User');
 
-router.use('/:id/orders', require('../order'));
+var amLoggedIn = function(req, res, next) {
+	return (typeof(req.user) != "undefined")
+}
+
+var isAdmin = function(req, res, next) {
+	return (amLoggedIn(req, res, next) && req.user.admin)
+}
 
 router.get('/', function(req, res, next) {
-	res.status(403).send('Denied operation');
+	if (!isAdmin(req, res, next)) res.status(403).send('Thou shalt not pass!');
+	else User.find({}, function(err, users) {
+		res.json(users)
+	});
 });
 
 router.get('/:id', function(req, res, next) {
-	res.json(req.user)
+	if (!amLoggedIn) res.status(403).send('Not logged in')
+	res.json(req.userData)
 });
 
 router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
 		if(err) return next(err)
 		if(!user) return res.status(404).end()
-		req.user = user
+		if (!isAdmin(req, res, next) && !(user._id.equals(req.user._id))) {
+			console.log('Admin?=', isAdmin(req, res, next));
+			console.log('Are they equal? = ', user._id.equals(req.user._id))
+			return res.status(403).send('Under-priviliged');
+		}
+		req.userData = user
 		next()
 	})
 })
+
+router.use('/:id/orders', require('../order'));
 
 module.exports = router;

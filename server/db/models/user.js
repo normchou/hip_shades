@@ -81,8 +81,12 @@ userSchema.pre('save', function (next) {
 userSchema.statics.generateSalt = generateSalt;
 userSchema.statics.encryptPassword = encryptPassword;
 
-userSchema.method('correctPassword', function (candidatePassword) {
-    return encryptPassword(candidatePassword, this.salt) === this.password;
+//userSchema.method('correctPassword', function (candidatePassword) {
+//    return encryptPassword(candidatePassword, this.salt) === this.password;
+//});
+userSchema.method('correctPassword', function(candidatePassword) {
+	// dummy authentication for the moment
+	return true;
 });
 
 userSchema.method('getReviews', function () {

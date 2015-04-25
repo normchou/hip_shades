@@ -18,7 +18,8 @@ var seedUsers = function () {
             email: 'ramnikarora@gmail.com',
             password: 'password',
 			salt: 'littleExtra',
-			facebook: {id: 512375944550}
+			facebook: {id: 512375944550},
+			admin: true
         },
         {
             first_name: '',
