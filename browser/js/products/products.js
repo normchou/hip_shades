@@ -10,7 +10,13 @@ app.config(function ($stateProvider) {
 	    	url: '/:productID',
 	    	templateUrl: 'js/products/productItem.html',
 	    	controller: 'ProductsController'
-	    });
+	    })
+		.state('products.category', {
+	    	url: '/:productCategory',
+	    	templateUrl: 'js/products/productCategory.html',
+	    	controller: 'ProductsController'
+	    })
+	        
 });
 
 
@@ -24,6 +30,16 @@ app.controller('ProductsController', function ($scope, $stateParams, GetProducts
 		GetProductsFactory.getSingleProduct()
 			.then( function (productItem) {
 				$scope.productItem = productItem;
+			})
+
+		GetProductsFactory.getProductByCategory()
+			.then( function (productCategory) {
+				$scope.productCategory = productCategory;
+			})
+
+		GetProductsFactory.getProductReviews()
+			.then( function (productReviews) {
+				$scope.productReviews = productReviews;
 			})
 
 })

@@ -1,9 +1,22 @@
 <!-- this shows product's description -->
-<div>
+<div class="col-xs-9">
+	<div>
+		<h3>{{ productItem.title }}</h3>
+		<p>{{ productItem.description }}</p>
+		<p>${{ productItem.price }}</p>
+		<button>Add to cart</button>
+	</div>
+	<div>
+		<img src="{{ productItem.imageURL[0] }}" class="img-thumbnail" style="width: 75%"> 
+	</div>
+</div>
 
-	<h3>{{ productItem.title }}</h3>
-	<p>{{ productItem.description }}</p>
-	<img src="{{ productItem.imageURL[0] }}"> 
-
-
+<div class="col-xs-3">
+	<h3>Reviews</h3>
+	<div ng-repeat="review in productReviews">
+		<h4 style="color: red">{{ review.stars }} Stars</h5>
+		<p> written by: {{ review.userID }} </p>
+		<p> "{{ review.review }}"" </p>
+	</div>
+	<button>Add Review</button>
 </div>

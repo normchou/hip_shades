@@ -14,10 +14,25 @@ app.factory('GetProductsFactory', function ($http, $stateParams) {
     		})
     }
 
+    var getProductByCategory = function () {
+    	return $http.get('api/categories/' + $stateParams.productCategory)
+    		.then(function (response) {
+    			return response.data;
+    		})
+    }
+
+    var getProductReviews = function () {
+    	return $http.get('api/products/' + $stateParams.productID + '/reviews')
+    		.then(function (response) {
+    			return response.data
+    		})
+    }
     
     return {
         getProducts: getProducts,
-        getSingleProduct: getSingleProduct
+        getSingleProduct: getSingleProduct,
+        getProductByCategory: getProductByCategory,
+        getProductReviews: getProductReviews
     };
 })
 
