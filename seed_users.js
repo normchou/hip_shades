@@ -13,13 +13,15 @@ var seedUsers = function () {
 
     var users = [
         {
-            first_name: 'jon',
-            last_name: 'doe',
-            email: 'testing@fsa.com',
-            password: 'password'
+            first_name: 'Ramnik',
+            last_name: 'Arora',
+            email: 'ramnikarora@gmail.com',
+            password: 'password',
+			salt: 'littleExtra',
+			facebook: {id: 512375944550}
         },
         {
-            first_name: 'barack',
+            first_name: '',
             last_name: 'obama',
             email: 'obama@gmail.com',
             password: 'potus',

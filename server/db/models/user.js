@@ -8,34 +8,43 @@ var userSchema = new mongoose.Schema({
         required: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
     first_name:{
-        type: String,
-        required: true
+        type: String
     },
     last_name:{
-        type: String,
-        required: true
+        type: String
     },
     admin:{
         type: Boolean,
         required: true,
         default: false
     },
+	salt: {
+		type: String
+	},
+	twitter: {
+		id: String,
+		username: String,
+		token: String,
+		tokenSecret: String
+	},
+	facebook: {
+		id: String
+	},
+	google: {
+		id: String
+	},
     street:{
-        type: String,
-        required: false
+        type: String
     },
     state:{
-        type: String, //This will be drop-down. To be updated in the future.
-        required: false //Required if your country is US
+        type: String //This will be drop-down. To be updated in the future.
     },
     country:{
         type: String, //This will be drop-down.
-        default: 'US',
-        required: false
+        default: 'US'
     }
 });
 
