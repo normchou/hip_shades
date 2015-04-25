@@ -1,28 +1,29 @@
-<!--
-
- Brand
-    - Raybans
-    - Oakleys
-    - Prada
-
- Gender
-    - Male
-    - Female
-    - Unisex
-
-
- --->
-
 <h1>Brand</h1>
     <ul>
-        <li>Rayban</li>
-        <li>Oakley</li>
-        <li>Prada</li>
+        <li ng-repeat='product in products'>
+            <a ui-sref='product.category[0]'>{{ product.category[0] }}</a>
+        </li>
     </ul>
 
-<h1>Gender</h1>
+<!-- <h1>Gender</h1>
     <ul>
-        <li>Male</li>
-        <li>Female</li>
-        <li>Unisex</li>
+        <li ng-repeat='product in products'>
+            <a>{{ product.title }}</a>
+            <img ng-src="{{ product.imageURL }}" />
+        </li>
     </ul>
+ -->
+
+
+<h1>Products</h1>
+<div class="row padded">
+    <div class="list-group col-xs-3">
+        <a class="list-group-item"
+            ng-repeat="product in products"
+            ng-class="{active: item.selected}"
+            ng-href="#/products/{{product.title}}"
+            ng-click="selectItem(product)">{{product.title}}</a>
+    </div>
+    <div ui-view></div>
+    <ui-view></ui-view>
+</div>
