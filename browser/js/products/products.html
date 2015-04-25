@@ -1,29 +1,29 @@
-<h1>Brand</h1>
-    <ul>
-        <li ng-repeat='product in products'>
-            <a ui-sref='product.category[0]'>{{ product.category[0] }}</a>
-        </li>
-    </ul>
-
-<!-- <h1>Gender</h1>
-    <ul>
-        <li ng-repeat='product in products'>
-            <a>{{ product.title }}</a>
-            <img ng-src="{{ product.imageURL }}" />
-        </li>
-    </ul>
- -->
-
-
-<h1>Products</h1>
-<div class="row padded">
-    <div class="list-group col-xs-3">
-        <a class="list-group-item"
-            ng-repeat="product in products"
-            ng-class="{active: item.selected}"
-            ng-href="#/products/{{product.title}}"
-            ng-click="selectItem(product)">{{product.title}}</a>
+<div class="col-xs-3">   
+    <!-- menu of products -->
+    <h1>Sunglasses</h1>
+    <div class="row padded">
+        <div class="list-group">
+            <a class="list-group-item"
+                ng-repeat="product in products"
+                ng-class="{active: item.selected}"
+                ui-sref="products.item({productID: product._id})">
+                {{product.title}}
+            </a>
+        </div>
     </div>
-    <div ui-view></div>
-    <ui-view></ui-view>
+
+    <!-- menu of brands -->
+    <h1>Brands</h1>
+    <div class="row padded">
+        <div class="list-group">
+            <a class="list-group-item"
+                ng-repeat="product in products"
+                ng-class="{active: item.selected}"
+                ui-sref="products.category({productCategory: product.category[0]})">
+                {{ product.category[0] }}
+            </a>
+        </div>
+    </div>
 </div>
+
+<div ui-view class="col-xs-8"></div>
