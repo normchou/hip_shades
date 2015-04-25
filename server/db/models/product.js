@@ -23,9 +23,10 @@ var productSchema = new mongoose.Schema({
 	},
 	price: {
 		type: Number, // remember to store as cents because of binary arithmatic
-		required: true
+		required: true,
+		min: 1
 	},
-	category: {
+	categories: {
 		type: [String],
 		required: true
 	},
@@ -33,20 +34,18 @@ var productSchema = new mongoose.Schema({
 		type: [String]
 	},
 	stock: {
-		type: Number
+		type: Number,
+		required: true,
+		default: 25
 	}
 });
 
-// productSchema.virtual('dollarPrice').get(function() {
-// 	return this.price / 100
-// })
-
 productSchema.methods.getReviews = function() {
-	return mongoose.model('Review').find({productID: this._id }).exec();
+	return mongoose.model('Review').find({product_id: this._id }).exec();
 }
 
 productSchema.statics.getByCategory = function(cat) {
-	return mongoose.model('Product').find({category: {"$in": [cat]}}).exec();
+	return this.find({categories: {"$in": [cat]}}).exec();
 }
 
 // grabs all categories, but very inneficent. Will have to make a category
@@ -56,7 +55,7 @@ productSchema.statics.getAllCategories = function() {
 		var categories = [];
 		products.forEach(function(element) {
 
-			element.category.forEach(function(category) {
+			element.categories.forEach(function(category) {
 				if (categories.indexOf(category) === -1) {
 					categories.push(category);
 				}

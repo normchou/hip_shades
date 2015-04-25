@@ -40,8 +40,8 @@ var seedOrders = function () {
                 var randomUserIndex = Math.floor(Math.random() * userList.length);
 
                 orders.push({
-                    product_list: productIDs,
-                    user_ref: userList[randomUserIndex]._id,
+                    product_ids: productIDs,
+                    user_id: userList[randomUserIndex]._id,
                     checked_out: Math.random() < 0.5 ? true : false
                 });
             }
