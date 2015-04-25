@@ -3,11 +3,11 @@ var router = require('express').Router();
 var mongoose = require('mongoose')
 var User = mongoose.model('User');
 
-router.use('/', function(req, res, next) {
-	res.status(403).end();
-});
+router.use('/:id/orders', require('../order'));
 
-router.use('/:id/order', require('../order'));
+router.get('/', function(req, res, next) {
+	res.status(403).send('Denied operation');
+});
 
 router.get('/:id', function(req, res, next) {
 	res.json(req.user)

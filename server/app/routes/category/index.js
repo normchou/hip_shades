@@ -5,7 +5,6 @@ var Product = mongoose.model('Product');
 
 router.get('/', function(req, res, next) {
 	Product.getAllCategories().then(function (data) {
-		console.log(data);
 		res.json(data);
 	});
 });
