@@ -10,7 +10,7 @@
 
 'use strict';
 var mongoose = require('mongoose');
-var Promise = require('q');
+var q = require('q');
 
 var productSchema = new mongoose.Schema({
 	title: {
@@ -49,13 +49,23 @@ productSchema.statics.getByCategory = function(cat) {
 	return mongoose.model('Product').find({category: {"$in": [cat]}}).exec();
 }
 
+// grabs all categories, but very inneficent. Will have to make a category
+// model & collection later.
 productSchema.statics.getAllCategories = function() {
-	return ['Prada', 'Ray-Ban', 'Oakley', 'men', 'women'];
-//	return new Promise(function(resolve, reject) {
-//		mongoose.model('Product').find({}, function (products) {
-//			resolve(products);
-//		});
-//	})
+	return q.ninvoke(Product, 'find', {}).then(function(products) {
+		var categories = [];
+		products.forEach(function(element) {
+
+			element.category.forEach(function(category) {
+				if (categories.indexOf(category) === -1) {
+					categories.push(category);
+				}
+			});
+
+		});
+
+		return categories;
+	});
 }
 
 var Product = mongoose.model('Product', productSchema);
