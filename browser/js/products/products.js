@@ -11,7 +11,7 @@ app.config(function ($stateProvider) {
 	    	templateUrl: 'js/products/productItem.html',
 	    	controller: 'ProductsController'
 	    })
-		.state('products.category', {
+		.state('products.categories', {
 	    	url: '/:productCategory',
 	    	templateUrl: 'js/products/productCategory.html',
 	    	controller: 'ProductsController'
@@ -20,27 +20,32 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('ProductsController', function ($scope, $stateParams, GetProductsFactory) { 
+app.controller('ProductsController', function ($scope, $stateParams, $http) { 
 
-		GetProductsFactory.getProducts()
-			.then( function (productList) {
-				$scope.products = productList;
-			})
+		// request to get list of products
+		$http.get('/api/products')
+            .then(function (response) {
+                $scope.products = response.data;
+            })	
 
-		GetProductsFactory.getSingleProduct()
-			.then( function (productItem) {
-				$scope.productItem = productItem;
-			})
+        // request to get single product
+        $http.get('/api/products/' + $stateParams.productID)
+    		.then(function (response) {
+    			$scope.productItem = response.data;
+    		})
 
-		GetProductsFactory.getProductByCategory()
-			.then( function (productCategory) {
-				$scope.productCategory = productCategory;
-			})
+		// request to get list of categories
+		$http.get('api/categories/' + $stateParams.productCategory)
+    		.then(function (response) {
+    			$scope.productCategory = response.data;
+    		})
 
-		GetProductsFactory.getProductReviews()
-			.then( function (productReviews) {
-				$scope.productReviews = productReviews;
-			})
+    	// request to get product reviews
+		$http.get('api/products/' + $stateParams.productID + '/reviews')
+    		.then(function (response) {
+    			$scope.productReviews = response.data
+    		})
+
 
 })
 

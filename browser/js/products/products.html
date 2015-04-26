@@ -19,8 +19,8 @@
             <a class="list-group-item"
                 ng-repeat="product in products"
                 ng-class="{active: item.selected}"
-                ui-sref="products.category({productCategory: product.category[0]})">
-                {{ product.category[0] }}
+                ui-sref="products.categories({productCategory: product.categories[0]})">
+                {{ product.categories[0] }}
             </a>
         </div>
     </div>
