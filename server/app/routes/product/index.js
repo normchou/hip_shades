@@ -16,6 +16,7 @@ router.get('/:id', function(req, res, next) {
 router.get('/:id/reviews', function(req, res, next) {
 	req.product.getReviews()
 		.then(function(data) {
+		console.log('review data', data)
 		res.json(data);
 	});
 });
