@@ -3,16 +3,24 @@ var router = require('express').Router();
 var mongoose = require('mongoose')
 var Order = mongoose.model('Order');
 
+// this route is /api/users/user_mongo_id/orders
 router.get('/', function(req, res, next) {
-	req.user.getOrders()
-		.then(function(data) {
-			res.send(data);
-		});
+	console.log('this is the req body', req.baseUrl)
+	console.log('this is the cookie', req.cookies.name)
+
+	var userId = req.baseUrl.split('/')[3]
+
+	Order.find({user_id: userId}, function(err, data) {
+		res.json(data);
+	});
+
 });
 
+// don't need this route
 router.get('/:id', function(req, res, next) {
 	res.send(req.order);	
 });
+
 
 router.param('id', function(req, res, next, id) {
 	Order.findOne({'_id': id}, function(err, order) {
@@ -22,5 +30,14 @@ router.param('id', function(req, res, next, id) {
 		next()
 	})
 })
+
+// router.post('/', function(req, res, next) {
+// 	// 1. find if there is an existing cart
+// 	// 2. if there is, add to the cart
+// 	// 3. if there isn't, add to a new cart
+// 	// 4. redirect to same page
+
+	
+// })
 
 module.exports = router;
