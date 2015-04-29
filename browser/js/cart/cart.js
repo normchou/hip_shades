@@ -16,9 +16,10 @@ app.config(function ($stateProvider){
 
 app.controller('CartController', function($scope, $http) {
 
-    $http.get('/api/products')
+    $http.get('/api/users/5540243ce24891a73269cb17/orders/5540243ce24891a73269cb2b')
         .then(function(response) {
-            $scope.productData = response.data
-        })
+            $scope.orderData = response.data.product_ids;
+            console.log($scope.orderData)
+        });
 
 });

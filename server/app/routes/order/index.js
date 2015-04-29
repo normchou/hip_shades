@@ -16,9 +16,11 @@ router.get('/', function(req, res, next) {
 
 });
 
-// don't need this route
+// don't need this route <- Yes we do, please do not remove.
 router.get('/:id', function(req, res, next) {
-	res.send(req.order);	
+	req.order.populate('product_ids', function(err, populatedOrder){
+		res.json(populatedOrder)
+	});
 });
 
 
