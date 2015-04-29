@@ -13,10 +13,37 @@
 
 <div class="col-xs-3">
 	<h3>Reviews</h3>
+
+	
+	<form name="reviewForm" ng-submit="reviewForm.$valid && submitReview(reviewItem)" ng-show="showReviewForm"
+	novalidate>
+
+	    <span class="error" ng-show="reviewForm.reviewInput.$invalid && reviewForm.$submitted" style="color: red">Please complete review before submitting</span>
+    	
+	    1 Star - <input type="radio" ng-model="reviewItem.stars" value="1">
+		</br>
+	    2 Stars - <input type="radio" ng-model="reviewItem.stars" value="2">
+	    </br>
+	    3 Stars - <input type="radio" ng-model="reviewItem.stars" value="3">
+	    </br>
+	    4 Stars - <input type="radio" ng-model="reviewItem.stars" value="4">
+	    </br>
+	    5 Stars - <input type="radio" ng-model="reviewItem.stars" value="5">
+	    </br>
+
+	    Describe your experience with these shades: <input class='' name='reviewInput' required type="text" ng-model="reviewItem.review" />
+
+	    <br /><button>Submit Review</button> 
+
+	</form>
+
+	</br>
+	<button ng-click="showReviewForm = !showReviewForm">{{addReviewButtonText}}</button>
+
+
 	<div ng-repeat="review in productReviews">
 		<h4 style="color: red">{{ review.stars }} Stars</h5>
 		<p> written by: {{ review.user_id }} </p>
 		<p> "{{ review.review }}"" </p>
 	</div>
-	<button>Add Review</button>
 </div>
