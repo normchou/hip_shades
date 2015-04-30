@@ -56,6 +56,37 @@ app.controller('ProductsController', function ($scope, $stateParams, $http) {
 			})
 	}
 
-})
+	$scope.reviewItem = {
+	      user_id: null,
+	      product_id: $stateParams.productID,
+	      stars: 0,
+	      review: ''
+	  };
+
+	  $scope.showReviewForm = false;
+
+	  $scope.$watch('showReviewForm', function(){
+	      $scope.addReviewButtonText = $scope.showReviewForm ? 'Hide Form' : 'Add Review';
+	  })
+
+	  $scope.submitReview = function (review) {
+
+	      $http.post('/api/products/' + $stateParams.productID + '/reviews', review)
+	      	.then(function (response) {
+	      		console.log(response.data);
+	      	});
+
+	      $scope.reviewItem = {
+	          user_id: null,
+	          product_id: $stateParams.productID,
+	          stars: 0,
+	          review: ''
+	      };
+
+	      $scope.showReviewForm = false;
+	  };
+
+});
+
 
 

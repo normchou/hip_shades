@@ -4,7 +4,8 @@ var mongoose = require('mongoose')
 var Product = mongoose.model('Product');
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
-var cookieParser = require('cookie-parser');
+var Review = mongoose.model('Review');
+
 
 router.get('/', function(req, res, next) {
 	Product.find({}, function(err, data) {
@@ -20,6 +21,16 @@ router.get('/:id/reviews', function(req, res, next) {
 	req.product.getReviews()
 		.then(function(data) {
 		res.json(data);
+	});
+});
+
+router.post('/:id/reviews', function(req, res, next) {
+	// Reference schema for what is expected as the POST body.
+	var reviewData = req.body;
+
+	Review.create(reviewData, function (err, review) {
+	    if (err) return next(err);
+	    res.json(review);
 	});
 });
 
