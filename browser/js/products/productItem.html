@@ -1,7 +1,7 @@
 <!-- this shows product's description -->
 <div class="col-xs-9">
 	<div>
-		<h3>{{ productItem.title }}</h3>
+		<h4>{{ productItem.title }}</h4>
 		<p>{{ productItem.description }}</p>
 		<p>${{ productItem.price }}</p>
 		<button ng-click="createOrder(productItem._id)">Add to cart</button>
@@ -44,6 +44,6 @@
 	<div ng-repeat="review in productReviews">
 		<h4 style="color: red">{{ review.stars }} Stars</h5>
 		<p> "{{ review.review }}"" </p>
-		<p> -{{ review.user_id.first_name }} {{ review.user_id.last_name }}</p>
+		<p><i> -{{ review.user_id.first_name }} {{ review.user_id.last_name }}</i></p>
 	</div>
 </div>

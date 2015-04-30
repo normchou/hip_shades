@@ -23,7 +23,9 @@ router.get('/', function(req, res, next) {
 // this route gets the current logged in user and find the orders for the user
 router.get('/currentuser/', function(req, res, next) {
 
-	var cookieId = req.cookies['connect.sid'].split(':')[1].split('.')[0];
+	var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
+
+	console.log('this is the cookie id', cookieId)
 
 	User.find({email: cookieId + '@temp.com'}, function(err, data) {
 		if (err) {

@@ -48,7 +48,7 @@ router.param('id', function(req, res, next, id) {
 // Add to cart button - creates a temp user and order in the database
 router.post('/:id', function(req, res, next) {
 	
-	var cookieId = req.cookies['connect.sid'].split(':')[1].split('.')[0];
+	var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
 
 	User.find({email: cookieId + '@temp.com'}, function(err, data) {
 		if (err) {
