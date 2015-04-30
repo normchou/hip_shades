@@ -41,7 +41,10 @@ var productSchema = new mongoose.Schema({
 });
 
 productSchema.methods.getReviews = function() {
-	return mongoose.model('Review').find({product_id: this._id }).exec();
+	return mongoose.model('Review')
+				.find({product_id: this._id })
+				.populate('user_id')
+				.exec();
 }
 
 productSchema.statics.getByCategory = function(cat) {
