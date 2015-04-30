@@ -57,8 +57,7 @@ router.post('/:id', function(req, res, next) {
 			// creates temporary user and save to database
 			var tempUser = new User({
 				email: cookieId + '@temp.com',
-				first_name: 'temp',
-				cookie_id: cookieId
+				first_name: 'temp'
 			});
 			tempUser.save(function(err, tempUser) {
 				if (err) return console.error(err);

@@ -2,6 +2,7 @@
 var router = require('express').Router();
 var mongoose = require('mongoose')
 var User = mongoose.model('User');
+var Order = mongoose.model('Order');
 
 var amLoggedIn = function(req, res, next) {
 	return (typeof(req.user) != "undefined")
@@ -16,6 +17,28 @@ router.get('/', function(req, res, next) {
 	// else 
 	User.find({}, function(err, users) {
 		res.json(users)
+	});
+});
+
+// this route gets the current logged in user and find the orders for the user
+router.get('/currentuser/', function(req, res, next) {
+
+	var cookieId = req.cookies['connect.sid'].split(':')[1].split('.')[0];
+
+	User.find({email: cookieId + '@temp.com'}, function(err, data) {
+		if (err) {
+			return console.log(err);
+		} else if (data.length === 0) {
+			res.json('undefined')
+		} else {
+			Order
+				.find({user_id: data[0]._id})
+				.populate('product_ids')
+				.exec(function(err, order) {
+				if (err) return console.log(err);
+				res.json(order);
+			});
+		}
 	});
 });
 
@@ -37,6 +60,9 @@ router.param('id', function(req, res, next, id) {
 		next()
 	})
 })
+
+
+
 
 router.use('/:id/orders', require('../order'));
 
