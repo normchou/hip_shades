@@ -43,7 +43,7 @@
 
 	<div ng-repeat="review in productReviews">
 		<h4 style="color: red">{{ review.stars }} Stars</h5>
-		<p> written by: {{ review.user_id.first_name }} {{ review.user_id.last_name }}</p>
 		<p> "{{ review.review }}"" </p>
+		<p> -{{ review.user_id.first_name }} {{ review.user_id.last_name }}</p>
 	</div>
 </div>

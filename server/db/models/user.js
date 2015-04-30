@@ -23,6 +23,10 @@ var userSchema = new mongoose.Schema({
         required: true,
         default: false
     },
+    cookie_id:{                
+        type: String,
+        default: undefined
+    },
 	salt: {
 		type: String
 	},

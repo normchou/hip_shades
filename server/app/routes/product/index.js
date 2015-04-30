@@ -47,32 +47,41 @@ router.param('id', function(req, res, next, id) {
 
 // Add to cart button - creates a temp user and order in the database
 router.post('/:id', function(req, res, next) {
-	console.log('this is the cookie id', req.cookies['connect.sid'])
 	
-	console.log('this is cookie json', cookieParser.JSONCookie(req.cookies))
+	var cookieId = req.cookies['connect.sid'].split(':')[1].split('.')[0];
 
-	// User.find({email: 'req.cookies['connect.sid']'}, function ()
+	User.find({email: cookieId + '@temp.com'}, function(err, data) {
+		if (err) {
+			return console.log(err);
+		} else if (data.length === 0) {
+			// creates temporary user and save to database
+			var tempUser = new User({
+				email: cookieId + '@temp.com',
+				first_name: 'temp',
+				cookie_id: cookieId
+			});
+			tempUser.save(function(err, tempUser) {
+				if (err) return console.error(err);
+				console.log('the temp user id is ', tempUser._id);
+			});
 
-	// if(!req.cookies) {
-		// creates temporary user
-		var tempUser = new User({
-			email: req.cookies['connect.sid'] + '@temp.com'
-		})
-		// saves the temporary user to the database
-		tempUser.save(function(err, tempUser) {
-			if (err) return console.error(err);
-			console.log('the temp id is ', tempUser._id);
-		})
-	// }
-
-	// creates order object
-	var newOrder = new Order ({
-		product_ids: [req.params.id],
-	})
-	// saves new order to the database
-	newOrder.save(function(err, newOrder) {
-		if (err) return console.error(err);
-		console.log(newOrder);
+			// creates new order for temp user 
+			var newOrder = new Order ({
+				product_ids: [req.params.id],
+				user_id: tempUser._id
+			})
+			newOrder.save(function(err, newOrder) {
+				if (err) return console.error(err);
+			})
+		} else {
+			// adds an order to the temporary user's cart
+			Order.find({user_id: data[0]._id}, function(err, order) {
+				if (err) return console.log(err);								
+				var newProduct = order[0].product_ids;
+				newProduct.push(req.params.id);
+				Order.update({user_id: data[0]._id}, {$set: {product_ids: newProduct}}).exec();
+			});
+		}
 	})
 });
 
