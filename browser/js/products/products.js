@@ -27,23 +27,26 @@ app.controller('ProductsController', function ($scope, $stateParams, $http) {
             $scope.products = response.data;
         })	
 
-    // request to get single product - NC 4/26/2015
-    $http.get('/api/products/' + $stateParams.productID)
-		.then(function (response) {
-			$scope.productItem = response.data;
-		})
+   	if($stateParams.productCategory) {
+		// request to get list of categories - NC 4/26/2015
+		$http.get('/api/categories/' + $stateParams.productCategory)
+			.then(function (response) {
+				$scope.productCategory = response.data;
+			})
+	}
 
-	// request to get list of categories - NC 4/26/2015
-	$http.get('/api/categories/' + $stateParams.productCategory)
-		.then(function (response) {
-			$scope.productCategory = response.data;
-		})
-
-	// request to get product reviews - NC 4/26/2015
-	$http.get('/api/products/' + $stateParams.productID + '/reviews')
-		.then(function (response) {
-			$scope.productReviews = response.data
-		})
+	if($stateParams.productID) {
+		// request to get product reviews - NC 4/26/2015
+		$http.get('/api/products/' + $stateParams.productID + '/reviews')
+			.then(function (response) {
+				$scope.productReviews = response.data
+			})
+	    // request to get single product - NC 4/26/2015
+	    $http.get('/api/products/' + $stateParams.productID)
+			.then(function (response) {
+				$scope.productItem = response.data;
+			})
+	}
 
 	// function to add an order to database - NC 4/26/2015
 	$scope.createOrder = function(id) {
