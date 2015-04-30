@@ -1,6 +1,6 @@
 <div class="col-xs-3">   
     <!-- menu of products -->
-    <h1>Sunglasses</h1>
+<!--     <h1>Sunglasses</h1>
     <div class="row padded">
         <div class="list-group">
             <a class="list-group-item"
@@ -11,9 +11,22 @@
             </a>
         </div>
     </div>
+ -->
+    <!-- category: male or female -->
+    <div class="row padded">
+        <div class="list-group">
+            <a class="list-group-item"
+                ng-repeat="product in products"
+                ng-class="{active: item.selected}"
+                ui-sref="products.categories({productCategory: product.categories[1]})">
+                shop for {{product.categories[1]}}
+            </a>
+        </div>
+    </div>
+
 
     <!-- menu of brands -->
-    <h1>Brands</h1>
+    <h2>Brands</h2>
     <div class="row padded">
         <div class="list-group">
             <a class="list-group-item"
