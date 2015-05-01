@@ -1,0 +1,39 @@
+<div class="container">
+    <h2>Site Users</h2>
+    
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-lg">
+    		<ui-view></ui-view>
+		</div>
+	</div>
+
+   	<div class="row col-md-12">
+    	<a class="btn btn-primary btn-xs" role="button" style="float: left">Add New User</a>
+ 	</div>
+	
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                	<th></th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Admin</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in users">
+                        <td>
+	                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="userMgt.edit({userID: user._id})"><span class="glyphicon glyphicon-pencil"></span></button>
+	                        <a type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a>
+                    	</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>   
+                        <td>{{ user.admin }}</td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+
+    </div>

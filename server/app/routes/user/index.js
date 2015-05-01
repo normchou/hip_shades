@@ -9,11 +9,11 @@ var amLoggedIn = function(req, res, next) {
 }
 
 var isAdmin = function(req, res, next) {
-	return (amLoggedIn(req, res, next) && req.user.admin)
+	return (!amLoggedIn(req, res, next) && req.user.admin)
 }
 
 router.get('/', function(req, res, next) {
-	if (!isAdmin(req, res, next)) {
+	if (isAdmin(req, res, next)) {
 		res.status(403).send('Thou shalt not pass!');
 	} else {
 			User.find({}, function(err, users) {
@@ -26,8 +26,6 @@ router.get('/', function(req, res, next) {
 router.get('/currentuser/', function(req, res, next) {
 
 	var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
-
-	console.log('this is the cookie id', cookieId)
 
 	User.find({email: cookieId + '@temp.com'}, function(err, data) {
 		if (err) {

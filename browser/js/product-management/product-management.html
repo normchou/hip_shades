@@ -7,8 +7,11 @@
 		</div>
 	</div>
 	
+    <div class="row col-md-12">
+        <a class="btn btn-primary btn-xs" role="button" style="float: left">Add New Product</a>
+    </div>
+
     <div class="row">
-       <a class="btn btn-primary btn-sm" role="button" style="float: right">Add New Product</a>
         <div class="col-md-12">
             <table class="table table-striped">
                 <thead>
@@ -23,7 +26,8 @@
                 <tbody>
                     <tr ng-repeat="product in products">
                         <td>
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="productMgt.edit({productID: product._id})">Edit</button>
+                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="productMgt.edit({productID: product._id})"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <a type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a>
                     	</td>
                         <td><img src={{product.imageURL[0]}} width="50px"></td>
                         <td>{{product.title}}</td>
