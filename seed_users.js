@@ -22,7 +22,7 @@ var seedUsers = function () {
 			admin: true
         },
         {
-            first_name: '',
+            first_name: 'barak',
             last_name: 'obama',
             email: 'obama@gmail.com',
             password: 'potus',
