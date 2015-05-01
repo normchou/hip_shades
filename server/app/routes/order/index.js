@@ -33,6 +33,11 @@ router.param('id', function(req, res, next, id) {
 	})
 })
 
-
+// router.post('/', function(req, res, next) {
+// 	// 1. find if there is an existing cart
+// 	// 2. if there is, add to the cart
+// 	// 3. if there isn't, add to a new cart
+// 	// 4. redirect to same page
+// })
 
 module.exports = router;

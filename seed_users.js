@@ -42,7 +42,8 @@ var seedUsers = function () {
             last_name: 'atteh',
             email: 'victor@gmail.com',
             password: 'victoriousVictor',
-            admin: false,
+            admin: true,
+			facebook: {id: 847770321927033},
             street: '123 fake st',
             state: 'CT',
             country: 'US'

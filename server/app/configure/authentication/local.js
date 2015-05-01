@@ -36,6 +36,8 @@ module.exports = function (app) {
 
             // req.logIn will establish our session.
             req.logIn(user, function (err) {
+				console.log('Entered = ', user);
+
                 if (err) return next(err);
                 // We respond with a reponse object that has user with _id and email.
                 res.status(200).send({ user: _.omit(user.toJSON(), ['password', 'salt']) });
