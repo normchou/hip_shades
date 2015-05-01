@@ -1,0 +1,43 @@
+<div class="container">
+    <h2>Product List</h2><br>
+    <div class="row">
+       <a class="btn btn-primary btn-sm" role="button" style="float: right">Add New Product</a>
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                	<th></th>
+                    <th>Thumbnail</th>
+                    <th>Product</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Current Stock</th>
+                    <th>Categories</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in products">
+                        <td>
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg">Edit</button>
+                    	</td>
+                        <td><img src={{product.imageURL[0]}} width="50px"></td>
+                        <td>{{product.title}}</td>
+                        <td>{{product.description}}</td>
+                        <td>{{product.price | currency}}</td>
+                        <td>{{product.stock}}</td>				
+                        <td>{{product.categories}}</td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      Edit Form 
+      .
+      .
+      .
+    </div>
+  </div>
+</div>
