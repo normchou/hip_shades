@@ -27,5 +27,22 @@ app.controller('UserManagementController', function ($scope, $stateParams, $http
 			})
 	}
 
+	// this function is used when saving edits to existing users -NC 5/2/15
+	$scope.saveUser = function() {
+		$http.put('/api/users', $scope.userItem)
+			.then(function (response) {
+				console.log(response.data);
+			})
+	}
+
+	// still needs work -NC
+	$scope.removeUser = function() {
+		console.log('this is user', $scope.users)
+		$http.delete('/api/users', $scope.users)
+			.then(function (response) {
+				console.log(response.data);
+			})
+	}
+
 
 })

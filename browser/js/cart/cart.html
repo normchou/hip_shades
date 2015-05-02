@@ -16,10 +16,10 @@
                     <tr ng-repeat="product in orderData">
                         <td><img src={{product.imageURL[0]}} width="50px"></td>
                         <td>{{product.title}}</td>
-                        <td>{{product.price}}</td>
-                        <td>1</td>
-                        <td>$119.98</td>
-                    </tr>
+                        <td>{{product.price | currency}}</td>
+                        <td>2</td>
+                        <td>{{product.price * 2 | currency}}</td>
+                        <td><a ng-click="deleteProduct(product._id)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
                 </tbody>
             </table>
         </div>
