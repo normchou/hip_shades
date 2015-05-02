@@ -1,10 +1,44 @@
 <div class="container">
     <h2>Order List</h2><br>
-	<table class="table table-striped">
-		<tbody>
-			<tr ng-repeat="order in orders">
-				<td> {{order.user_id}} </td>
-			</tr>
-		</tbody>
-	</table>
+
+	<!--
+	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-lg">
+    		<ui-view></ui-view>
+		</div>
+	</div> 
+
+	<div class="row col-md-12">
+        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="productMgt.edit({productID: product._id})">Edit Order</button>
+    </div>
+	-->
+
+	<div class="row">
+        <div class="col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<th>Edit</th>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Order Count</th>
+                    <th>isCheckedOut</th>
+					<th>Price</th>
+                </thead>
+
+				<tbody>
+					<tr ng-repeat="order in orders | orderBy:create_date:reverse">
+
+						<td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="orderMgt.edit({orderId: order._id})" ng-show="!order.checked_out"><span class="glyphicon glyphicon-pencil"></span></button> </td>
+						<td> {{order.create_date | date: 'MM/dd/yyyy'}} </td>
+						<td> {{order.user_id.first_name}} </td>
+						<td> {{(order.product_ids | filter: query).length}} </td>
+						<td> {{order.checked_out}} </td>
+						<td> {{100}} </td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 </div>
