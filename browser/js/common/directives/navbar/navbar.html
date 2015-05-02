@@ -20,9 +20,14 @@
                 class="btn login-button">
                 Login
         </button>
+        <button ng-show="!user" 
+                ui-sref="logistics" 
+                class="btn login-button">
+                Sign up
+        </button>
         <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
-            <a ng-click="logout()">Logout</a>
+            <span>Welcome, {{ user.email }}! </span>
+            <button ng-click="logout()" class="btn login-button">Logout</button>
         </div>
     </div>
 </nav>
