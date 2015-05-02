@@ -39,10 +39,12 @@ router.put('/', function(req, res, next) {
 })
 
 // route to remove a user -NC 5/2/15
-router.delete('/', function(req, res, next) {
-	var removeUser = req.body;
-
-	console.log('this is the body', req.body)
+router.delete('/:id', function(req, res, next) {
+	User.findOneAndRemove({_id: req.params.id}, function(err, user) {
+		if(err) return console.log(err);
+		console.log('removed this user', user)
+	})
+	res.send('successfully deleted')
 })
 
 

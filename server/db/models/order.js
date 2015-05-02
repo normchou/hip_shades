@@ -9,8 +9,7 @@ var orderSchema = new mongoose.Schema({
         default: Date.now
     },
     product_ids: {
-        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
-        required: true
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}]
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,

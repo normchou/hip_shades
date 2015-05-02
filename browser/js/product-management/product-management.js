@@ -36,6 +36,15 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 			})
 	}
 
+	// removes a product -NC 5/2/15
+	$scope.removeProduct = function(product) {
+		console.log('this is product', product)
+		$http.delete('/api/products/' + product._id)
+			.then(function (response) {
+				console.log(response.data);
+			})
+	}
+
 
 })
 

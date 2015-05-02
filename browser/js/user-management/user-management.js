@@ -35,10 +35,10 @@ app.controller('UserManagementController', function ($scope, $stateParams, $http
 			})
 	}
 
-	// still needs work -NC
-	$scope.removeUser = function() {
-		console.log('this is user', $scope.users)
-		$http.delete('/api/users', $scope.users)
+	// removes a user -NC 5/2/15
+	$scope.removeUser = function(user) {
+		console.log('this is user', user)
+		$http.delete('/api/users/' + user._id)
 			.then(function (response) {
 				console.log(response.data);
 			})
