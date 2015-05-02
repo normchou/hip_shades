@@ -31,8 +31,18 @@ router.param('id', function(req, res, next, id) {
 		if(!order) return res.status(404).end()
 		req.order = order 
 		next()
+	});
+});
+
+//DELETE /api/orders/:anorderid/products/:aproductID
+router.delete('/:id/product_ids/:product_id',function(req, res, next) {
+	console.log(req.order.product_ids)
+	req.order.product_ids.splice(req.order.product_ids.indexOf(req.params.product_id),1)
+	req.order.save(function(err){
+		if(err) return next(err)
+		else res.status(200).end()
 	})
-})
+});
 
 // router.post('/', function(req, res, next) {
 // 	// 1. find if there is an existing cart

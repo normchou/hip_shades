@@ -4,6 +4,9 @@ var mongoose = require('mongoose')
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 
+router.use('/:id/orders', require('../order'));
+
+
 var amLoggedIn = function(req, res, next) {
 	return (typeof(req.user) != "undefined")
 }
@@ -20,6 +23,19 @@ router.get('/', function(req, res, next) {
 			res.json(users)
 		});
 	}
+});
+
+//route to post a new user. Called from SignIn form -VA 5/2/15
+router.post('/', function(req, res, next) {
+	req.body.street += ' ' + req.body.street2; 
+
+	User.create(req.body, function(err, newUser) {
+		if (err) return next(err);
+		req.login(newUser, function(err) {
+			if(err) return next(err)
+			res.json(newUser);
+		})
+	});
 });
 
 // route to update user -NC 5/2/15
@@ -73,6 +89,7 @@ router.get('/:id', function(req, res, next) {
 	if (!amLoggedIn) res.status(403).send('Not logged in')
 	res.json(req.userData)
 });
+
 
 router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {

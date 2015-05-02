@@ -23,18 +23,36 @@ app.controller('CartController', function($scope, $http) {
     //     });
 
 
+    //console.log($http)
+
+    var apiURL
+
     // temporary user workflow
     // get current user from cookie id
-    $http.get('/api/users/currentuser/')
-        .then(function(res) {
-            if (res.data === 'undefined') {
-                console.log('nothing in cart')
-            } else {
-                console.log('temp order data', res.data[0])
-                console.log('output', res.data[0].product_ids)
-                $scope.orderData = res.data[0].product_ids
+       $http.get('/api/users/currentuser/')
+           .then(function(res) {
+               if (res.data === 'undefined') {
+                   console.log('nothing in cart')
+               } else {
+                   $scope.orderData = res.data[0].product_ids
+                   $scope.theWholeThing = res.data[0]
+                   //console.log($scope.theWholeThing)
+               }
+           });
+
+    //DELETE /api/users/:userid/orders/:anorderid/products/:aproductID
+
+    $scope.deleteProduct = function(productID) {
+
+        $scope.orderData.forEach(function(elm, index) {
+            if(elm._id === productID) {
+                $scope.orderData.splice(index,1);
             }
         });
-
+        $http.delete('/api/users/'+ $scope.theWholeThing.user_id + '/orders/' + $scope.theWholeThing._id + '/product_ids/' + productID)
+            .then(function(deletedProduct){
+                console.log($scope.orderData)
+            })
+    }
 
 });
