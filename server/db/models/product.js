@@ -18,17 +18,16 @@ var productSchema = new mongoose.Schema({
 		required: true
 	},
 	description: {
-		type: String,
-		required: true
+		type: String
 	},
 	price: {
 		type: Number, // remember to store as cents because of binary arithmatic
 		required: true,
-		min: 1
+		min: 1,
+		default: 1
 	},
 	categories: {
-		type: [String],
-		required: true
+		type: [String]
 	},
 	imageURL: {
 		type: [String]

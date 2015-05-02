@@ -22,6 +22,31 @@ router.get('/', function(req, res, next) {
 	}
 });
 
+// route to update user -NC 5/2/15
+router.put('/', function(req, res, next) {
+	var editUser = req.body;
+
+	if(editUser._id === undefined) {
+		var newUser = new User(editUser);
+		newUser.save()
+		res.send("successfully saved")
+	} else {
+		User.update({_id: editUser._id}, { $set: editUser }, function(err) {
+			if (err) return handleError(err);
+			res.send('successfully updated')
+		})
+	}
+})
+
+// route to remove a user -NC 5/2/15
+router.delete('/', function(req, res, next) {
+	var removeUser = req.body;
+
+	console.log('this is the body', req.body)
+})
+
+
+
 // this route gets the current logged in user and find the orders for the user
 router.get('/currentuser/', function(req, res, next) {
 
@@ -53,11 +78,11 @@ router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
 		if(err) return next(err)
 		if(!user) return res.status(404).end()
-//		if (!isAdmin(req, res, next) && !(user._id.equals(req.id))) {		
-//		 	console.log('Admin?=', isAdmin(req, res, next));
-//		 	console.log('Are they equal? = ', user._id.equals(req.id))
-//		 	return res.status(403).send('Under-priviliged');
-//		}
+		// if (!isAdmin(req, res, next) && !(user._id.equals(req.id))) {		
+		//  	console.log('Admin?=', isAdmin(req, res, next));
+		//  	console.log('Are they equal? = ', user._id.equals(req.id))
+		//  	return res.status(403).send('Under-priviliged');
+		// }
 		req.userData = user
 		next()
 	})

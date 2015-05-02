@@ -1,10 +1,18 @@
 'use strict';
+var app = require('express')();
 var router = require('express').Router();
 var mongoose = require('mongoose')
 var Product = mongoose.model('Product');
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 var Review = mongoose.model('Review');
+
+var bodyParser = require('body-parser');
+// var multer = require('multer'); 
+
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+// app.use(multer()); // for parsing multipart/form-data
 
 
 router.get('/', function(req, res, next) {
@@ -16,6 +24,24 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
 	res.json(req.product)
 });
+
+// this route is receiving edits made to products -NC 5/2/15
+router.put('/', function(req, res, next) {
+	var editProduct = req.body;
+
+	if(editProduct._id === undefined) {
+		var newProduct = new Product(editProduct);
+		newProduct.save()
+		res.send("successfully saved")
+	} else {
+		Product.update({_id: editProduct._id}, { $set: editProduct }, function(err) {
+			if (err) return handleError(err);
+			res.send('successfully updated')
+		})
+	}
+})
+
+
 
 router.get('/:id/reviews', function(req, res, next) {
 	req.product.getReviews()
@@ -42,6 +68,8 @@ router.param('id', function(req, res, next, id) {
 		next()
 	})
 })
+
+
 
 
 
