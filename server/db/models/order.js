@@ -9,7 +9,7 @@ var orderSchema = new mongoose.Schema({
         default: Date.now
     },
     product_ids: {
-        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}]
+    type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +29,12 @@ orderSchema.methods.calculatePrice = function() {
     }, function(err, docs){
          console.log(docs);
     });
+}
+
+orderSchema.methods.getUser = function(cb) {
+	return this.populate('user_id', function(err, orderWithUser){
+		cb(err, orderWithUser)
+	})
 }
 
 var Order = mongoose.model('Order', orderSchema);
