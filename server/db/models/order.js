@@ -32,6 +32,12 @@ orderSchema.methods.calculatePrice = function() {
     });
 }
 
+orderSchema.methods.getUser = function(cb) {
+	return this.populate('user_id', function(err, orderWithUser){
+		cb(err, orderWithUser)
+	})
+}
+
 var Order = mongoose.model('Order', orderSchema);
 
 module.exports = {"Order": Order};

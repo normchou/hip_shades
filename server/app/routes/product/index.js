@@ -41,8 +41,6 @@ router.put('/', function(req, res, next) {
 	}
 })
 
-
-
 router.get('/:id/reviews', function(req, res, next) {
 	req.product.getReviews()
 		.then(function(data) {
@@ -68,10 +66,6 @@ router.param('id', function(req, res, next, id) {
 		next()
 	})
 })
-
-
-
-
 
 // Add to cart button - creates a temp user and order in the database
 router.post('/:id', function(req, res, next) {
