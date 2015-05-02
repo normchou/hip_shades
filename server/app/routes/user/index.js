@@ -4,6 +4,9 @@ var mongoose = require('mongoose')
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 
+router.use('/:id/orders', require('../order'));
+
+
 var amLoggedIn = function(req, res, next) {
 	return (typeof(req.user) != "undefined")
 }
@@ -87,7 +90,5 @@ router.param('id', function(req, res, next, id) {
 		next()
 	})
 })
-
-router.use('/:id/orders', require('../order'));
 
 module.exports = router;
