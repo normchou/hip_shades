@@ -43,7 +43,35 @@
                     <td><h3><b>$404.48</b></h3></td>
                 </tr>
             </table>
-            <a class="btn btn-primary btn-lg" href="/logistics" role="button" style="float: right">Submit Order</a>
+
+            <a class="btn btn-primary btn-lg" id="customButton" role="button" style="float: right">Submit Order</a>
+
+            <script>
+                var handler = StripeCheckout.configure({
+                    key: 'pk_test_XKYe1iVrNtGfmcL94oigHBR0',
+                    image: 'hipshades.png',
+                    token: function(token) {
+                        // Use the token to create the charge with a server-side script.
+                        // You can access the token ID with `token.id`
+                    }
+                });
+
+                $('#customButton').on('click', function(e) {
+                    // Open Checkout with further options
+                    handler.open({
+                        name: Hipshades,
+                        description: '2 widgets',
+                        amount: 2000
+                    });
+                    e.preventDefault();
+                });
+
+                // Close Checkout on page navigation
+                $(window).on('popstate', function() {
+                    handler.close();
+                });
+            </script>
+
         </div>
         <br>
     </div>
