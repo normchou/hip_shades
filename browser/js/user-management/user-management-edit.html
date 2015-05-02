@@ -1,59 +1,67 @@
 <div class="modal-content">
 	<br>
-	<form class="form-horizontal">
+	<form class="form-horizontal" ng-submit="saveUser()">
 
 	  <div class="form-group">
 	    <label for="inputPassword3" class="col-sm-2 control-label">First Name</label>
 	    <div class="col-sm-10">
-	      <input type="password" class="form-control" id="inputPassword3" placeholder="{{userItem.first_name}}">
+	      <input type="text" class="form-control" ng-model="userItem.first_name">
 	    </div>
 	  </div>
 
 	  <div class="form-group">
-	    <label for="inputPassword3" class="col-sm-2 control-label">Last Name</label>
+	    <label class="col-sm-2 control-label">Last Name</label>
 	    <div class="col-sm-10">
-	      <input type="password" class="form-control" id="inputPassword3" placeholder="{{userItem.last_name}}">
+	      <input type="text" class="form-control" ng-model="userItem.last_name">
 	    </div>
 	  </div>
 	  
 	  <div class="form-group">
-	    <label for="inputEmail3" class="col-sm-2 control-label">email</label>
+	    <label class="col-sm-2 control-label">*email</label>
 	    <div class="col-sm-10">
-	      <input type="email" class="form-control" id="inputEmail3" placeholder="{{userItem.email}}">
+	      <input type="email" class="form-control" ng-model="userItem.email">
 	    </div>
 	  </div>
 
 	  <div class="form-group">
-	    <label for="inputPassword3" class="col-sm-2 control-label">Street</label>
+	    <label class="col-sm-2 control-label">*Password</label>
 	    <div class="col-sm-10">
-	      <input type="password" class="form-control" id="inputPassword3" placeholder="{{userItem.street}}">
+	      <input type="password" class="form-control" ng-model="userItem.password">
 	    </div>
 	  </div>
 
 	  <div class="form-group">
-	    <label for="inputPassword3" class="col-sm-2 control-label">State</label>
+	    <label class="col-sm-2 control-label">Street</label>
 	    <div class="col-sm-10">
-	      <input type="password" class="form-control" id="inputPassword3" placeholder="{{userItem.state}}">
+	      <input type="text" class="form-control" ng-model="userItem.street">
 	    </div>
 	  </div>
 
 	  <div class="form-group">
-	    <label for="inputPassword3" class="col-sm-2 control-label">Country</label>
+	    <label class="col-sm-2 control-label">State</label>
 	    <div class="col-sm-10">
-	      <input type="password" class="form-control" id="inputPassword3" placeholder="{{userItem.country}}">
+	      <input type="text" class="form-control" ng-model="userItem.state">
 	    </div>
 	  </div>
 
 	  <div class="form-group">
-	    <label for="inputPassword3" class="col-sm-2 control-label">Admin</label>
+	    <label class="col-sm-2 control-label">Country</label>
 	    <div class="col-sm-10">
-	      <input type="password" class="form-control" id="inputPassword3" placeholder="{{userItem.admin}}">
+	      <input type="text" class="form-control" ng-model="userItem.count">
+	    </div>
+	  </div>
+
+	  <div class="form-group">
+	    <label class="col-sm-2 control-label">Admin</label>
+	    <div class="col-sm-10">
+	      <input type="text" class="form-control" ng-model="userItem.admin">
 	    </div>
 	  </div>
 	  
 	  <div class="form-group">
 	    <div class="col-sm-offset-2 col-sm-10">
 	      <button type="submit" class="btn btn-primary">Save</button>
+	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	    </div>
 	  </div>
 

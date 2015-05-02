@@ -28,5 +28,14 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 			})
 	}
 
+	// this function is used when saving edits to existing products -NC 5/2/15
+	$scope.saveProduct = function() {
+		$http.put('/api/products', $scope.productItem)
+			.then(function (response) {
+				console.log(response.data);
+			})
+	}
+
 
 })
+
