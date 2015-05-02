@@ -30,16 +30,22 @@ navbar {
     }
   }
 
-  .login-button {
+  .login-button  {
     float: right;
-    margin-top: 8px;
+    margin: 8px;
+
+    &:hover {
+      color: white;
+    }
   }
 
   .welcome {
     float: right;
-    margin-top: 12px;
     span {
+      display: inline-block;
       color: white;
+      text-align: center;
+      line-height: 50px;
     }
     a {
       color: #f30046;
