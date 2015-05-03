@@ -7,25 +7,22 @@ app.config(function ($stateProvider){
         });
 });
 
-app.controller('LogisticsCtrl', function ($scope, AuthService, $state, $http, $window) {
+app.controller('LogisticsCtrl', function ($scope, AuthService, $state, LogisticsFactory) {
 
     $scope.error = null;
 
     $scope.sendSignup = function (signup) {
         $scope.error = null;
 
-        $http.post('/api/users', signup)
-	        .then(function(response) {
-	        	return response.data;
-	        })
-	        .then(function(user) {
+        LogisticsFactory.signupNewUser('/api/users', signup)
+	        .then(function(newUser) {
 	        	$state.go('home');
 	        	return AuthService.getLoggedInUser();
 	        })
 	        .catch(function(err) {
 	        	$scope.error = 'Sign up form not completed/filled correctly!';
 	        	console.error(err);
-	        })
+	        });
     };
 
 });

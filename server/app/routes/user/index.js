@@ -61,8 +61,6 @@ router.delete('/', function(req, res, next) {
 	console.log('this is the body', req.body)
 })
 
-
-
 // this route gets the current logged in user and find the orders for the user
 router.get('/currentuser/', function(req, res, next) {
 

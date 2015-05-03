@@ -7,14 +7,6 @@ var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 var Review = mongoose.model('Review');
 
-var bodyParser = require('body-parser');
-// var multer = require('multer'); 
-
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// app.use(multer()); // for parsing multipart/form-data
-
-
 router.get('/', function(req, res, next) {
 	Product.find({}, function(err, data) {
 		res.json(data);

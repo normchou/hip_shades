@@ -1,7 +1,6 @@
 'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var q = require('q');
 
 var orderSchema = new mongoose.Schema({
     create_date: {
@@ -10,7 +9,6 @@ var orderSchema = new mongoose.Schema({
     },
     product_ids: {
         type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
-        //required: true
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
