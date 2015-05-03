@@ -21,10 +21,12 @@ router.get('/:id', function(req, res, next) {
 router.put('/', function(req, res, next) {
 	var editProduct = req.body;
 
-	if(editProduct._id === undefined) {
+	if(typeof editProduct._id === 'undefined') {
 		var newProduct = new Product(editProduct);
-		newProduct.save()
-		res.send("successfully saved")
+		newProduct.save(function(err) {
+			if (err) return handleError(err);
+			res.send("successfully saved")
+		});
 	} else {
 		Product.update({_id: editProduct._id}, { $set: editProduct }, function(err) {
 			if (err) return handleError(err);
