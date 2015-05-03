@@ -34,6 +34,15 @@ router.put('/', function(req, res, next) {
 })
 
 
+// route to remove a product -NC 5/2/15
+router.delete('/:id', function(req, res, next) {
+	Product.findOneAndRemove({_id: req.params.id}, function(err, product) {
+		if(err) return console.log(err);
+		console.log('removed this product', product)
+	})
+	res.send('successfully deleted')
+})
+
 
 router.get('/:id/reviews', function(req, res, next) {
 	req.product.getReviews()
@@ -60,10 +69,6 @@ router.param('id', function(req, res, next, id) {
 		next()
 	})
 })
-
-
-
-
 
 // Add to cart button - creates a temp user and order in the database
 router.post('/:id', function(req, res, next) {

@@ -12,11 +12,11 @@ var amLoggedIn = function(req, res, next) {
 }
 
 var isAdmin = function(req, res, next) {
-	return (!amLoggedIn(req, res, next) && req.user.admin)
+	return (amLoggedIn(req, res, next) && req.user.admin)
 }
 
 router.get('/', function(req, res, next) {
-	if (isAdmin(req, res, next)) {
+	if (!isAdmin(req, res, next)) {
 		res.status(403).send('Thou shalt not pass!');
 	} else {
 			User.find({}, function(err, users) {
@@ -55,10 +55,12 @@ router.put('/', function(req, res, next) {
 })
 
 // route to remove a user -NC 5/2/15
-router.delete('/', function(req, res, next) {
-	var removeUser = req.body;
-
-	console.log('this is the body', req.body)
+router.delete('/:id', function(req, res, next) {
+	User.findOneAndRemove({_id: req.params.id}, function(err, user) {
+		if(err) return console.log(err);
+		console.log('removed this user', user)
+	})
+	res.send('successfully deleted')
 })
 
 // this route gets the current logged in user and find the orders for the user
@@ -93,13 +95,23 @@ router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
 		if(err) return next(err)
 		if(!user) return res.status(404).end()
-		// if (!isAdmin(req, res, next) && !(user._id.equals(req.id))) {		
-		//  	console.log('Admin?=', isAdmin(req, res, next));
-		//  	console.log('Are they equal? = ', user._id.equals(req.id))
-		//  	return res.status(403).send('Under-priviliged');
-		// }
+		if (!isAdmin(req, res, next) && !(user._id.equals(req.id))) {		
+		  	console.log('Admin?=', isAdmin(req, res, next));
+		  	console.log('Are they equal? = ', user._id.equals(req.id))
+		  	return res.status(403).send('Under-priviliged');
+		}
 		req.userData = user
 		next()
+	})
+})
+
+router.use('/:id/orders', require('../order'));
+
+router.use('/:id/allOrders', function(req, res, next) {
+	if (!isAdmin(req, res, next)) return res.status(404).end()
+
+	Order.find({}).populate('user_id').exec(function (err, orders) {
+		res.json(orders)
 	})
 })
 

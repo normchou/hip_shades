@@ -28,7 +28,7 @@
 	                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="userMgt.edit({userID: user._id})"><span class="glyphicon glyphicon-pencil"></span></button>
                     	</td>
                     	<td>
-	                        <a type="button" class="btn btn-danger btn-xs" ng-click="removeUser()"> <span class="glyphicon glyphicon-remove"></span></a>
+	                        <a type="button" class="btn btn-danger btn-xs" ng-click="removeUser(user)"> <span class="glyphicon glyphicon-remove"></span></a>
                     	</td>
                         <td>{{ user.first_name }}</td>
                         <td>{{ user.last_name }}</td>

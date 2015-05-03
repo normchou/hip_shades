@@ -8,7 +8,13 @@
 	</div>
 	
     <div class="row col-md-12">
-        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="productMgt.edit({productID: product._id})">Add New Product</button>
+        <button type="button" 
+                class="btn btn-default btn-xs" 
+                data-toggle="modal" 
+                data-target=".bs-example-modal-lg" 
+                ui-sref="productMgt.edit({productID: product._id})">
+                Add New Product
+        </button>
     </div>
 
     <div class="row">
@@ -31,7 +37,7 @@
 
                     	</td>
                         <td>
-                            <a type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a>
+                            <a ng-click="removeProduct(product)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                         <td><img src={{product.imageURL[0]}} width="50px"></td>
                         <td>{{product.title}}</td>

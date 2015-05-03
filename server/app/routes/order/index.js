@@ -3,6 +3,7 @@ var router = require('express').Router();
 var mongoose = require('mongoose')
 var Order = mongoose.model('Order');
 
+
 // this route is /api/users/user_mongo_id/orders
 router.get('/', function(req, res, next) {
 	var userId = req.baseUrl.split('/')[3]
