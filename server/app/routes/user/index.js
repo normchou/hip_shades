@@ -95,9 +95,11 @@ router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
 		if(err) return next(err)
 		if(!user) return res.status(404).end()
-		if (!isAdmin(req, res, next) && !(user._id.equals(req.id))) {		
+		if (!isAdmin(req, res, next) && !(user._id.equals(req.user.id))) {		
 		  	console.log('Admin?=', isAdmin(req, res, next));
-		  	console.log('Are they equal? = ', user._id.equals(req.id))
+		  	console.log('Are they equal? = ', user._id.equals(req.user.id))
+		  	console.log('user._id = ', user._id);
+		  	console.log('req.user.id = ', req.user.id);
 		  	return res.status(403).send('Under-priviliged');
 		}
 		req.userData = user

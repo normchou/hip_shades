@@ -1,4 +1,4 @@
-app.factory('LogisticsFactory', function ($http) {
+app.factory('SignUpFactory', function ($http) {
 
     return {
 

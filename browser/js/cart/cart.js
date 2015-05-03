@@ -16,14 +16,17 @@ app.controller('CartController', function($scope, CartFactory) {
     // temporary user workflow
     // get current user from cookie id
     $scope.initializeCart = function() {
-      CartFactory.getCurrentUser().then(function(currentUser) {
-         if (currentUser === 'undefined') {
-             console.log('nothing in cart');
-         } else {
-             $scope.orderData = currentUser.product_ids;
-             $scope.currentUser = currentUser;
-         }
-      });
+        CartFactory.getCurrentUser().then(function(currentUser) {
+            if (currentUser === 'undefined') {
+                console.log('nothing in cart');
+            } else {
+                $scope.orderData = currentUser.product_ids;
+                $scope.currentUser = currentUser;
+            }
+        }).catch(function(err) {
+            console.error(err);
+            return err;
+        });
     }
 
     $scope.deleteProduct = function(productID) {
@@ -31,6 +34,9 @@ app.controller('CartController', function($scope, CartFactory) {
       CartFactory.deleteProductInCart($scope.currentUser.user_id, $scope.currentUser._id, productID).then(function(deletedProduct) {
         console.log("deleted product", deletedProduct);
         $scope.initializeCart();
+      }).catch(function(err) {
+        console.error(err);
+        return err;
       });
     }
 

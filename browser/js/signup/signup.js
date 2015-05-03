@@ -1,28 +1,29 @@
 app.config(function ($stateProvider){
     $stateProvider
-        .state('logistics', {
-            url: '/logistics',
-            templateUrl: 'js/logistics/logistics.html',
-            controller: 'LogisticsCtrl'
+        .state('signup', {
+            url: '/signup',
+            templateUrl: 'js/signup/signup.html',
+            controller: 'SignUpCtrl'
         });
 });
 
-app.controller('LogisticsCtrl', function ($scope, AuthService, $state, LogisticsFactory) {
+app.controller('SignUpCtrl', function ($scope, AuthService, $state, SignUpFactory) {
 
     $scope.error = null;
+    $scope.signup = {};
 
     $scope.sendSignup = function (signup) {
         $scope.error = null;
 
-        LogisticsFactory.signupNewUser('/api/users', signup)
-	        .then(function(newUser) {
+        SignUpFactory.signupNewUser(signup)
+	        .then(function(user) {
 	        	$state.go('home');
 	        	return AuthService.getLoggedInUser();
 	        })
 	        .catch(function(err) {
 	        	$scope.error = 'Sign up form not completed/filled correctly!';
 	        	console.error(err);
-	        });
+	        })
     };
 
 });
