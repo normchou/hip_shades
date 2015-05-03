@@ -2,11 +2,16 @@
 var router = require('express').Router();
 var mongoose = require('mongoose')
 var Order = mongoose.model('Order');
-
+var Utils = require('../common/');
+var isLoggedIn = Utils.isLoggedIn;
+var isAdmin = Utils.isAdmin;
 
 // this route is /api/users/user_mongo_id/orders
 router.get('/', function(req, res, next) {
-	var userId = req.baseUrl.split('/')[3]
+	if (!isAdmin(req, res, next))
+		res.status(403).send('How did you get here you hacker? You shall not see any more!');
+
+	var userId = req.user._id;
 
 	Order.find({user_id: userId}, function(err, data) {
 		res.json(data);
@@ -21,16 +26,6 @@ router.get('/:id', function(req, res, next) {
 	});
 });
 
-
-router.param('id', function(req, res, next, id) {
-	Order.findOne({'_id': id}, function(err, order) {
-		if(err) return next(err)
-		if(!order) return res.status(404).end()
-		req.order = order 
-		next()
-	});
-});
-
 //DELETE /api/orders/:anorderid/products/:aproductID
 router.delete('/:id/product_ids/:product_id',function(req, res, next) {
 	req.order.product_ids.pull(req.params.product_id);
@@ -38,6 +33,26 @@ router.delete('/:id/product_ids/:product_id',function(req, res, next) {
 	req.order.save(function(err, data) {
 		if(err) return next(err)
 		res.json(data)
+	});
+});
+
+// DELETE /api/users/_userID_/order/_orderID_/delete
+router.delete('/:id/delete', function (req, res, next) {
+	if (!isAdmin)
+		res.status(403).send('Thou shalt not delete an order you _underprivileged_ creature!')
+
+	Order.findOneAndRemove({'_id': req.order._id}, function (err, order) {
+		console.log('deleting order with id = ', order._id);
+		if (err) next(err);
+	});
+});
+
+router.param('id', function(req, res, next, id) {
+	Order.findOne({'_id': id}, function(err, order) {
+		if(err) return next(err)
+		if(!order) return res.status(404).end()
+		req.order = order 
+		next()
 	});
 });
 
