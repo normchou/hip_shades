@@ -9,8 +9,7 @@ var userSchema = new mongoose.Schema({
         unique: true
     },
     password: {
-        type: String,
-        unique: true
+        type: String
     },
     first_name:{
         type: String

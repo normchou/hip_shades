@@ -6,9 +6,6 @@ var Order = mongoose.model('Order');
 
 // this route is /api/users/user_mongo_id/orders
 router.get('/', function(req, res, next) {
-	console.log('this is the req body', req.baseUrl)
-	console.log('this is the cookie', req.cookies.name)
-
 	var userId = req.baseUrl.split('/')[3]
 
 	Order.find({user_id: userId}, function(err, data) {
@@ -36,12 +33,12 @@ router.param('id', function(req, res, next, id) {
 
 //DELETE /api/orders/:anorderid/products/:aproductID
 router.delete('/:id/product_ids/:product_id',function(req, res, next) {
-	console.log(req.order.product_ids)
-	req.order.product_ids.splice(req.order.product_ids.indexOf(req.params.product_id),1)
-	req.order.save(function(err){
+	req.order.product_ids.pull(req.params.product_id);
+
+	req.order.save(function(err, data) {
 		if(err) return next(err)
-		else res.status(200).end()
-	})
+		res.json(data)
+	});
 });
 
 // router.post('/', function(req, res, next) {

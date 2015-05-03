@@ -7,14 +7,6 @@ var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 var Review = mongoose.model('Review');
 
-var bodyParser = require('body-parser');
-// var multer = require('multer'); 
-
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// app.use(multer()); // for parsing multipart/form-data
-
-
 router.get('/', function(req, res, next) {
 	Product.find({}, function(err, data) {
 		res.json(data);
@@ -29,10 +21,12 @@ router.get('/:id', function(req, res, next) {
 router.put('/', function(req, res, next) {
 	var editProduct = req.body;
 
-	if(editProduct._id === undefined) {
+	if(typeof editProduct._id === 'undefined') {
 		var newProduct = new Product(editProduct);
-		newProduct.save()
-		res.send("successfully saved")
+		newProduct.save(function(err) {
+			if (err) return handleError(err);
+			res.send("successfully saved")
+		});
 	} else {
 		Product.update({_id: editProduct._id}, { $set: editProduct }, function(err) {
 			if (err) return handleError(err);
