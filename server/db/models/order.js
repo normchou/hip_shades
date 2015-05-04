@@ -7,9 +7,10 @@ var orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    product_ids: {
-        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
-    },
+    products: [{ 
+                id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+                quantity: { type: Number, default: 1 }
+    }],
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -34,6 +35,25 @@ orderSchema.methods.getUser = function(cb) {
 	return this.populate('user_id', function(err, orderWithUser){
 		cb(err, orderWithUser)
 	})
+}
+
+orderSchema.methods.addProductToOrder = function(productId) {
+    var inCart = false;
+
+    this.products.forEach( function(elem, index) {
+        if (elem.id.equals(productId)) {
+            elem.quantity++;
+            inCart = true;
+        }
+    });
+
+    if (!inCart) {
+        this.products.push({    
+            id: productId,
+            quantity: 1
+        });
+    }
+    return Order.update({user_id: this.user_id}, {$set: {products: this.products}}).exec();
 }
 
 var Order = mongoose.model('Order', orderSchema);

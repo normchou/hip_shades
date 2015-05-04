@@ -16,8 +16,7 @@ app.factory('CartFactory', function ($http) {
         },
 
         deleteProductInCart: function (userID, orderID, productID) {
-
-            return $http.delete('/api/users/'+ userID + '/orders/' + orderID + '/product_ids/' + productID)
+            return $http.delete('/api/users/'+ userID + '/orders/' + orderID + '/products/' + productID)
                 .then(function(res) {
                     return res.data;
                 }).catch(function(err) {

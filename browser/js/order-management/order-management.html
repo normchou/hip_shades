@@ -31,7 +31,7 @@
 						<td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="orderMgt.edit({orderId: order._id})" ng-show="!order.checked_out"><span class="glyphicon glyphicon-pencil"></span></button> </td>
 						<td> {{order.create_date | date: 'MM/dd/yyyy'}} </td>
 						<td> {{order.user_id.first_name}} </td>
-						<td> {{(order.product_ids | filter: query).length}} </td>
+						<td> {{(order.products | filter: query).length}} </td>
 						<td> {{order.checked_out}} </td>
 						<td> {{100}} </td>
 

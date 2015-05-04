@@ -20,8 +20,9 @@ app.controller('CartController', function($scope, CartFactory) {
             if (currentUser === 'undefined') {
                 console.log('nothing in cart');
             } else {
-                $scope.orderData = currentUser.product_ids;
+                $scope.orderData = currentUser.products;
                 $scope.currentUser = currentUser;
+                console.log($scope.orderData);
             }
         }).catch(function(err) {
             console.error(err);
@@ -29,9 +30,9 @@ app.controller('CartController', function($scope, CartFactory) {
         });
     }
 
-    $scope.deleteProduct = function(productID) {
+    $scope.deleteProduct = function(product) {
       //DELETE /api/users/:userid/orders/:anorderid/products/:aproductID
-      CartFactory.deleteProductInCart($scope.currentUser.user_id, $scope.currentUser._id, productID).then(function(deletedProduct) {
+      CartFactory.deleteProductInCart($scope.currentUser.user_id, $scope.currentUser._id, product.id._id).then(function(deletedProduct) {
         console.log("deleted product", deletedProduct);
         $scope.initializeCart();
       }).catch(function(err) {

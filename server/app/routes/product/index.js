@@ -93,20 +93,27 @@ router.post('/:id', function(req, res, next) {
 
 			// creates new order for temp user 
 			var newOrder = new Order ({
-				product_ids: [req.params.id],
+				products: [{	
+					id: req.params.id
+				}],
 				user_id: tempUser._id
 			})
+
 			newOrder.save(function(err, newOrder) {
-				if (err) return console.error(err);
+				if (err) return next(err);
+				res.json(newOrder);
 			})
 		} else {
+
 			// adds an order to the temporary user's cart
-			Order.find({user_id: data[0]._id}, function(err, order) {
-				if (err) return console.log(err);								
-				var newProduct = order[0].product_ids;
-				newProduct.push(req.params.id);
-				Order.update({user_id: data[0]._id}, {$set: {product_ids: newProduct}}).exec();
+			Order.findOne({user_id: data[0]._id, checked_out: false}).exec().then(function(order) {
+				return order.addProductToOrder(req.params.id);
+			}).then(function(savedOrder) {
+				res.json(savedOrder);
+			}, function(err) {
+				console.error("Could not add product to order", err);
 			});
+
 		}
 	})
 });

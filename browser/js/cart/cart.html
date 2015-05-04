@@ -14,12 +14,12 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="product in orderData">
-                        <td><img src={{product.imageURL[0]}} width="50px"></td>
-                        <td>{{product.title}}</td>
-                        <td>{{product.price | currency}}</td>
+                        <td><img src={{product.id.imageURL[0]}} width="50px"></td>
+                        <td>{{product.id.title}}</td>
+                        <td>{{product.id.price | currency}}</td>
                         <td>2</td>
-                        <td>{{product.price * 2 | currency}}</td>
-                        <td><a ng-click="deleteProduct(product._id)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
+                        <td>{{product.id.price * 2 | currency}}</td>
+                        <td><a ng-click="deleteProduct(product)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
                 </tbody>
             </table>
         </div>

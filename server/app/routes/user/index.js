@@ -76,7 +76,7 @@ router.get('/currentuser/', function(req, res, next) {
 		} else {
 			Order
 				.find({user_id: data[0]._id})
-				.populate('product_ids')
+				.populate('products.id')
 				.exec(function(err, order) {
 				if (err) return console.log(err);
 				res.json(order);
@@ -90,12 +90,18 @@ router.get('/:id', function(req, res, next) {
 	res.json(req.userData)
 });
 
-
+// Trying to figure out why temp/authenticated users cannot delete items from cart
+// When temp users try to delete items, req.user is undefined 
+// When authenticated (but not admin) users try to delete items from the cart, user._id is the temp id & req.user.id is the logon in authincated user
+// VA - 5/3
 router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
-		if(err) return next(err)
-		if(!user) return res.status(404).end()
-		if (!isAdmin(req, res, next) && !(user._id.equals(req.user.id))) {		
+		if (err) return next(err)
+		if (!user || !req.user) {
+			console.log('user = ', user);
+			console.log('req.user = ', req.user);
+			return res.status(404).end()
+		} if (!isAdmin(req, res, next) && !(user._id.equals(req.user.id))) {		
 		  	console.log('Admin?=', isAdmin(req, res, next));
 		  	console.log('Are they equal? = ', user._id.equals(req.user.id))
 		  	console.log('user._id = ', user._id);

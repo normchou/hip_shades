@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 
 // don't need this route <- Yes we do, please do not remove.
 router.get('/:id', function(req, res, next) {
-	req.order.populate('product_ids', function(err, populatedOrder){
+	req.order.populate('products', function(err, populatedOrder){
 		res.json(populatedOrder)
 	});
 });
@@ -32,12 +32,16 @@ router.param('id', function(req, res, next, id) {
 });
 
 //DELETE /api/orders/:anorderid/products/:aproductID
-router.delete('/:id/product_ids/:product_id',function(req, res, next) {
-	req.order.product_ids.pull(req.params.product_id);
+router.delete('/:id/products/:product_id',function(req, res, next) {
+	for (var i = 0; i < req.order.products.length; i++) {
+		if (req.order.products[i].id.equals(req.params.product_id)) {
+			req.order.products.splice(i, 1);
+		}
+	};
 
-	req.order.save(function(err, data) {
+	Order.update({_id: req.order._id}, {$set: {products: req.order.products}}, function(err, data) {
 		if(err) return next(err)
-		res.json(data)
+		res.json(data);
 	});
 });
 
