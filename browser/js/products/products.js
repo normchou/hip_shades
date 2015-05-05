@@ -48,8 +48,12 @@ app.controller('ProductsController', function ($scope, $stateParams, $http) {
 			})
 	}
 
+
+	// console.log('this is the logged in user', AuthService.getLoggedInUser())
+
 	// function to add an order to database - NC 4/26/2015
 	$scope.createOrder = function(id) {
+		// AuthService.getLoggedInUser().then(function(data) {console.log(data._id)})  // this gives me the logged in user
 		$http.post('/api/products/' + id)
 			.then(function (response) {
 				console.log('successfully posted', response.data)
