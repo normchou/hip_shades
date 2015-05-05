@@ -36,7 +36,6 @@ router.post('/', function(req, res, next) {
 		if (err) {
 			return console.log(err);
 		} else if (tempUser.length === 0) {
-			console.log('adding a new user')
 			User.create(req.body, function(err, newUser) {
 				if (err) return next(err);
 				req.login(newUser, function(err) {
@@ -51,7 +50,6 @@ router.post('/', function(req, res, next) {
 					if (err) return console.log(err);
 					req.login(tempUser, function(user) {
 						res.json(user);
-						console.log('saved user from merge', user)
 					})
 				})		
 			};

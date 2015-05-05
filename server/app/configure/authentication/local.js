@@ -42,73 +42,75 @@ module.exports = function (app) {
             // merge temp user's and login user's cart -NC
                 var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
                 
-                UserModel.find({email: cookieId + '@temp.com'}, function(err, tempUser) {
-                    if (err) {
-                        return console.log(err);
-                    } else if (tempUser.length > 0) {
-                        Order
-                            .find({user_id: tempUser[0]._id})
-                            .exec(function (err, order) {
-                                if (err) return console.log(err);
-                                else if (order.length > 0) {
-                                    return order[0].product_ids;
-                                }
-                                return [];
-                            })
-                            .then(function (tempProducts) {
-                                if (err) return console.log(err);
-                                if (tempProducts.length === 0) {
-                                    console.log('nothing added')
-                                }
-                                else {
-                                    Order
-                                        .find({user_id: user._id})
-                                        .exec(function (err, order) {
-                                            console.log('this is user order', order)
-                                            if (err) return console.log(err);
-                                            if (order.length === 0) {
-                                                var newOrder = new Order ({
-                                                    product_ids: tempProducts,
-                                                    user_id: user._id
-                                                    })
-                                                newOrder.save(function(err, newOrder) {
-                                                    if (err) return console.error(err);
-                                                    console.log('saved cart')             
-                                                })
-                                            } 
-                                            else {  // need to add promise so 
-                                                var newProduct = order[0].product_ids
-                                                tempProducts[0].product_ids.forEach(function(product) {
-                                                    newProduct.push(product);
-                                                });
-                                                console.log('this is temp', tempProducts[0].product_ids)
-                                                Order
-                                                    .update({user_id: user._id}, {$set: {product_ids: tempProducts}})
-                                                    .exec(function() {
-                                                        console.log('successfully updated cart')
-                                                    });                    
-                                            }
-                                        })
-                                }
-                            })
-                            .then(function() {
-                                if (tempUser) {
-                                    UserModel
-                                        .find({user_id: tempUser[0]._id})
-                                        .remove()
-                                        .exec(function(err, data) {
-                                            console.log('temp user removed')
-                                        });
-                                    Order
-                                        .find({user_id: tempUser[0]._id})
-                                        .remove()
-                                        .exec(function(err, data) {
-                                            console.log('temp user order removed')
-                                        });
-                                }
-                            })
-                    }
-                })
+                // UserModel.find({email: cookieId + '@temp.com'}, function(err, tempUser) {
+                //     if (err) {
+                //         return console.log(err);
+                //     } else if (tempUser.length === 0) {
+                //         return console.log('successfully login with no temp user defined')
+                //     } else (tempUser.length > 0) {  // temp user is defined
+                //         Order
+                //             .find({user_id: tempUser[0]._id})   // find if temp user has items in cart
+                //             .exec(function (err, order) {
+                //                 if (err) return console.log(err);
+                //                 else if (order.length > 0) {
+                //                     return order[0].product_ids;    // YES, returns array of products 
+                //                 }
+                //                 return [];  
+                //             })
+                //             .then(function (tempProducts) {
+                //                 if (err) return console.log(err);
+                //                 if (tempProducts.length === 0) {
+                //                     console.log('nothing added')
+                //                 }
+                //                 else {
+                //                     Order
+                //                         .find({user_id: user._id})
+                //                         .exec(function (err, order) {
+                //                             console.log('this is user order', order)
+                //                             if (err) return console.log(err);
+                //                             if (order.length === 0) {
+                //                                 var newOrder = new Order ({
+                //                                     product_ids: tempProducts,
+                //                                     user_id: user._id
+                //                                     })
+                //                                 newOrder.save(function(err, newOrder) {
+                //                                     if (err) return console.error(err);
+                //                                     console.log('saved cart')             
+                //                                 })
+                //                             } 
+                //                             else {  // need to add promise so 
+                //                                 var newProduct = order[0].product_ids
+                //                                 tempProducts[0].product_ids.forEach(function(product) {
+                //                                     newProduct.push(product);
+                //                                 });
+                //                                 console.log('this is temp', tempProducts[0].product_ids)
+                //                                 Order
+                //                                     .update({user_id: user._id}, {$set: {product_ids: tempProducts}})
+                //                                     .exec(function() {
+                //                                         console.log('successfully updated cart')
+                //                                     });                    
+                //                             }
+                //                         })
+                //                 }
+                //             })
+                //             .then(function() {
+                //                 if (tempUser) {
+                //                     UserModel
+                //                         .find({user_id: tempUser[0]._id})
+                //                         .remove()
+                //                         .exec(function(err, data) {
+                //                             console.log('temp user removed')
+                //                         });
+                //                     Order
+                //                         .find({user_id: tempUser[0]._id})
+                //                         .remove()
+                //                         .exec(function(err, data) {
+                //                             console.log('temp user order removed')
+                //                         });
+                //                 }
+                //             })
+                //     }
+                // })
 
 
 
