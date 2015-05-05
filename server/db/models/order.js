@@ -20,16 +20,11 @@ var orderSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    checkout_price: {
+        type: Number
     }
 });
-
-orderSchema.methods.calculatePrice = function() {
-    return mongoose.model('Product').find({
-        '_id': { $in: this.product_id}
-    }, function(err, docs){
-         console.log(docs);
-    });
-}
 
 orderSchema.methods.getUser = function(cb) {
 	return this.populate('user_id', function(err, orderWithUser){

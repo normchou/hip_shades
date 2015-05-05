@@ -15,14 +15,14 @@ app.config(function ($stateProvider){
 app.controller('CartController', function($scope, CartFactory) {
     // temporary user workflow
     // get current user from cookie id
+$scope.quantities = [1,2,3,4,5,6,7,8,9];
+
     $scope.initializeCart = function() {
-        CartFactory.getCurrentUser().then(function(currentUser) {
-            if (currentUser === 'undefined') {
+        CartFactory.getCurrentUser().then(function(currentOrder) {
+            if (currentOrder === 'undefined') {
                 console.log('nothing in cart');
             } else {
-                $scope.orderData = currentUser.products;
-                $scope.currentUser = currentUser;
-                console.log($scope.orderData);
+                $scope.defineCartScope(currentOrder);
             }
         }).catch(function(err) {
             console.error(err);
@@ -32,13 +32,31 @@ app.controller('CartController', function($scope, CartFactory) {
 
     $scope.deleteProduct = function(product) {
       //DELETE /api/users/:userid/orders/:anorderid/products/:aproductID
-      CartFactory.deleteProductInCart($scope.currentUser.user_id, $scope.currentUser._id, product.id._id).then(function(deletedProduct) {
-        console.log("deleted product", deletedProduct);
-        $scope.initializeCart();
-      }).catch(function(err) {
-        console.error(err);
-        return err;
-      });
+        CartFactory.deleteProductInCart($scope.currentOrder.user_id, $scope.currentOrder._id, product.id._id).then(function(newCurrentOrder) {
+            $scope.defineCartScope(newCurrentOrder);
+        }).catch(function(err) {
+            console.error(err);
+            return err;
+        });
+    }
+
+    $scope.saveQuantity = function() { 
+        CartFactory.saveOrder($scope.currentOrder.user_id, $scope.currentOrder._id, $scope.currentOrder).then(function(newCurrentOrder) {
+            $scope.defineCartScope(newCurrentOrder);
+        }).catch(function(err) {
+            console.error(err);
+            return err;
+        });  
+    }
+
+    $scope.defineCartScope = function (currentOrder) {
+        $scope.orderData = currentOrder.products;
+        $scope.currentOrder = currentOrder;
+        $scope.priceSum = CartFactory.priceSum(currentOrder);
+        $scope.itemCount = CartFactory.itemCount(currentOrder);
+        $scope.salesTax = $scope.priceSum > 0 ? 28.50 : 0;
+        $scope.shippingHandling = $scope.priceSum > 0 ? 20.00 : 0;
+        $scope.totalOrder = $scope.priceSum + $scope.salesTax + $scope.shippingHandling;
     }
 
     $scope.initializeCart();

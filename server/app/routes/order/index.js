@@ -26,6 +26,22 @@ router.get('/:id', function(req, res, next) {
 	});
 });
 
+router.post('/:id',function(req, res, next) {
+	for (var i = 0; i < req.order.products.length; i++) {
+		req.order.products[i].id = req.body.products[i].id._id;
+		req.order.products[i].quantity = req.body.products[i].quantity;
+	};
+
+	req.order.save(function(err, order) {
+		if(err) return next(err);
+		order.populate('products.id', function(err, populatedOrder){
+			if(err) return next(err);
+			console.log("Pop - ", populatedOrder);
+			res.json(populatedOrder)
+		});
+	});
+});
+
 //DELETE /api/orders/:anorderid/products/:aproductID
 router.delete('/:id/products/:product_id',function(req, res, next) {
 	for (var i = 0; i < req.order.products.length; i++) {
@@ -34,9 +50,12 @@ router.delete('/:id/products/:product_id',function(req, res, next) {
 		}
 	};
 
-	Order.update({_id: req.order._id}, {$set: {products: req.order.products}}, function(err, data) {
-		if(err) return next(err)
-		res.json(data);
+	req.order.save(function(err, order) {
+		if(err) return next(err);
+		order.populate('products.id', function(err, populatedOrder){
+			if(err) return next(err);
+			res.json(populatedOrder)
+		});
 	});
 });
 
