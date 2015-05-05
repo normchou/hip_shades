@@ -1,6 +1,5 @@
 <div ng-repeat="category in productCategory">
 	<a ui-sref="products.item({productID: category._id})">
-		<h1>{{ category.title }}</h1>
 		<img src="{{ category.imageURL[0] }}" class="img-thumbnail" style="width: 50%">
 	</a>
 </div>

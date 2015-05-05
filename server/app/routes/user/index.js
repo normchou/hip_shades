@@ -63,26 +63,35 @@ router.delete('/:id', function(req, res, next) {
 	res.send('successfully deleted')
 })
 
-// this route gets the current logged in user and find the orders for the user
+// this route gets the current logged in user and find the orders for the user to show in cart -NC
 router.get('/currentuser/', function(req, res, next) {
-
-	var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
-
-	User.find({email: cookieId + '@temp.com'}, function(err, data) {
-		if (err) {
-			return console.log(err);
-		} else if (data.length === 0) {
-			res.json('undefined')
-		} else {
-			Order
-				.find({user_id: data[0]._id})
-				.populate('product_ids')
-				.exec(function(err, order) {
+	if (typeof (req.user) != "undefined") {
+		Order
+			.find({user_id: req.user._id})
+			.populate('product_ids')
+			.exec(function (err, order) {
 				if (err) return console.log(err);
-				res.json(order);
-			});
-		}
-	});
+				res.json(order)
+			})
+	} else {
+		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
+
+		User.find({email: cookieId + '@temp.com'}, function(err, data) {
+			if (err) {
+				return console.log(err);
+			} else if (data.length === 0) {
+				res.json('undefined')
+			} else {
+				Order
+					.find({user_id: data[0]._id})
+					.populate('product_ids')
+					.exec(function(err, order) {
+					if (err) return console.log(err);
+					res.json(order);
+				});
+			}
+		});	
+	}
 });
 
 router.get('/:id', function(req, res, next) {
