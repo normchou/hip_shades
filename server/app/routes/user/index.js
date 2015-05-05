@@ -70,7 +70,7 @@ router.get('/currentuser/', function(req, res, next) {
 		} else {
 			Order
 				.find({user_id: data[0]._id})
-				.populate('product_ids')
+				.populate('products.id')
 				.exec(function(err, order) {
 				if (err) return console.log(err);
 				res.json(order);

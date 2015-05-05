@@ -14,36 +14,42 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="product in orderData">
-                        <td><img src={{product.imageURL[0]}} width="50px"></td>
-                        <td>{{product.title}}</td>
-                        <td>{{product.price | currency}}</td>
-                        <td>2</td>
-                        <td>{{product.price * 2 | currency}}</td>
-                        <td><a ng-click="deleteProduct(product._id)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
+                        <td><img src={{product.id.imageURL[0]}} width="50px"></td>
+                        <td>{{product.id.title}}</td>
+                        <td>{{product.id.price | currency}}</td>
+                        <td><select data-ng-options="q for q in quantities" data-ng-model="product.quantity"
+                            ng-change="saveQuantity()"></select></td>
+                        <td>{{product.id.price * product.quantity | currency}}</td>
+                        <td><a ng-click="deleteProduct(product)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
+
                 </tbody>
             </table>
+            <h4 ng-hide="orderData.length">Your Shopping Cart is empty!</h4>
         </div>
         <div class="col-md-4">
             <br><br>
             <table class="table">
                 <tr>
-                    <th>Cost:</th>
-                    <td>$359.98</td>
+                    <th>Cost (<ng-pluralize count="itemCount"
+                 when="{'1': '1 item',
+                     'other': '{{itemCount}} items'}">
+</ng-pluralize>):</th>
+                    <td>{{priceSum | currency}}</td>
                 </tr>
                 <tr>
                     <th>Sales Tax:</th>
-                    <td>$28.50</td>
+                    <td>{{salesTax | currency}}</td>
                 </tr>
                 <tr>
                     <th>Shipping & Handling:</th>
-                    <td>$20.00</td>
+                    <td>{{shippingHandling | currency}}</td>
                 </tr>
                 <tr>
                     <th>Total:</th>
-                    <td><h3><b>$404.48</b></h3></td>
+                    <td><h3><b>{{totalOrder | currency}}</b></h3></td>
                 </tr>
             </table>
-            <a class="btn btn-primary btn-lg" href="/logistics" role="button" style="float: right">Submit Order</a>
+            <a class="btn btn-primary btn-lg" href="/logistics" role="button" style="float: right">Checkout</a>
         </div>
         <br>
     </div>

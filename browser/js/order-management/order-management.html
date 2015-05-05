@@ -33,7 +33,7 @@
                         <td><a ng-click="deleteOrder(order._id)" type="button" class="btn btn-danger btn-xs" ng-show="!order.checked_out"><span class="glyphicon glyphicon-remove"></span></a></td>
 						<td> {{order.create_date | date: 'MM/dd/yyyy'}} </td>
 						<td> {{order.user_id.first_name}} </td>
-						<td> {{(order.product_ids | filter: query).length}} </td>
+						<td> {{(order.products | filter: query).length}} </td>
 						<td> {{order.checked_out}} </td>
 						<td> {{100}} </td>
 

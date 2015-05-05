@@ -7,9 +7,10 @@ var orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    product_ids: {
-        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
-    },
+    products: [{ 
+                id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+                quantity: { type: Number, default: 1 }
+    }],
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -19,21 +20,35 @@ var orderSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    checkout_price: {
+        type: Number
     }
 });
-
-orderSchema.methods.calculatePrice = function() {
-    return mongoose.model('Product').find({
-        '_id': { $in: this.product_id}
-    }, function(err, docs){
-         console.log(docs);
-    });
-}
 
 orderSchema.methods.getUser = function(cb) {
 	return this.populate('user_id', function(err, orderWithUser){
 		cb(err, orderWithUser)
 	})
+}
+
+orderSchema.methods.addProductToOrder = function(productId) {
+    var inCart = false;
+
+    this.products.forEach( function(elem, index) {
+        if (elem.id.equals(productId)) {
+            elem.quantity++;
+            inCart = true;
+        }
+    });
+
+    if (!inCart) {
+        this.products.push({    
+            id: productId,
+            quantity: 1
+        });
+    }
+    return Order.update({user_id: this.user_id}, {$set: {products: this.products}}).exec();
 }
 
 var Order = mongoose.model('Order', orderSchema);
