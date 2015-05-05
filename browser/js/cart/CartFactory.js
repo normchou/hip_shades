@@ -16,8 +16,7 @@ app.factory('CartFactory', function ($http) {
         },
 
         deleteProductInCart: function (userID, orderID, productID) {
-
-            return $http.delete('/api/users/'+ userID + '/orders/' + orderID + '/product_ids/' + productID)
+            return $http.delete('/api/users/'+ userID + '/orders/' + orderID + '/products/' + productID)
                 .then(function(res) {
                     return res.data;
                 }).catch(function(err) {
@@ -25,6 +24,35 @@ app.factory('CartFactory', function ($http) {
                     return err;
                 });
 
+        },
+
+        priceSum: function (currentOrder) {
+            var total = 0.0;
+
+            currentOrder.products.forEach(function(elem) {
+                total += elem.id.price * elem.quantity;
+            });
+
+            return total;
+        },
+
+        itemCount: function (currentOrder) {
+            var total = 0;
+
+            currentOrder.products.forEach(function(elem) {
+                total += elem.quantity;
+            });
+
+            return total;
+        },
+
+        saveOrder: function(userID, orderID, currentOrder) { 
+            return $http.post('/api/users/'+ userID + '/orders/' + orderID, currentOrder).then(function(res){
+                    return res.data;
+                }).catch(function(err) {
+                    console.error(err);
+                    return err;
+                });       
         }
 
     };

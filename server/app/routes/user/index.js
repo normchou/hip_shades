@@ -3,17 +3,11 @@ var router = require('express').Router();
 var mongoose = require('mongoose')
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
+var Utils = require('../common/');
+var isLoggedIn = Utils.isLoggedIn;
+var isAdmin = Utils.isAdmin;
 
 router.use('/:id/orders', require('../order'));
-
-
-var amLoggedIn = function(req, res, next) {
-	return (typeof(req.user) != "undefined")
-}
-
-var isAdmin = function(req, res, next) {
-	return (amLoggedIn(req, res, next) && req.user.admin)
-}
 
 router.get('/', function(req, res, next) {
 	if (!isAdmin(req, res, next)) {
@@ -113,34 +107,31 @@ router.get('/currentuser/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-	if (!amLoggedIn) res.status(403).send('Not logged in')
-	res.json(req.userData)
+	if (!isLoggedIn) res.status(403).send('Not logged in')
+	res.json(req.user)
 });
-
-
-router.param('id', function(req, res, next, id) {
-	User.findOne({'_id': id}, function(err, user) {
-		if(err) return next(err)
-		if(!user) return res.status(404).end()
-		if (!isAdmin(req, res, next) && !(user._id.equals(req.user.id))) {		
-		  	console.log('Admin?=', isAdmin(req, res, next));
-		  	console.log('Are they equal? = ', user._id.equals(req.user.id))
-		  	console.log('user._id = ', user._id);
-		  	console.log('req.user.id = ', req.user.id);
-		  	return res.status(403).send('Under-priviliged');
-		}
-		req.userData = user
-		next()
-	})
-})
 
 router.use('/:id/orders', require('../order'));
 
 router.use('/:id/allOrders', function(req, res, next) {
-	if (!isAdmin(req, res, next)) return res.status(404).end()
+	if (!isAdmin(req, res, next)) return res.status(404).send('Insufficient Permissions to view all orders. Who are you?')
 
 	Order.find({}).populate('user_id').exec(function (err, orders) {
 		res.json(orders)
+	})
+})
+
+router.param('id', function(req, res, next, id) {
+	User.findOne({'_id': id}, function(err, user) {
+		if(err) return next(err)
+		if(!user) return res.status(404).send('No user found with the given credentials.')
+		if (!isAdmin(req, res, next) && !(user._id.equals(req.user._id))) {		
+		  	console.log('Admin?=', isAdmin(req, res, next))
+		  	console.log('Are they equal? = ', user._id.equals(req.user.id))
+		  	return res.status(403).send('Under-priviliged')
+		}
+		req.user = user
+		next()
 	})
 })
 

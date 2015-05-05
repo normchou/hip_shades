@@ -9,6 +9,9 @@ app.config(function ($stateProvider) {
 			resolve: {
 				orders: function(Orders) {
 					return Orders.getAllOrders()
+				},
+				deleteOrder: function (Orders) {
+					return Orders.deleteOrder;
 				}
 			}
 		})
@@ -19,6 +22,17 @@ app.config(function ($stateProvider) {
 		})
 });
 
-app.controller('OrderManagementController', function($scope, AuthService, $stateParams, $http, orders) {
+app.controller('OrderManagementController', function($scope, AuthService, $stateParams, $http, orders, deleteOrder) {
 		$scope.orders = orders;
+
+		$scope.deleteOrder = function(orderID) {
+			// Delete the order from the database
+			deleteOrder(orderID)
+			
+			$scope.orders.forEach(function (order, idx) {
+				if (order._id === orderID) {
+					return $scope.orders.splice(idx, 1);
+				}
+			})
+		}
 });
