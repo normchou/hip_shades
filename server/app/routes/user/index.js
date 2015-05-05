@@ -29,13 +29,33 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 	req.body.street += ' ' + req.body.street2; 
 
-	User.create(req.body, function(err, newUser) {
-		if (err) return next(err);
-		req.login(newUser, function(err) {
-			if(err) return next(err)
-			res.json(newUser);
-		})
-	});
+// check if there is a temp user created -NC 5/5/15
+	var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
+
+	User.find({email: cookieId + '@temp.com'}, function(err, tempUser) {
+		if (err) {
+			return console.log(err);
+		} else if (tempUser.length === 0) {
+			console.log('adding a new user')
+			User.create(req.body, function(err, newUser) {
+				if (err) return next(err);
+				req.login(newUser, function(err) {
+					if(err) return next(err)
+					res.json(newUser);
+				})
+			});
+		} else {
+			// update the the temp user info with sign up user info
+			User
+				.findByIdAndUpdate(tempUser[0]._id, {$set: req.body}, function (err, tempUser) {
+					if (err) return console.log(err);
+					req.login(tempUser, function(user) {
+						res.json(user);
+						console.log('saved user from merge', user)
+					})
+				})		
+			};
+	});	
 });
 
 // route to update user -NC 5/2/15
