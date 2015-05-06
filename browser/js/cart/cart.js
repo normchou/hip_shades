@@ -41,7 +41,7 @@ $scope.quantities = [1,2,3,4,5,6,7,8,9];
         });
     }
 
-    $scope.saveQuantity = function() { 
+    $scope.saveQuantity = function() {
         CartFactory.saveOrder($scope.currentOrder.user_id, $scope.currentOrder._id, $scope.currentOrder).then(function(newCurrentOrder) {
             $scope.defineCartScope(newCurrentOrder);
         }).catch(function(err) {

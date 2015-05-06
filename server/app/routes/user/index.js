@@ -8,7 +8,7 @@ var isAdmin = Utils.isAdmin;
 var needAdminPrivileges = Utils.needAdminPrivileges;
 var needUserLoggedIn = Utils.needUserLoggedIn;
 
-router.use('/:id/orders', require('../order'));
+//router.use('/:id/orders', require('../order'));
 
 router.get('/', needAdminPrivileges, function(req, res, next) {
 	User.find({}, function(err, users) {
@@ -74,7 +74,6 @@ router.delete('/:id', needAdminPrivileges, function(req, res, next) {
 
 // this route gets the current logged in user and find the orders for the user to show in cart -NC
 router.get('/currentuser/', function(req, res, next) {
-	console.log('this is the user', req.user)
 	if (typeof (req.user) != "undefined") {
 		Order
 			.find({user_id: req.user._id})
@@ -92,14 +91,12 @@ router.get('/currentuser/', function(req, res, next) {
 			} else if (tempUser.length === 0) {
 				res.json('undefined')
 			} else {
-				console.log('else', tempUser)
 				Order
 					.find({user_id: tempUser[0]._id})
 					.populate('products.id')
 					.exec(function(err, order) {
 					if (err) return console.log(err);
 					res.json(order);
-					console.log('this is the order', order)
 				});
 			}
 		});	
@@ -122,11 +119,13 @@ router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
 		if(err) return next(err)
 		if(!user) return res.status(404).send('No user found with the given credentials.')
-		if (!isAdmin(req, res, next) && !(user._id.equals(req.user._id))) {		
-		  	console.log('Admin?=', isAdmin(req, res, next))
-		  	console.log('Are they equal? = ', user._id.equals(req.user.id))
-		  	return res.status(403).send('Under-priviliged')
-		}
+
+// the following code is throwing an error that is causing the cart not to update -NC 5/5/15			
+		// if (!isAdmin(req, res, next) && !(user._id.equals(req.user._id))) {		
+		//   	console.log('Admin?=', isAdmin(req, res, next))
+		//   	console.log('Are they equal? = ', user._id.equals(req.user.id))
+		//   	return res.status(403).send('Under-priviliged')
+		// }
 		req.user = user
 		next()
 	})

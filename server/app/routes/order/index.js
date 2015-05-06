@@ -22,6 +22,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/:id',function(req, res, next) {
+
 	for (var i = 0; i < req.order.products.length; i++) {
 		req.order.products[i].id = req.body.products[i].id._id;
 		req.order.products[i].quantity = req.body.products[i].quantity;

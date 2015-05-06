@@ -41,12 +41,9 @@ router.put('/', needAdminPrivileges, function(req, res, next) {
 
 // route to remove a product -NC 5/2/15
 router.delete('/:id', needAdminPrivileges, function(req, res, next) {
-
 	Product.findOneAndRemove({_id: req.params.id}, function(err, product) {
 		if(err) return console.log(err);
-		console.log('removed this product', product)
 	})
-
 	res.send('successfully deleted')
 })
 
@@ -101,32 +98,22 @@ router.post('/:id', function(req, res, next) {
 						quantity: 1
 					}
 					newProduct.push(addProduct);
-					console.log('this is req.user._id', req.user._id)
 					
 					Order
 						.find({user_id: req.user._id})
 						.where('checked_out').equals(false)
 						.exec(function(err, data) {
-							console.log('this is error', data)
 							Order
 								.findByIdAndUpdate( data[0]._id, {$set: {products: newProduct}}, function(err, data) {
 									if (err) return console.log(err)
 									res.json(data)
-									console.log('saved product', data)
 								})		
-							
-							
-						})
-
-
-
-						
+						})						
 				}
 			})
 	} else {		// this is for temp user
 		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
 		User.find({email: cookieId + '@temp.com'}, function(err, user) {
-
 			if (err) {
 				return console.log(err);
 			} else if (user.length === 0) {
