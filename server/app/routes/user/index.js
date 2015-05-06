@@ -8,7 +8,7 @@ var isAdmin = Utils.isAdmin;
 var needAdminPrivileges = Utils.needAdminPrivileges;
 var needUserLoggedIn = Utils.needUserLoggedIn;
 
-//router.use('/:id/orders', require('../order'));
+router.use('/:id/orders', require('../order'));
 
 router.get('/', needAdminPrivileges, function(req, res, next) {
 	User.find({}, function(err, users) {
@@ -74,7 +74,8 @@ router.delete('/:id', needAdminPrivileges, function(req, res, next) {
 
 // this route gets the current logged in user and find the orders for the user to show in cart -NC
 router.get('/currentuser/', function(req, res, next) {
-	if (typeof (req.user) != "undefined") {
+	console.log('this is the user', req.user)
+	if (typeof (req.user) !== "undefined") {
 		Order
 			.find({user_id: req.user._id})
 			.populate('products.id')
@@ -85,14 +86,14 @@ router.get('/currentuser/', function(req, res, next) {
 	} else {
 		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
 
-		User.find({email: cookieId + '@temp.com'}, function(err, tempUser) {
+		User.findOne({email: cookieId + '@temp.com'}, function(err, tempUser) {
 			if (err) {
 				return console.log(err);
-			} else if (tempUser.length === 0) {
-				res.json('undefined')
+			} else if (!tempUser) {
+				res.json(null)
 			} else {
 				Order
-					.find({user_id: tempUser[0]._id})
+					.find({user_id: tempUser._id})
 					.populate('products.id')
 					.exec(function(err, order) {
 					if (err) return console.log(err);
@@ -107,8 +108,6 @@ router.get('/:id', needUserLoggedIn, function(req, res, next) {
 	res.json(req.user)
 });
 
-router.use('/:id/orders', require('../order'));
-
 router.use('/:id/allOrders', needAdminPrivileges, function(req, res, next) {
 	Order.find({}).populate('user_id').exec(function (err, orders) {
 		res.json(orders)
@@ -117,10 +116,14 @@ router.use('/:id/allOrders', needAdminPrivileges, function(req, res, next) {
 
 router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
-		if(err) return next(err)
-		if(!user) return res.status(404).send('No user found with the given credentials.')
+		console.log("user - ", user);
+		console.log("req.user", req.user);
 
-// the following code is throwing an error that is causing the cart not to update -NC 5/5/15			
+		if(err) return next(err)
+		// I commented this out because currently this code dosent not work when 
+		// temp users want to change the quantity in thier cart.
+
+		// if(!user) return res.status(404).send('No user found with the given credentials.')
 		// if (!isAdmin(req, res, next) && !(user._id.equals(req.user._id))) {		
 		//   	console.log('Admin?=', isAdmin(req, res, next))
 		//   	console.log('Are they equal? = ', user._id.equals(req.user.id))

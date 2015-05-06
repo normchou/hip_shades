@@ -15,7 +15,7 @@ app.config(function ($stateProvider){
 app.controller('CartController', function($scope, CartFactory) {
     // temporary user workflow
     // get current user from cookie id
-$scope.quantities = [1,2,3,4,5,6,7,8,9];
+    $scope.quantities = [1,2,3,4,5,6,7,8,9];
 
     $scope.initializeCart = function() {
         CartFactory.getCurrentUser().then(function(currentOrder) {
@@ -51,13 +51,15 @@ $scope.quantities = [1,2,3,4,5,6,7,8,9];
     }
 
     $scope.defineCartScope = function (currentOrder) {
-        $scope.orderData = currentOrder.products;
-        $scope.currentOrder = currentOrder;
-        $scope.priceSum = CartFactory.priceSum(currentOrder);
-        $scope.itemCount = CartFactory.itemCount(currentOrder);
-        $scope.salesTax = $scope.priceSum > 0 ? 28.50 : 0;
-        $scope.shippingHandling = $scope.priceSum > 0 ? 20.00 : 0;
-        $scope.totalOrder = $scope.priceSum + $scope.salesTax + $scope.shippingHandling;
+        if (currentOrder) {
+            $scope.orderData = currentOrder.products;
+            $scope.currentOrder = currentOrder;
+            $scope.priceSum = CartFactory.priceSum(currentOrder);
+            $scope.itemCount = CartFactory.itemCount(currentOrder);
+            $scope.salesTax = $scope.priceSum > 0 ? 28.50 : 0;
+            $scope.shippingHandling = $scope.priceSum > 0 ? 20.00 : 0;
+            $scope.totalOrder = $scope.priceSum + $scope.salesTax + $scope.shippingHandling;
+        }
     }
 
     $scope.initializeCart();

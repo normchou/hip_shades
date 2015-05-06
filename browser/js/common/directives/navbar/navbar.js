@@ -19,6 +19,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             ];
 
             scope.user = null;
+            scope.criteriaObject = {}
             
             scope.isLoggedIn = function () {
                 return AuthService.isAuthenticated();
@@ -32,6 +33,11 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
                 AuthService.logout().then(function () {
                    $state.go('home');
                 });
+            };
+
+            scope.search = function (title) {
+                $state.go('search');
+                
             };
             
             var setUser = function () {

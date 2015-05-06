@@ -8,7 +8,6 @@ app.factory('CartFactory', function ($http) {
             return $http.get('/api/users/currentuser/').then(function(res){
                 if (res.data)
                     return res.data[0];
-                throw err;
             }).catch(function(err) {
                 console.error(err);
                 return err;

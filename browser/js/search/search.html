@@ -1,0 +1,27 @@
+
+<div class="container">
+    <h2>Search our Sunglasses</h2><br>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Search Bar</h4> 
+
+            <h6>Gender</h6>
+            
+
+            <a class="btn btn-primary btn-lg" ng-click="initializeSearch(criteriaObject)" role="button" style="float: right">Search</a>
+        </div>
+        <div class="col-md-8">
+            <h4>Results</h4>
+            <br><br>
+            <span><ng-pluralize count="searchResults.length"
+            when="{'1': '1 result ',
+            'other': '{{searchResults.length}} results '}">
+            </ng-pluralize> in your search.</span>
+            <table class="table">
+                <div ng-repeat="product in orderData"></div>
+
+                    
+            </table>
+        </div>
+        <br>
+    </div>
