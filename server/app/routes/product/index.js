@@ -89,7 +89,7 @@ router.post('/:id', function(req, res, next) {
 						if (err) return console.error(err);				
 					})
 				} else {
-					var newProduct = order[0].product_ids
+					var newProduct = [order[0].product_ids]
 					newProduct.push(req.params.id);
 					Order
 						.update({user_id: req.user._id}, {$set: {product_ids: newProduct}})
