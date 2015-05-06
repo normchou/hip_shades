@@ -22,16 +22,21 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/:id',function(req, res, next) {
-	for (var i = 0; i < req.order.products.length; i++) {
-		req.order.products[i].id = req.body.products[i].id._id;
-		req.order.products[i].quantity = req.body.products[i].quantity;
+	var newProductArray = [];
+	for (var i = 0; i < req.body.products.length; i++) {
+		newProductArray.push({
+			id: req.body.products[i].id._id,
+			quantity: req.body.products[i].quantity
+		});
 	};
+	
+	req.order.products = newProductArray;
 
 	req.order.save(function(err, order) {
 		if(err) return next(err);
 		order.populate('products.id', function(err, populatedOrder){
 			if(err) return next(err);
-			console.log("Pop - ", populatedOrder);
+			console.log("populated order - ", populatedOrder);
 			res.json(populatedOrder)
 		});
 	});
