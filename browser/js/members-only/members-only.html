@@ -1,0 +1,67 @@
+<div class="container">
+    <h2>Welcome {{ order.user_id.first_name }}</h2>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-lg">
+    		<ui-view></ui-view>
+		</div>
+	</div>
+    <div class="row col-md-12">
+        <button type="button" 
+                class="btn btn-default btn-xs" 
+                data-toggle="modal" 
+                data-target=".bs-example-modal-lg" 
+                ui-sref="productMgt.edit({productID: product._id})">
+                Edit Profile
+        </button>
+    </div>
+    <br>
+    <h3>Current Orders</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <th>Thumbnail</th>
+                    <th>Product</th>
+                    <th>Subtotal</th>
+                    <th>Quantity</th>
+                    <th>Order Status</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in products">
+                        <td><img src={{product.imageURL[0]}} width="50px"></td>
+                        <td>{{product.title}}</td>
+                        <td>{{product.description}}</td>
+                        <td>{{product.price | currency}}</td>
+                        <td>{{product.stock}}</td>				
+                        <td>{{product.categories}}</td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h3>Past Orders</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <th>Thumbnail</th>
+                    <th>Product</th>
+                    <th>Subtotal</th>
+                    <th>Quantity</th>
+                    <th>Order Status</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="product in products">
+                        <td><img src={{product.imageURL[0]}} width="50px"></td>
+                        <td>{{product.title}}</td>
+                        <td>{{product.description}}</td>
+                        <td>{{product.price | currency}}</td>
+                        <td>{{product.stock}}</td>				
+                        <td>{{product.categories}}</td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+

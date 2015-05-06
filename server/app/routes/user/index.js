@@ -23,13 +23,31 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 	req.body.street += ' ' + req.body.street2; 
 
-	User.create(req.body, function(err, newUser) {
-		if (err) return next(err);
-		req.login(newUser, function(err) {
-			if(err) return next(err)
-			res.json(newUser);
-		})
-	});
+// check if there is a temp user created -NC 5/5/15
+	var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
+
+	User.find({email: cookieId + '@temp.com'}, function(err, tempUser) {
+		if (err) {
+			return console.log(err);
+		} else if (tempUser.length === 0) {
+			User.create(req.body, function(err, newUser) {
+				if (err) return next(err);
+				req.login(newUser, function(err) {
+					if(err) return next(err)
+					res.json(newUser);
+				})
+			});
+		} else {
+			// update the the temp user info with sign up user info
+			User
+				.findByIdAndUpdate(tempUser[0]._id, {$set: req.body}, function (err, tempUser) {
+					if (err) return console.log(err);
+					req.login(tempUser, function(user) {
+						res.json(user);
+					})
+				})		
+			};
+	});	
 });
 
 // route to update user -NC 5/2/15
@@ -57,26 +75,35 @@ router.delete('/:id', function(req, res, next) {
 	res.send('successfully deleted')
 })
 
-// this route gets the current logged in user and find the orders for the user
+// this route gets the current logged in user and find the orders for the user to show in cart -NC
 router.get('/currentuser/', function(req, res, next) {
-
-	var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
-
-	User.find({email: cookieId + '@temp.com'}, function(err, data) {
-		if (err) {
-			return console.log(err);
-		} else if (data.length === 0) {
-			res.json('undefined')
-		} else {
-			Order
-				.find({user_id: data[0]._id})
-				.populate('products.id')
-				.exec(function(err, order) {
+	if (typeof (req.user) != "undefined") {
+		Order
+			.find({user_id: req.user._id})
+			.populate('product_ids')
+			.exec(function (err, order) {
 				if (err) return console.log(err);
-				res.json(order);
-			});
-		}
-	});
+				res.json(order)
+			})
+	} else {
+		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
+
+		User.find({email: cookieId + '@temp.com'}, function(err, data) {
+			if (err) {
+				return console.log(err);
+			} else if (data.length === 0) {
+				res.json('undefined')
+			} else {
+				Order
+					.find({user_id: data[0]._id})
+					.populate('product_ids')
+					.exec(function(err, order) {
+					if (err) return console.log(err);
+					res.json(order);
+				});
+			}
+		});	
+	}
 });
 
 router.get('/:id', function(req, res, next) {

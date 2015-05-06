@@ -15,6 +15,7 @@ app.config(function ($stateProvider) {
 
 app.controller('ProductManagementController', function ($scope, $stateParams, $http) { 
 
+
 	$http.get('/api/products')
         .then(function (response) {
             $scope.products = response.data;
@@ -23,7 +24,6 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 
 
 	if($stateParams.productID) {
-		console.log('product func called')
 	    $http.get('/api/products/' + $stateParams.productID)
 			.then(function (response) {
 				$scope.productItem = response.data;
@@ -33,15 +33,15 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 
 	// this function is used when saving edits to existing products -NC 5/2/15
 	$scope.saveProduct = function() {
-		console.log('this is item', $scope.productItem)
+		// console.log('this is root scope', $rootScope.productItem)
 
-		$scope.products.push($scope.productItem)
-
-		$http.put('/api/products', $scope.productItem)
-			.then(function (response) {
-				console.log(response.data);
-			})
-	}
+		// $rootScope.products.push($scope.productItem)
+		console.log('yooooooo')
+		// $http.put('/api/products', $scope.productItem)
+		// 	.then(function (response) {
+		// 		console.log(response.data);
+		// 	})
+	};
 
 	// removes a product -NC 5/2/15
 	$scope.removeProduct = function(product) {
