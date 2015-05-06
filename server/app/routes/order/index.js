@@ -28,7 +28,6 @@ router.post('/:id',function(req, res, next) {
 			id: req.body.products[i].id._id,
 			quantity: req.body.products[i].quantity
 		});
-	};
 	
 	req.order.products = newProductArray;
 

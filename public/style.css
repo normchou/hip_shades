@@ -27,10 +27,13 @@ navbar {
     navbar .nav > li > a:focus {
       color: #f30046;
       background: transparent; }
+<<<<<<< HEAD
   navbar .search .search-bar {
     margin: 10px;
     text-align: center;
     line-height: 25px; }
+=======
+>>>>>>> 284d9203517f60ba6de9eca32f8547ec15a172f0
   navbar .login-button {
     float: right;
     margin: 8px; }

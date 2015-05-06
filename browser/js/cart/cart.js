@@ -41,7 +41,7 @@ app.controller('CartController', function($scope, CartFactory) {
         });
     }
 
-    $scope.saveQuantity = function() { 
+    $scope.saveQuantity = function() {
         CartFactory.saveOrder($scope.currentOrder.user_id, $scope.currentOrder._id, $scope.currentOrder).then(function(newCurrentOrder) {
             $scope.defineCartScope(newCurrentOrder);
         }).catch(function(err) {
