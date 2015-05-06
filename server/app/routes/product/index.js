@@ -6,6 +6,9 @@ var Product = mongoose.model('Product');
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 var Review = mongoose.model('Review');
+var Utils = require('../common');
+var needAdminPrivileges = Utils.needAdminPrivileges;
+var needUserLoggedIn = Utils.needUserLoggedIn;
 
 router.get('/', function(req, res, next) {
 	Product.find({}, function(err, data) {
@@ -18,7 +21,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 // this route is receiving edits made to products -NC 5/2/15
-router.put('/', function(req, res, next) {
+router.put('/', needAdminPrivileges, function(req, res, next) {
 	var editProduct = req.body;
 
 	if(typeof editProduct._id === 'undefined') {
@@ -33,15 +36,17 @@ router.put('/', function(req, res, next) {
 			res.send('successfully updated')
 		})
 	}
-})
+});
 
 
 // route to remove a product -NC 5/2/15
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', needAdminPrivileges, function(req, res, next) {
+
 	Product.findOneAndRemove({_id: req.params.id}, function(err, product) {
 		if(err) return console.log(err);
 		console.log('removed this product', product)
 	})
+
 	res.send('successfully deleted')
 })
 
@@ -53,7 +58,7 @@ router.get('/:id/reviews', function(req, res, next) {
 	});
 });
 
-router.post('/:id/reviews', function(req, res, next) {
+router.post('/:id/reviews', needUserLoggedIn, function(req, res, next) {
 	// Reference schema for what is expected as the POST body.
 	var reviewData = req.body;
 
@@ -75,6 +80,7 @@ router.param('id', function(req, res, next, id) {
 
 // Add to cart button - creates a temp user and order in the database  -NC
 router.post('/:id', function(req, res, next) {
+	// this is for login user
 	if (typeof(req.user) != "undefined") {
 		Order
 			.find({user_id: req.user._id})
@@ -89,14 +95,35 @@ router.post('/:id', function(req, res, next) {
 						if (err) return console.error(err);				
 					})
 				} else {
-					var newProduct = [order[0].product_ids]
-					newProduct.push(req.params.id);
+					var newProduct = order[0].products;
+					var addProduct = {
+						id: req.params.id,
+						quantity: 1
+					}
+					newProduct.push(addProduct);
+					console.log('this is req.user._id', req.user._id)
+					
 					Order
-						.update({user_id: req.user._id}, {$set: {product_ids: newProduct}})
-						.exec();					
+						.find({user_id: req.user._id})
+						.where('checked_out').equals(false)
+						.exec(function(err, data) {
+							console.log('this is error', data)
+							Order
+								.findByIdAndUpdate( data[0]._id, {$set: {products: newProduct}}, function(err, data) {
+									if (err) return console.log(err)
+									res.json(data)
+									console.log('saved product', data)
+								})		
+							
+							
+						})
+
+
+
+						
 				}
 			})
-	} else {
+	} else {		// this is for temp user
 		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
 		User.find({email: cookieId + '@temp.com'}, function(err, user) {
 
