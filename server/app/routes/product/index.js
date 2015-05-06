@@ -92,12 +92,9 @@ router.post('/:id', function(req, res, next) {
 
 					newOrder.save(function(err, newOrder) {
 						if (err) return console.error(err);	
-						console.log("Making new Order/Cart for logged in user - ", newOrder);
-						console.log("User - ", req.user);
 						res.json(newOrder);			
 					});
 				} else { // This user already has items in his/her cart, we just need to add a new item
-					console.log("adding product to Order/Cart for logged in user - ", order);
 					return order.addProductToOrder(req.params.id);
 				}
 			})
@@ -126,14 +123,11 @@ router.post('/:id', function(req, res, next) {
 
 						newOrder.save(function(err, newOrder) {
 							if (err) return next(err);
-							console.log("Making new Order/Cart for temp user - ", newOrder);
-							console.log("User - ", tempUser);
 							res.json(newOrder);
 						})
 					});
 				} else {
 					Order.findOne({user_id: user._id, checked_out: false}).exec().then(function(order) {
-						console.log("adding product to Order/Cart to temp user - ", order);
 						return order.addProductToOrder(req.params.id);
 					}).then(function(savedOrder) {
 						res.json(savedOrder);

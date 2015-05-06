@@ -1,7 +1,6 @@
+public/*.*
 .idea
 node_modules
 bower_components
 npm-debug.log
 .DS_Store
-public/main.js
-public/style.css

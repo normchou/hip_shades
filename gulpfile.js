@@ -65,6 +65,11 @@ gulp.task('buildCSS', function () {
         .pipe(gulp.dest('./public'))
 });
 
+gulp.task('moveImages', function () {
+    return gulp.src('./images/*.*')
+        .pipe(gulp.dest('./public'));
+});
+
 gulp.task('seedDB', function () {
 
     var users = [
@@ -119,7 +124,7 @@ gulp.task('build', function () {
     if (process.env.NODE_ENV === 'production') {
         runSeq(['buildJSProduction', 'buildCSSProduction']);
     } else {
-        runSeq(['buildJS', 'buildCSS']);
+        runSeq(['buildJS', 'buildCSS', 'moveImages']);
     }
 });
 
