@@ -123,7 +123,7 @@ router.post('/:id', function(req, res, next) {
 				Order.find({user_id: user[0]._id}, function(err, order) {
 					if (err) return console.log(err);			
 					else if (order.length > 0) {		
-						var newProduct = order[0].product_ids;
+						var newProduct = [order[0].product_ids];
 						newProduct.push(req.params.id);
 						Order.update({user_id: user[0]._id}, {$set: {product_ids: newProduct}}).exec();
 					} else {
