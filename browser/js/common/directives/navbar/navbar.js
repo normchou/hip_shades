@@ -30,6 +30,11 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
                    $state.go('home');
                 });
             };
+
+            scope.search = function (title) {
+                $state.go('search');
+                
+            };
             
             var setUser = function () {
                 AuthService.getLoggedInUser().then(function (user) {
