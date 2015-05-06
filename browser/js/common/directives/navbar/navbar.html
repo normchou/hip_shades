@@ -27,15 +27,15 @@
                 Sign up
         </button>
 
-        <div class='search'>
+        <form name='Search' class='search'>
             <input type="text" ng-model="criteriaObject.title" class="search-bar" placeholder="search">
 
             <button type="submit" class="btn search-button" ng-click="search(criteriaObject)">Search</button>
-        </div>
+        </form>
 
         <div ng-show="user" class="welcome">
             <span>Welcome, {{ user.email }}! </span>
-            <button ng-click="logout()" class="btn login-button">Logout</button>
+            <button type="submit" ng-click="logout()" class="btn login-button">Logout</button>
         </div>
     </div>
 </nav>
