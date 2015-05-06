@@ -75,6 +75,7 @@ router.param('id', function(req, res, next, id) {
 
 // Add to cart button - creates a temp user and order in the database  -NC
 router.post('/:id', function(req, res, next) {
+	// this is for login user
 	if (typeof(req.user) != "undefined") {
 		Order
 			.find({user_id: req.user._id})
@@ -89,14 +90,35 @@ router.post('/:id', function(req, res, next) {
 						if (err) return console.error(err);				
 					})
 				} else {
-					var newProduct = [order[0].product_ids]
-					newProduct.push(req.params.id);
+					var newProduct = order[0].products;
+					var addProduct = {
+						id: req.params.id,
+						quantity: 1
+					}
+					newProduct.push(addProduct);
+					console.log('this is req.user._id', req.user._id)
+					
 					Order
-						.update({user_id: req.user._id}, {$set: {product_ids: newProduct}})
-						.exec();					
+						.find({user_id: req.user._id})
+						.where('checked_out').equals(false)
+						.exec(function(err, data) {
+							console.log('this is error', data)
+							Order
+								.findByIdAndUpdate( data[0]._id, {$set: {products: newProduct}}, function(err, data) {
+									if (err) return console.log(err)
+									res.json(data)
+									console.log('saved product', data)
+								})		
+							
+							
+						})
+
+
+
+						
 				}
 			})
-	} else {
+	} else {		// this is for temp user
 		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
 		User.find({email: cookieId + '@temp.com'}, function(err, user) {
 

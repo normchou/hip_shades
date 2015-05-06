@@ -19,6 +19,7 @@ $scope.quantities = [1,2,3,4,5,6,7,8,9];
 
     $scope.initializeCart = function() {
         CartFactory.getCurrentUser().then(function(currentOrder) {
+
             if (currentOrder === 'undefined') {
                 console.log('nothing in cart');
             } else {
