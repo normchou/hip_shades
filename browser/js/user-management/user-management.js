@@ -20,12 +20,12 @@ app.controller('UserManagementController', function ($scope, $stateParams, $http
             $scope.users = response.data;
         })	
 
-
-	    $http.get('/api/users/' + $stateParams.userID)
+	if (!!$stateParams.userID) {
+		 $http.get('/api/users/' + $stateParams.userID)
 			.then(function (response) {
 				$scope.userItem = response.data;
-			})
-	
+		})
+	}
 
 	// this function is used when saving edits to existing users -NC 5/2/15
 	$scope.saveUser = function() {

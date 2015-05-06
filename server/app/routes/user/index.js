@@ -4,19 +4,16 @@ var mongoose = require('mongoose')
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 var Utils = require('../common/');
-var isLoggedIn = Utils.isLoggedIn;
 var isAdmin = Utils.isAdmin;
+var needAdminPrivileges = Utils.needAdminPrivileges;
+var needUserLoggedIn = Utils.needUserLoggedIn;
 
 router.use('/:id/orders', require('../order'));
 
-router.get('/', function(req, res, next) {
-	if (!isAdmin(req, res, next)) {
-		res.status(403).send('Thou shalt not pass!');
-	} else {
-			User.find({}, function(err, users) {
-			res.json(users)
-		});
-	}
+router.get('/', needAdminPrivileges, function(req, res, next) {
+	User.find({}, function(err, users) {
+		res.json(users)
+	})
 });
 
 //route to post a new user. Called from SignIn form -VA 5/2/15
@@ -67,7 +64,7 @@ router.put('/', function(req, res, next) {
 })
 
 // route to remove a user -NC 5/2/15
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', needAdminPrivileges, function(req, res, next) {
 	User.findOneAndRemove({_id: req.params.id}, function(err, user) {
 		if(err) return console.log(err);
 		console.log('removed this user', user)
@@ -109,16 +106,13 @@ router.get('/currentuser/', function(req, res, next) {
 	}
 });
 
-router.get('/:id', function(req, res, next) {
-	if (!isLoggedIn) res.status(403).send('Not logged in')
+router.get('/:id', needUserLoggedIn, function(req, res, next) {
 	res.json(req.user)
 });
 
 router.use('/:id/orders', require('../order'));
 
-router.use('/:id/allOrders', function(req, res, next) {
-	if (!isAdmin(req, res, next)) return res.status(404).send('Insufficient Permissions to view all orders. Who are you?')
-
+router.use('/:id/allOrders', needAdminPrivileges, function(req, res, next) {
 	Order.find({}).populate('user_id').exec(function (err, orders) {
 		res.json(orders)
 	})

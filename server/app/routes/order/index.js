@@ -2,15 +2,10 @@
 var router = require('express').Router();
 var mongoose = require('mongoose')
 var Order = mongoose.model('Order');
-var Utils = require('../common/');
-var isLoggedIn = Utils.isLoggedIn;
-var isAdmin = Utils.isAdmin;
+var needAdminPrivileges = require('../common/').needAdminPrivileges;
 
 // this route is /api/users/user_mongo_id/orders
-router.get('/', function(req, res, next) {
-	if (!isAdmin(req, res, next))
-		res.status(403).send('How did you get here you hacker? You shall not see any more!');
-
+router.get('/', needAdminPrivileges, function(req, res, next) {
 	var userId = req.user._id;
 
 	Order.find({user_id: userId}, function(err, data) {
@@ -60,10 +55,7 @@ router.delete('/:id/products/:product_id',function(req, res, next) {
 });
 
 // DELETE /api/users/_userID_/order/_orderID_/delete
-router.delete('/:id/delete', function (req, res, next) {
-	if (!isAdmin)
-		res.status(403).send('Thou shalt not delete an order you _underprivileged_ creature!')
-
+router.delete('/:id/delete', needAdminPrivileges, function (req, res, next) {
 	Order.findOneAndRemove({'_id': req.order._id}, function (err, order) {
 		console.log('deleting order with id = ', order._id);
 		if (err) next(err);
@@ -78,12 +70,5 @@ router.param('id', function(req, res, next, id) {
 		next()
 	});
 });
-
-// router.post('/', function(req, res, next) {
-// 	// 1. find if there is an existing cart
-// 	// 2. if there is, add to the cart
-// 	// 3. if there isn't, add to a new cart
-// 	// 4. redirect to same page
-// })
 
 module.exports = router;

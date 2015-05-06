@@ -6,6 +6,9 @@ var Product = mongoose.model('Product');
 var User = mongoose.model('User');
 var Order = mongoose.model('Order');
 var Review = mongoose.model('Review');
+var Utils = require('../common');
+var needAdminPrivileges = Utils.needAdminPrivileges;
+var needUserLoggedIn = Utils.needUserLoggedIn;
 
 router.get('/', function(req, res, next) {
 	Product.find({}, function(err, data) {
@@ -18,7 +21,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 // this route is receiving edits made to products -NC 5/2/15
-router.put('/', function(req, res, next) {
+router.put('/', needAdminPrivileges, function(req, res, next) {
 	var editProduct = req.body;
 
 	if(typeof editProduct._id === 'undefined') {
@@ -33,15 +36,17 @@ router.put('/', function(req, res, next) {
 			res.send('successfully updated')
 		})
 	}
-})
+});
 
 
 // route to remove a product -NC 5/2/15
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', needAdminPrivileges, function(req, res, next) {
+
 	Product.findOneAndRemove({_id: req.params.id}, function(err, product) {
 		if(err) return console.log(err);
 		console.log('removed this product', product)
 	})
+
 	res.send('successfully deleted')
 })
 
@@ -53,7 +58,7 @@ router.get('/:id/reviews', function(req, res, next) {
 	});
 });
 
-router.post('/:id/reviews', function(req, res, next) {
+router.post('/:id/reviews', needUserLoggedIn, function(req, res, next) {
 	// Reference schema for what is expected as the POST body.
 	var reviewData = req.body;
 
