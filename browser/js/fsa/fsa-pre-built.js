@@ -68,7 +68,6 @@
         };
 
         this.getLoggedInUser = function () {
-
             // If an authenticated session exists, we
             // return the user attached to that session
             // with a promise. This ensures that we can
@@ -86,7 +85,14 @@
 
         };
 
-        this.login = function (credentials) {
+		this.isAdmin = function() {
+			if (this.isAuthenticated())
+				return !!Session.user.admin;
+			else
+				return false;
+		}
+
+		this.login = function (credentials) {
             return $http.post('/login', credentials)
                 .then(onSuccessfulLogin)
                 .catch(function (response) {
@@ -106,7 +112,7 @@
             Session.create(data.id, data.user);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
             return data.user;
-        }
+        };
 
     });
 
