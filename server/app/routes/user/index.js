@@ -77,10 +77,11 @@ router.delete('/:id', function(req, res, next) {
 
 // this route gets the current logged in user and find the orders for the user to show in cart -NC
 router.get('/currentuser/', function(req, res, next) {
+	console.log('this is the user', req.user)
 	if (typeof (req.user) != "undefined") {
 		Order
 			.find({user_id: req.user._id})
-			.populate('product_ids')
+			.populate('products.id')
 			.exec(function (err, order) {
 				if (err) return console.log(err);
 				res.json(order)
@@ -88,18 +89,20 @@ router.get('/currentuser/', function(req, res, next) {
 	} else {
 		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
 
-		User.find({email: cookieId + '@temp.com'}, function(err, data) {
+		User.find({email: cookieId + '@temp.com'}, function(err, tempUser) {
 			if (err) {
 				return console.log(err);
-			} else if (data.length === 0) {
+			} else if (tempUser.length === 0) {
 				res.json('undefined')
 			} else {
+				console.log('else', tempUser)
 				Order
-					.find({user_id: data[0]._id})
-					.populate('product_ids')
+					.find({user_id: tempUser[0]._id})
+					.populate('products.id')
 					.exec(function(err, order) {
 					if (err) return console.log(err);
 					res.json(order);
+					console.log('this is the order', order)
 				});
 			}
 		});	
