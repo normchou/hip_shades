@@ -1,5 +1,4 @@
 'use strict';
-var app = require('express')();
 var router = require('express').Router();
 var mongoose = require('mongoose')
 var Product = mongoose.model('Product');
@@ -133,6 +132,7 @@ router.post('/:id', function(req, res, next) {
 						res.json(savedOrder);
 					}, function(err) {
 						console.error("Could not add product to order", err);
+						res.json(err);
 				 	});
 				}
 			})

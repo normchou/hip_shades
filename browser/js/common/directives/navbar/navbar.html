@@ -35,7 +35,8 @@
         </button>
 
         <form name='Search' class='search'>
-            <input type="search" ng-submit="search(criteriaObject)"placeholder="Search">
+            <input type="search" ng-model="navSearchString"placeholder="Search">
+            <input type="submit" ng-click="search()"style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
         </form>
 
         <div ng-show="user" class="welcome">
