@@ -1,14 +1,85 @@
 
 <div class="container">
-    <h2>Search our Sunglasses</h2><br>
+    <h2>Search our Sunglasses</h2>
+    <br>
     <div class="row">
-        <div class="col-md-4">
-            <h4>Search Bar</h4> 
+        <div class="col-md-4 search-panel">
+            <h4>Refine by</h4>
 
+     <!--        <div>
+                <span>1-16 of 102 results for </span>
+            </div> -->
+
+            <h6>Title/Keywords</h6>
+            <input type="search" ng-model="paramObj.keywords"placeholder="Search">
+            <br>
+            <h6>Category</h6>
+            <label ng-repeat="category in panelOptions.categories">
+                <input  type="checkbox"
+                        value="{{category}}"
+                        ng-checked="paramObj.categories.indexOf(category) > -1"
+                        ng-click="toggleSelection(paramObj.categories, category)"
+                 > {{category}}
+            </label>
+            <br>
+            <h6>Brand</h6>
+            <label ng-repeat="brand in panelOptions.brands">
+                <input  type="checkbox"
+                        value="{{brand}}"
+                        ng-checked="paramObj.brands.indexOf(brand) > -1"
+                        ng-click="toggleSelection(paramObj.brands, brand)"
+                 > {{brand}}
+            <br/></label>
+            <br>
             <h6>Gender</h6>
-            
+                <label>
+                    <input type="radio" ng-model="paramObj.gender" value="men">
+                    Men
+                </label><br/>
+                <label>
+                    <input type="radio" ng-model="paramObj.gender" value="women">
+                    Women
+                </label><br/>
+                <label>
+                    <input type="radio" ng-model="paramObj.gender" value="">
+                    Both
+                </label>
+            <br>
+            <h6>Price</h6>
 
-            <a class="btn btn-primary btn-lg" ng-click="initializeSearch(criteriaObject)" role="button" style="float: right">Search</a>
+                <p>Between</p>
+                <select data-ng-options="p for p in minPriceRanges" data-ng-model="paramObj.priceRange.min"></select>
+                
+                <p>and</p>
+
+                <select data-ng-options="p for p in maxPriceRanges" data-ng-model="paramObj.priceRange.max"></select>
+
+            <br>
+            <h6>Avg. Customer Review</h6>
+                <label>
+                    <input type="radio" ng-model="paramObj.avgStars" value="">
+                    Any range
+                </label><br/>
+                <label>
+                    <input type="radio" ng-model="paramObj.avgStars" value="1">
+                    1 Star & Up
+                </label><br/>
+                <label>
+                    <input type="radio" ng-model="paramObj.avgStars" value="2">
+                    2 Stars & Up
+                </label><br/>
+                <label>
+                    <input type="radio" ng-model="paramObj.avgStars" value="3">
+                    3 Stars & Up 
+                </label><br/>
+                <label>
+                    <input type="radio" ng-model="paramObj.avgStars" value="4">
+                    4 Stars & Up 
+                </label><br/>
+            <br>
+
+            <a class="btn btn-primary btn-lg" ng-click="initializeSearch()" role="button">Search</a>
+            <a class="btn btn-primary btn-lg" ng-click="resetParams()" role="button">Reset</a>
         </div>
         <div class="col-md-8">
             <h4>Results</h4>
@@ -18,9 +89,9 @@
             'other': '{{searchResults.length}} results '}">
             </ng-pluralize> in your search.</span>
             <table class="table">
-                <div ng-repeat="product in orderData"></div>
-
-                    
+                <div ng-repeat="product in orderData">
+                    <span>{{product}}</span>
+                </div>
             </table>
         </div>
         <br>

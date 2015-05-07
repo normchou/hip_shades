@@ -29,6 +29,9 @@ var productSchema = new mongoose.Schema({
 	categories: {
 		type: [String]
 	},
+	brands: {
+		type: [String]
+	},
 	imageURL: {
 		type: [String]
 	},
@@ -50,6 +53,10 @@ productSchema.statics.getByCategory = function(cat) {
 	return this.find({categories: {"$in": [cat]}}).exec();
 }
 
+productSchema.statics.getByBrand = function(cat) {
+	return this.find({brands: {"$in": [cat]}}).exec();
+}
+
 // grabs all categories, but very inneficent. Will have to make a category
 // model & collection later.
 productSchema.statics.getAllCategories = function() {
@@ -66,6 +73,23 @@ productSchema.statics.getAllCategories = function() {
 		});
 
 		return categories;
+	});
+}
+
+productSchema.statics.getAllBrands = function() {
+	return q.ninvoke(Product, 'find', {}).then(function(products) {
+		var brands = [];
+		products.forEach(function(element) {
+
+			element.brands.forEach(function(brand) {
+				if (brands.indexOf(brand) === -1) {
+					brands.push(brand);
+				}
+			});
+
+		});
+
+		return brands;
 	});
 }
 
