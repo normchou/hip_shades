@@ -10,7 +10,7 @@
   "engines": {
 	    "node": "0.10.x",
 		"npm": "2.1.x"
-	}
+	},
   "dependencies": {
     "babel": "^5.0.12",
     "body-parser": "^1.12.0",
