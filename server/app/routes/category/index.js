@@ -9,8 +9,8 @@ router.get('/', function(req, res, next) {
 	});
 });
 
-router.get('/:categoryName', function(req, res, next) {
-	Product.getByCategory(req.params.categoryName)
+router.get('/:category', function(req, res, next) {
+	Product.getByCategory(req.params.category)
 		.then(function(data) {
 			res.json(data);
 		});
