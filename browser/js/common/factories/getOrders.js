@@ -29,6 +29,7 @@ app.factory('Orders', function (AuthService, $http) {
 			})
 	};
 
+
     return {
         getAllOrders: getAllOrders,
 		deleteOrder: deleteOrder
