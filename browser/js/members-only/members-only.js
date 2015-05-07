@@ -25,7 +25,7 @@ app.controller('MemberController', function($scope, $http, SecretStash, orders, 
                 $scope.stash = stash;
             });
      
-     $scope.order = orders
+     $scope.order = orders;
 
 
     console.log('calling controller', AuthService.getLoggedInUser().then(function(data) {return data}))
