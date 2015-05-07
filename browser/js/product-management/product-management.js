@@ -36,11 +36,11 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 		// console.log('this is root scope', $rootScope.productItem)
 
 		// $rootScope.products.push($scope.productItem)
-		console.log('yooooooo')
-		// $http.put('/api/products', $scope.productItem)
-		// 	.then(function (response) {
-		// 		console.log(response.data);
-		// 	})
+		console.log('hello')
+		$http.put('/api/products', $scope.productItem)
+			.then(function (response) {
+				console.log(response.data);
+			})
 	};
 
 	// removes a product -NC 5/2/15
