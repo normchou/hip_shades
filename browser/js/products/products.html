@@ -1,37 +1,42 @@
 <div class="col-xs-3">   
-
+    <!-- menu of products -->
+<!--     <h1>Sunglasses</h1>
+    <div class="row padded">
+        <div class="list-group">
+            <a class="list-group-item"
+                ng-repeat="product in products"
+                ng-class="{active: item.selected}"
+                ui-sref="products.item({productID: product._id})">
+                {{product.title}}
+            </a>
+        </div>
+    </div>
+ -->
     <!-- category: male or female -->
-    <div>
-        <div    class="btn btn-link btn-lg"
-                type="button" 
-                ng-repeat="gender in genders"
-                ng-class="{active: gender.selected}"
-                ui-sref="products.categories({productCategory: gender})">
-                shop for {{gender}}  
+    <div class="row padded">
+        <div class="list-group">
+            <a class="list-group-item"
+                ng-repeat="product in products"
+                ng-class="{active: item.selected}"
+                ui-sref="products.categories({productCategory: product.categories[1]})">
+                shop for {{product.categories[1]}}
+            </a>
         </div>
     </div>
 
 
     <!-- menu of brands -->
-    <button class="btn btn-link btn-lg"
-            type="button" 
-            data-toggle="collapse" 
-            data-target="#collapseExample" 
-            aria-expanded="false" 
-            aria-controls="collapseExample">
-            Brands
-    </button>
-    <div class="collapse list-group" id="collapseExample">
-        <div class="btn btn-link list-group-item"
-                id="collapseExample"
-                ng-repeat="brand in brands"
-                ng-class="{active: product.selected}"
-                ui-sref="products.categories({productCategory: brand})">
-                {{brand}}  
+    <h2>Brands</h2>
+    <div class="row padded">
+        <div class="list-group">
+            <a class="list-group-item"
+                ng-repeat="product in products"
+                ng-class="{active: item.selected}"
+                ui-sref="products.categories({productCategory: product.categories[0]})">
+                {{ product.categories[0] }}
+            </a>
         </div>
     </div>
-
 </div>
-
 
 <div ui-view class="col-xs-8"></div>

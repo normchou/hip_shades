@@ -25,17 +25,7 @@ app.controller('ProductsController', function ($scope, $stateParams, $http) {
 	$http.get('/api/products')
         .then(function (response) {
             $scope.products = response.data;
-            return $scope.products
         })	
-        
-
-
-    $scope.genders = ['women', 'men'];
-    $scope.brands = ['Oakley', 'Prada', 'Ray-Ban'];
-
-
-
-
 
    	if($stateParams.productCategory) {
 		// request to get list of categories - NC 4/26/2015
