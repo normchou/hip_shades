@@ -5,8 +5,12 @@
   "main": "server/start.js",
   "scripts": {
     "start": "nodemon server/start.js",
-    "postinstall": "./node_modules/bower/bin/bower install && gulp build"
+    "postinstall": "./node_modules/bower/bin/bower install && gulp build &&  node seed.js"
   },
+  "engines": {
+	    "node": "0.10.x",
+		"npm": "2.1.x"
+	}
   "dependencies": {
     "babel": "^5.0.12",
     "body-parser": "^1.12.0",
