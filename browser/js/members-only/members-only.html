@@ -27,13 +27,13 @@
                     <th>Order Status</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="product in products">
+                    <tr ng-repeat="order in orders">
                         <td><img src={{product.imageURL[0]}} width="50px"></td>
                         <td>{{product.title}}</td>
                         <td>{{product.description}}</td>
                         <td>{{product.price | currency}}</td>
-                        <td>{{product.stock}}</td>				
-                        <td>{{product.categories}}</td>
+                        <td>{{(order.products | filter: query).length}}</td>				
+                        <td>{{order.checked_out}}</td>
                     </tr>                    
                 </tbody>
             </table>
