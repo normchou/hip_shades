@@ -28,9 +28,7 @@
         </button>
 
         <form name='Search' class='search'>
-            <input type="text" ng-model="criteriaObject.title" class="search-bar" placeholder="search">
-
-            <button type="submit" class="btn search-button" ng-click="search(criteriaObject)">Search</button>
+            <input type="search" ng-submit="search(criteriaObject)"placeholder="Search">
         </form>
 
         <div ng-show="user" class="welcome">

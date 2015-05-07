@@ -1,3 +1,5 @@
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+
 navbar {
 
   display: block;
@@ -31,14 +33,20 @@ navbar {
   }
 
 .search {
-  .search-bar {
-    margin: 10px;
-    text-align: center;
-    line-height: 25px;
+  input {
+    outline: none;
   }
 
-  .search-button {
-
+  input[type=search] {
+    background: #ededed url(./search-icon.png) no-repeat 9px center;
+    border: solid 1px #ccc;
+    padding: 5px 10px 5px 32px;
+    width: 175px;
+    margin: 10px;
+    
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
   }
 }
 
