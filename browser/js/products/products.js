@@ -19,56 +19,31 @@ app.config(function ($stateProvider) {
 	        
 });
 
-app.controller('ProductsController', function ($scope, $stateParams, $http) { 
+app.controller('ProductsController', function ($scope, $stateParams, $http, ProductFactory) { 
 
-	// request to get list of products - NC 4/26/2015
-	$http.get('/api/products')
-        .then(function (response) {
-            $scope.products = response.data;
-            return $scope.products
-        })	
-        
+	$scope.genders = ['women', 'men'];
+	$scope.brands = ['Oakleys', 'Prada', 'Ray-Ban'];
 
-
-    $scope.genders = ['women', 'men'];
-    $scope.brands = ['Oakley', 'Prada', 'Ray-Ban'];
-
-
-
-
-
-   	if($stateParams.productCategory) {
-		// request to get list of categories - NC 4/26/2015
-		$http.get('/api/categories/' + $stateParams.productCategory)
-			.then(function (response) {
-				$scope.productCategory = response.data;
-			})
+   	if ($stateParams.productCategory) {
+		ProductFactory.productCategory($stateParams.productCategory).then(function(category) {
+			$scope.productCategory = category;
+		})
 	}
+	
+	if ($stateParams.productID) {
+		ProductFactory.productReviews($stateParams.productID).then(function(reviews) {
+			$scope.productReviews = reviews;
+		})
+		ProductFactory.productItem($stateParams.productID).then(function(item) {
+			$scope.productItem = item;
+		});		
+	};
 
-	if($stateParams.productID) {
-		// request to get product reviews - NC 4/26/2015
-		$http.get('/api/products/' + $stateParams.productID + '/reviews')
-			.then(function (response) {
-				$scope.productReviews = response.data
-			})
-	    // request to get single product - NC 4/26/2015
-	    $http.get('/api/products/' + $stateParams.productID)
-			.then(function (response) {
-				$scope.productItem = response.data;
-			})
-	}
-
-
-	// console.log('this is the logged in user', AuthService.getLoggedInUser())
-
-	// function to add an order to database - NC 4/26/2015
 	$scope.createOrder = function(id) {
-		// AuthService.getLoggedInUser().then(function(data) {console.log(data._id)})  // this gives me the logged in user
-		$http.post('/api/products/' + id)
-			.then(function (response) {
-				console.log('successfully posted', response.data)
-			})
+		ProductFactory.createOrder(id);
 	}
+
+
 
 	$scope.reviewItem = {
 	      user_id: null,

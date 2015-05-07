@@ -5,9 +5,6 @@ app.factory('Orders', function (AuthService, $http) {
 	// get all orders by admin
     var getAllOrders = function () {
 		return AuthService.getLoggedInUser().then(function(data) {
-
-			console.log('passed auth')
-
 			var url = '/api/users/' + data._id + '/allOrders';
 	        return $http.get(url)
 		})
@@ -31,6 +28,7 @@ app.factory('Orders', function (AuthService, $http) {
 				return err
 			})
 	};
+
 
     return {
         getAllOrders: getAllOrders,

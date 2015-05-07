@@ -13,7 +13,7 @@
                     {{ item.label }}
                 </a>
             </li>
-            <li ng-repeat="item in items2"
+            <li ng-repeat="item in adminItems" 
                 ng-show="!item.admin || isAdmin()">
                 <a  ui-sref-active="active" 
                     ui-sref="{{ item.state }}">

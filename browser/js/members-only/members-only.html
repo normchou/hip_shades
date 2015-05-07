@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Welcome {{ order.user_id.first_name }}</h2>
+    <h2>Welcome {{ user.email }}</h2>
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   		<div class="modal-dialog modal-lg">
     		<ui-view></ui-view>
@@ -10,8 +10,8 @@
                 class="btn btn-default btn-xs" 
                 data-toggle="modal" 
                 data-target=".bs-example-modal-lg" 
-                ui-sref="productMgt.edit({productID: product._id})">
-                Edit Profile
+                ui-sref="membersOnly.edit({userID: user._id})">
+                Edit Profile //does work
         </button>
     </div>
     <br>
@@ -27,20 +27,19 @@
                     <th>Order Status</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="product in products">
-                        <td><img src={{product.imageURL[0]}} width="50px"></td>
-                        <td>{{product.title}}</td>
-                        <td>{{product.description}}</td>
-                        <td>{{product.price | currency}}</td>
-                        <td>{{product.stock}}</td>				
-                        <td>{{product.categories}}</td>
-                    </tr>                    
+                    <tr ng-repeat="product in order.products">
+                        <td><img src={{product.id.imageURL[0]}} width="50px"></td>
+                        <td>{{product.id.title}}</td>
+                        <td>{{product.id.price | currency}}</td>
+                        <td>{{product.quantity}}</td>
+                        <td>{{order.checked_out | orderStatus}}</td>
+                    </tr>        
                 </tbody>
             </table>
         </div>
     </div>
 
-    <h3>Past Orders</h3>
+    <!-- <h3>Past Orders</h3>
     <div class="row">
         <div class="col-md-12">
             <table class="table table-striped">
@@ -63,5 +62,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> -->
 

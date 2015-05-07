@@ -13,37 +13,22 @@ app.config(function ($stateProvider) {
 	    })
 });
 
-app.controller('ProductManagementController', function ($scope, $stateParams, $http) { 
+app.controller('ProductManagementController', function ($scope, $stateParams, $http, ProductFactory) { 
 
-
-	$http.get('/api/products')
-        .then(function (response) {
-            $scope.products = response.data;
-            return $scope.products;
-        })	
-
-
-	if($stateParams.productID) {
-	    $http.get('/api/products/' + $stateParams.productID)
-			.then(function (response) {
-				$scope.productItem = response.data;
-			})
+	ProductFactory.products().then(function(product) {
+			$scope.products = product;
+	})
+	
+	if ($stateParams.productID) {
+		ProductFactory.productItem($stateParams.productID).then(function(item) {
+			$scope.productItem = item;
+		});	
 	}
 
-
-	// this function is used when saving edits to existing products -NC 5/2/15
 	$scope.saveProduct = function() {
-		// console.log('this is root scope', $rootScope.productItem)
-
-		// $rootScope.products.push($scope.productItem)
-		console.log('yooooooo')
-		// $http.put('/api/products', $scope.productItem)
-		// 	.then(function (response) {
-		// 		console.log(response.data);
-		// 	})
+		ProductFactory.saveProduct($scope.productItem)
 	};
 
-	// removes a product -NC 5/2/15
 	$scope.removeProduct = function(product) {
 		$scope.products.forEach( function(scopeProduct) {
 			if (product._id === scopeProduct._id ) {
@@ -51,13 +36,8 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 				return $scope.products.splice(index, 1);
 			}
 		});
-
-		$http.delete('/api/products/' + product._id)
-			.then(function (response) {
-				console.log(response.data);
-			})
+		ProductFactory.removeProduct(product._id)
 	}
-
 
 })
 
