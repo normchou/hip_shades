@@ -21,6 +21,8 @@ app.config(function ($stateProvider) {
 
 app.controller('MemberController', function($scope, $http, SecretStash, orders, AuthService) {
      
+     console.log('member controller hit')
+
      SecretStash.getStash().then(function (stash) {
                 $scope.stash = stash;
             });

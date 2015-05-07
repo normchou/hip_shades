@@ -108,7 +108,14 @@ router.get('/:id', needUserLoggedIn, function(req, res, next) {
 	res.json(req.user)
 });
 
-router.use('/:id/allOrders', needAdminPrivileges, function(req, res, next) {
+
+router.use('/:id/allAdminOrders', needAdminPrivileges, function(req, res, next) {	// made change here to /:id/allAdminOrders
+	Order.find({}).populate('user_id').exec(function (err, orders) {
+		res.json(orders)
+	})
+})
+
+router.use('/:id/allOrders', needUserLoggedIn, function(req, res, next) {	// added this 
 	Order.find({}).populate('user_id').exec(function (err, orders) {
 		res.json(orders)
 	})
