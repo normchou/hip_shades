@@ -22,7 +22,7 @@ app.config(function ($stateProvider) {
 app.controller('ProductsController', function ($scope, $stateParams, $http, ProductFactory) { 
 
 	$scope.genders = ['women', 'men'];
-	$scope.brands = ['Oakleys', 'Prada', 'Ray-Ban'];
+	$scope.brands = ['Oakley', 'Prada', 'Ray-Ban'];
 
    	if ($stateParams.productCategory) {
 		ProductFactory.productCategory($stateParams.productCategory).then(function(category) {
