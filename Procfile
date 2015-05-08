@@ -1,1 +1,1 @@
-web: node server/start.js
+web: NODE_ENV='production' node server/start.js
