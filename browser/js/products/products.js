@@ -43,6 +43,14 @@ app.controller('ProductsController', function ($scope, $stateParams, $http, Prod
 		ProductFactory.createOrder(id);
 	}
 
+	$scope.outOfStock = function(stock) {
+		if (stock > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 
 	$scope.reviewItem = {

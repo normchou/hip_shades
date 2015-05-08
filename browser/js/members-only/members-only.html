@@ -11,7 +11,7 @@
                 data-toggle="modal" 
                 data-target=".bs-example-modal-lg" 
                 ui-sref="membersOnly.edit({userID: user._id})">
-                Edit Profile //does work
+                Edit Profile
         </button>
     </div>
     <br>
@@ -25,6 +25,7 @@
                     <th>Subtotal</th>
                     <th>Quantity</th>
                     <th>Order Status</th>
+                    <th>Leave a Review</th>
                 </thead>
                 <tbody>
                     <tr ng-repeat="product in order.products">
@@ -33,34 +34,19 @@
                         <td>{{product.id.price | currency}}</td>
                         <td>{{product.quantity}}</td>
                         <td>{{order.checked_out | orderStatus}}</td>
+                        <td>
+                            <button type="button" 
+                                    class="btn btn-default btn-xs" 
+                                    data-toggle="modal" 
+                                    data-target=".bs-example-modal-lg" 
+                                    ui-sref="membersOnly.review({productID: product.id._id})">
+                                    Add a Review
+                            </button>
+                        </td>
                     </tr>        
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- <h3>Past Orders</h3>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <th>Thumbnail</th>
-                    <th>Product</th>
-                    <th>Subtotal</th>
-                    <th>Quantity</th>
-                    <th>Order Status</th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="product in products">
-                        <td><img src={{product.imageURL[0]}} width="50px"></td>
-                        <td>{{product.title}}</td>
-                        <td>{{product.description}}</td>
-                        <td>{{product.price | currency}}</td>
-                        <td>{{product.stock}}</td>				
-                        <td>{{product.categories}}</td>
-                    </tr>                    
-                </tbody>
-            </table>
-        </div>
-    </div> -->
 
