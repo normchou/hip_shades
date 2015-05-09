@@ -6,7 +6,8 @@
                 type="button" 
                 ng-repeat="gender in genders"
                 ng-class="{active: gender.selected}"
-                ui-sref="products.categories({productCategory: gender})">
+                ui-sref="products.categories({productCategory: gender})"
+                ng-click="hideCarousel()">
                 Shop for {{gender}} 
         </div>
     </div>
@@ -26,12 +27,55 @@
                 id="collapseExample"
                 ng-repeat="brand in brands"
                 ng-class="{active: product.selected}"
-                ui-sref="products.categories({productCategory: brand})">
+                ui-sref="products.categories({productCategory: brand})"
+                ng-click="hideCarousel()">
                 {{brand}}  
         </div>
     </div>
 
 </div>
 
+<div class="col-md-9" ng-show="showCarousel">
+
+
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+         <!-- this is static and will need to make changes to it -->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <a href="http://localhost:1337/554e1d01c663c62704b134fe">
+                    <img src="/product_images/wayfarer/image1.jpeg">
+                    <div class="carousel-caption">
+                        <h4>Special of the month</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#">
+                    <img src="/product_images/frogskin/image1.jpeg">
+                    <div class="carousel-caption">
+                        <h4>Best selling of the month</h4>
+                    </div>
+                </a>
+          </div>
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+    </div>
+</div>
 
 <div ui-view class="col-xs-10"></div>
