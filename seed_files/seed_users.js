@@ -22,8 +22,8 @@ var seedUsers = function () {
 			admin: true
         },
         {
-            first_name: 'barak',
-            last_name: 'obama',
+            first_name: 'Barak',
+            last_name: 'Obama',
             email: 'obama@gmail.com',
             password: 'potus',
             street: '1600 Penn ave',
@@ -31,15 +31,15 @@ var seedUsers = function () {
             country: 'US'
         },
         {
-            first_name: 'max',
-            last_name: 'kayan',
+            first_name: 'Max',
+            last_name: 'Kayan',
             email: 'max@gmail.com',
             password: 'mathematicalMax',
             admin: true
         },
         {
-            first_name: 'victor',
-            last_name: 'atteh',
+            first_name: 'Victor',
+            last_name: 'Atteh',
             email: 'victor@gmail.com',
             password: 'victoriousVictor',
             admin: true,
@@ -47,7 +47,71 @@ var seedUsers = function () {
             street: '123 fake st',
             state: 'CT',
             country: 'US'
+        },
+        {
+            first_name: 'Jon',
+            last_name: 'Doe',
+            email: 'jon@gmail.com',
+            password: 'password',
+            street: '124 fake ave',
+            state: 'AZ',
+            country: 'US'
+        },
+        {
+            first_name: 'Taylor',
+            last_name: 'Miller',
+            email: 'taylor@gmail.com',
+            password: 'password',
+            street: '124 fake lane',
+            state: 'CT',
+            country: 'US'
+        },
+        {
+            first_name: 'Allen',
+            last_name: 'Wilson',
+            email: 'allen@gmail.com',
+            password: 'password',
+            street: '124 fake drive',
+            state: 'CA',
+            country: 'US'
+        },
+        {
+            first_name: 'Scott',
+            last_name: 'Harris',
+            email: 'scott@gmail.com',
+            password: 'password',
+            street: '124 fake street',
+            state: 'WA',
+            country: 'US'
+        },
+        {
+            first_name: 'Murph',
+            last_name: 'Carter',
+            email: 'murph@gmail.com',
+            password: 'password',
+            street: '124 fake place',
+            state: 'NY',
+            country: 'US'
+        },
+        {
+            first_name: 'Kelly',
+            last_name: 'Stewart',
+            email: 'kelly@gmail.com',
+            password: 'password',
+            street: '128 fake lane',
+            state: 'FL',
+            country: 'US'
+        },
+        {
+            first_name: 'Kim',
+            last_name: 'Hamilton',
+            email: 'kim@gmail.com',
+            password: 'password',
+            street: '138 fake drive',
+            state: 'FL',
+            country: 'US'
         }
+
 
     ];
 
