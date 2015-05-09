@@ -72,17 +72,28 @@
 
             <a class="btn btn-primary btn-lg" ng-click="initializeSearch()" role="button">Search</a>
             <a class="btn btn-primary btn-lg" ng-click="resetParams()" role="button">Reset</a>
+            <br>
+            <br>
         </div>
         <div class="col-md-8">
             <h4>Results</h4>
-            <br><br>
             <span><ng-pluralize count="searchResults.length"
             when="{'1': '1 result ',
             'other': '{{searchResults.length}} results '}">
             </ng-pluralize> in your search.</span>
+            <br>
             <table class="table">
-                <div ng-repeat="product in orderData">
-                    <span>{{product}}</span>
+                <div ng-repeat="product in searchResults">
+                    <div class="col-md-4 search-image">
+                        <img src="{{ product.populatedDoc.imageURL[0] }}" class="img-thumbnail" style="margin-top: 25%"> 
+                    </div>
+                    <div class="col-md-8">
+                        <h4>{{ product.populatedDoc.title }}</h4>
+                        <p>{{ product.populatedDoc.description }}</p>
+                        <p>${{ product.populatedDoc.price }}</p>
+                        <p> Average Stars: {{ product.avgStars }}</p>
+                    </div>
+                    
                 </div>
             </table>
         </div>

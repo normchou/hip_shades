@@ -127,7 +127,7 @@ productSchema.methods.averageStars = function () {
 
 			var averageStars = sum / reviews.length;
 
-			return {product: that, averageStars: averageStars};
+			return {populatedDoc: that, avgStars: averageStars};
 		});
 }
 

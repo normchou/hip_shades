@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 	Product.find(queryObjects.initialQueryObj).exec().then(function(products) {
 		var promises = [];
 
+		//averageStars() is async
 		products.forEach(function(elem) {
 			promises.push(elem.averageStars());
 		});
@@ -23,16 +24,15 @@ router.get('/', function(req, res, next) {
 		
 		var filtered = products;
 
-		// console.log(filtered);
 		if (queryObjects.secondQueryObj.avgStars) {
 			filtered = filtered.filter(function(elem) {
-				return elem.averageStars >= queryObjects.secondQueryObj.avgStars;
+				return elem.avgStars >= queryObjects.secondQueryObj.avgStars;
 			});
 		}
 
 		if (queryObjects.secondQueryObj.gender) {
 			filtered = filtered.filter(function(elem) {
-				return elem.product.categories.indexOf(queryObjects.secondQueryObj.gender) > 0;
+				return elem.populatedDoc.categories.indexOf(queryObjects.secondQueryObj.gender) > 0;
 			});
 		}	
 

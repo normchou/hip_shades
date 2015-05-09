@@ -16,7 +16,7 @@ app.config(function ($stateProvider){
 app.controller('SearchController', function($scope, $stateParams, SearchFactory) {
 	$scope.brands = [];
     $scope.paramObj = {};
-    $scope.searchResults = {};
+    $scope.searchResults = [];
 
     $scope.minPriceRanges = [   
         {text:'$0', value: ''},
