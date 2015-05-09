@@ -10,8 +10,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         templateUrl: 'js/common/directives/navbar/navbar.html',
         link: function (scope) {
             scope.items = [
-                { label: 'Home', state: 'home' },
-                { label: 'Products', state: 'products' },
+                { label: 'Home', state: 'products' },
                 { label: 'Cart', state: 'cart'},
                 { label: 'User Settings', state: 'membersOnly', auth: true}
             ];

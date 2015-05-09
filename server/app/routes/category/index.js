@@ -10,10 +10,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:category', function(req, res, next) {
-	Product.getByCategory(req.params.category)
-		.then(function(data) {
-			res.json(data);
-		});
+	console.log(req.params.category);
+
+	if (req.params.category === 'Men' || req.params.category === 'Women') {
+		Product.getByGender(req.params.category.toLowerCase())
+			.then(function(data) {
+				res.json(data);
+			});
+	} else {
+		Product.getByCategory(req.params.category)
+			.then(function(data) {
+				res.json(data);
+			});
+	}
 });
 
 module.exports = router;

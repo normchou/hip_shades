@@ -10,8 +10,8 @@ app.factory('ProductFactory', function ($http) {
 
 		productCategory: function(category) {
 			return $http.get('/api/categories/' + category).then(function (response) {
-							return response.data;
-						})
+				return response.data;
+			})
 		},
 
 		productReviews: function(id) {
@@ -36,6 +36,18 @@ app.factory('ProductFactory', function ($http) {
 
 		removeProduct: function(id) {
 			return $http.delete('/api/products/' + id)
+		},
+
+		getBrands: function() {
+			return $http.get('/api/categories/').then(function (response) {
+				return response.data;
+			})
+		},
+
+		submitReview: function(productID, review) {
+			return $http.post('/api/products/' + productID + '/reviews', review).then(function (response) {
+				return response.data;
+			});
 		}
 
 	}

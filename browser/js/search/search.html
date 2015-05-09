@@ -7,9 +7,10 @@
             <h4>Refine by</h4>
             <form name='searchForm' ng-submit='initializeSearch()'>
                 <h6>Title</h6>
-
-                <input type="search" ng-model="paramObj.title"placeholder="Search">
                 <br>
+
+                <input type="search" class="form-control" ng-model="paramObj.title"placeholder="Search">
+
                 <br>
                 <h6>Brands</h6>
                 <label ng-repeat="brand in brands">
@@ -81,21 +82,18 @@
             </ng-pluralize> in your search.</span>
             <br>
             <table class="table">
-                <div ng-repeat="product in searchResults">
-                    
-                        <div class="col-md-4 search-image">
-                            <a ui-sref="products.item({productID: product.populatedDoc._id})">
-                            <img src="{{ product.populatedDoc.imageURL[0] }}" class="img-thumbnail" style="margin-top: 25%"> 
-                        </a>
-                        </div>
-                        <div class="col-md-8">
-                            <h4><a ui-sref="products.item({productID: product.populatedDoc._id})">{{ product.populatedDoc.title }}</a></h4>
-                            <p>{{ product.populatedDoc.description }}</p>
-                            <p>${{ product.populatedDoc.price }}</p>
-                            <p> Average Stars: {{ product.avgStars }}</p>
-                        </div>
-
-                    
+                <div ng-repeat="product in searchResults" style="height: 250px">
+                    <div class="col-md-4 search-image">
+                        <a ui-sref="products.item({productID: product.populatedDoc._id})">
+                        <img src="{{ product.populatedDoc.imageURL[0] }}" class="img-thumbnail" style="margin-top: 20%"> 
+                    </a>
+                    </div>
+                    <div class="col-md-8">
+                        <h4><a ui-sref="products.item({productID: product.populatedDoc._id})">{{ product.populatedDoc.title }}</a></h4>
+                        <p>{{ product.populatedDoc.description }}</p>
+                        <p>{{ product.populatedDoc.price | currency }}</p>
+                        <p> Average Stars: <rating ng-model="product.avgStars" max="5" readonly="true"></rating></p>
+                    </div>                    
                 </div>
             </table>
         </div>

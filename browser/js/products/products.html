@@ -7,8 +7,8 @@
                 ng-repeat="gender in genders"
                 ng-class="{active: gender.selected}"
                 ui-sref="products.categories({productCategory: gender})"
-                ng-click="hideCaraousel">
-                shop for {{gender}}  
+                ng-click="hideCarousel()">
+                Shop for {{gender}} 
         </div>
     </div>
 
@@ -20,7 +20,7 @@
             data-target="#collapseExample" 
             aria-expanded="false" 
             aria-controls="collapseExample">
-            Brands
+            Shop by Brand
     </button>
     <div class="collapse list-group" id="collapseExample">
         <div class="btn btn-link list-group-item"
@@ -28,14 +28,21 @@
                 ng-repeat="brand in brands"
                 ng-class="{active: product.selected}"
                 ui-sref="products.categories({productCategory: brand})"
-                ng-click="hideCaraousel">
+                ng-click="hideCarousel()">
                 {{brand}}  
         </div>
     </div>
 
 </div>
 
-<div class="col-md-9" ng-show="true">
+<div class="col-md-9" ng-show="showCarousel">
+
+<!--     <carousel interval="5000">
+        <slide active="slide.active">
+            <img src="/product_images/pulse/image1.jpeg" class="img-thumbnail" style="margin:auto;">
+        </slide>
+    </carousel> -->
+
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
