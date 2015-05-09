@@ -12,7 +12,8 @@ module.exports = function (app) {
     var browserPath = path.join(root, './browser');
 
 	console.log('root = ', root);
-	fs.readFile('/jquery/dist/jquery.js', function (err, data) {
+	console.log('bowerPath = ', bowerPath);
+	fs.readFile(path.join(bowerPath, '/jquery/dist/jquery.js'), function (err, data) {
 		if (err) console.log(err);
 		console.log('Jquery file = ', data);
 	});
