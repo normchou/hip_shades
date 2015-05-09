@@ -16,6 +16,12 @@ describe('Product model', function () {
         mongoose.connect(dbURI, done);
     });
 
+    var product;
+    beforeEach(function() {
+        product = new Product();
+    });
+
+
     afterEach('Clear test database', function (done) {
         clearDB(done);
     });
@@ -24,18 +30,52 @@ describe('Product model', function () {
         expect(Product).to.be.a('function');
     });
 
-    describe('Product Model Schema Validation', function () {
+    describe('Validation', function () {
+        it('should be required', function(done) {
+            product.validate(function(err) {
+                expect(err.errors.title.type).to.equal('required')
+                done();
+            })
+        })
+    })
 
-        describe('title schema', function () {
-
-            it('should be', function () {
-                expect(Product.title).to.be.a('undefined');
+    describe('Statics', function() {
+        describe('getByGender', function() {          
+            beforeEach(function(done) {
+                Product.create({
+                    title: 'Shades',
+                    price: 100,
+                    gender: 'men',
+                    stock: 20
+                }, done)
             });
-
-            // it('should return a random string basically', function () {
-            //     expect(User.generateSalt()).to.be.a('string');
-            // });
-
-        });
+            it('should get product with gender match', function(done) {
+                Product.getByGender('men', function(err, data) {
+                    expect(data).to.have.lengthOf(1);
+                    done();
+                })
+            })
+        
+        })
     });
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
