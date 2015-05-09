@@ -14,63 +14,73 @@ app.config(function ($stateProvider){
 
 
 app.controller('SearchController', function($scope, $stateParams, SearchFactory) {
-	$scope.panelOptions = { 
-        categories: [], 
-        brands: []
-    };
-
+	$scope.brands = [];
     $scope.paramObj = {};
+    $scope.searchResults = [];
 
-    $scope.searchResults = {};
+    $scope.minPriceRanges = [   
+        {text:'$0', value: ''},
+        {text:'$50', value: 50.00},
+        {text:'$100', value: 100.00},
+        {text:'$150', value: 150.00}
+    ];
 
-    $scope.minPriceRanges = ['$0','$50','$100','$150'];
-    $scope.maxPriceRanges = ['$50','$100','$150','$200 and over'];
+    $scope.maxPriceRanges = [
+        {text:'$50', value: 50.00},
+        {text:'$100', value: 100.00},
+        {text:'$150', value: 150.00},
+        {text:'$200 and over', value: ''}
+    ];
 
     function setParamObj() {
         $scope.paramObj = { 
-            keywords: '',
-            categories: [],
+            title: '',
             brands: [],
             gender: '',
-            priceRange: {min: '$0', max: '$200 and over'},
+            priceRange: {min: '', max: ''},
             avgStars: '' 
         };
-    }
+    };
 
     $scope.getPanelData = function() {
-        SearchFactory.getSearchPanelData().then(function(data) {
-            $scope.panelOptions.categories = data.categories;
-            $scope.panelOptions.brands = data.brands;
+        SearchFactory.getBrands().then(function(brands) {
+            $scope.brands = brands;
         }).catch(function(err) {
             console.error(err);
             return err;
         });
-    }
+    };
 
     $scope.initializeSearch = function() {
     	SearchFactory.searchProducts($scope.paramObj).then(function(products) {
     		$scope.searchResults = products;
+            console.log(products);
     	}).catch(function(err) {
             console.error(err);
             return err;
         });
-    }
+    };
 
-    $scope.toggleSelection = function (array, brand) {
-        var idx = array.indexOf(brand);
+    $scope.toggleSelection = function (brand) {
+        var idx = $scope.paramObj.brands.indexOf(brand);
 
         if (idx > -1) {
-          array.splice(idx, 1);
+          $scope.paramObj.brands.splice(idx, 1);
         } else {
-          array.push(brand);
+          $scope.paramObj.brands.push(brand);
         }
     };
 
     $scope.resetParams = function() {
         setParamObj();
         $scope.searchResults = {};
-    }
+    };
 
     setParamObj();
     $scope.getPanelData();
+
+    if ($stateParams.param) {
+        $scope.paramObj.title = $stateParams.param;
+        $scope.initializeSearch();
+    }
 });
