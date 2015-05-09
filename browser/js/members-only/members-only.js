@@ -24,54 +24,37 @@ app.config(function ($stateProvider) {
         })
         .state('membersOnly.review', {
             url: '/:productID',
-            templateUrl: 'js/members-only/members-only-review.html'
+            templateUrl: 'js/members-only/members-only-review.html',
+            controller: 'MemberController'
         }) 
 });
 
 app.controller('MemberController', function($scope, $http, order, user, $stateParams) {
      
-    $scope.order = order;
-    $scope.user = user;
+  $scope.order = order;
+  $scope.user = user;
 
-    $scope.saveUser = function() {
-        $http.put('/api/users', $scope.user)
-            .then(function (response) {
-                console.log(response.data);
-            })
-    }
+  $scope.saveUser = function() {
+      $http.put('/api/users', $scope.user)
+          .then(function (response) {
+              console.log(response.data);
+          })
+  }
 
-$scope.reviewItem = {
-          user_id: null,
-          product_id: $stateParams.productID,
-          stars: 0,
-          review: ''
-      };
+  if ($stateParams.productID) { 
+    $scope.submitReview = function (review) {
+        review.product_id = $stateParams.productID
+        review.user_id = $scope.user._id
 
-      $scope.showReviewForm = false;
-
-      $scope.$watch('showReviewForm', function(){
-          $scope.addReviewButtonText = $scope.showReviewForm ? 'Hide Form' : 'Add Review';
-      })
-
-      $scope.submitReview = function (review) {
-
-          $http.post('/api/products/' + $stateParams.productID + '/reviews', review)
-            .then(function (response) {
-                console.log(response.data);
-            });
-
-          $scope.reviewItem = {
-              user_id: null,
-              product_id: $stateParams.productID,
-              stars: 0,
-              review: ''
-          };
-
-          $scope.showReviewForm = false;
-      };
-
-
+        $http.post('/api/products/' + $stateParams.productID + '/reviews', review)
+          .then(function (response) {
+              console.log('successfully saved review', response.data);
+          });
+        };
+  };
+    
 });
+
 
 
 app.filter('orderStatus', function() {
