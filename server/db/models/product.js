@@ -53,6 +53,11 @@ productSchema.methods.getReviews = function() {
 				.exec();
 };
 
+productSchema.statics.getByGender = function(gender) {
+	return this.find({ gender: gender })
+				.exec();
+};
+
 productSchema.statics.defineQueryObj = function(queryObj) {
 
 	var initialQueryObj = {};

@@ -1,5 +1,9 @@
+<h3>Our {{currentCategory}} Collection</h3>
+<br>
+
 <div ng-repeat="category in productCategory">
 	<a ui-sref="products.item({productID: category._id})">
 		<img src="{{ category.imageURL[0] }}" class="img-thumbnail" style="width: 50%">
 	</a>
 </div>
+<br>

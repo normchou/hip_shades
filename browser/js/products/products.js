@@ -19,14 +19,18 @@ app.config(function ($stateProvider) {
 	        
 });
 
-app.controller('ProductsController', function ($scope, $stateParams, $http, ProductFactory) { 
+app.controller('ProductsController', function ($scope, $stateParams, ProductFactory) { 
 
-	$scope.genders = ['women', 'men'];
-	$scope.brands = ['Oakley', 'Prada', 'Ray-Ban'];
+	$scope.currentCategory;
+	$scope.genders = ['Women', 'Men'];
+	ProductFactory.getBrands().then(function(brands) {
+		$scope.brands = brands;
+	});
 
    	if ($stateParams.productCategory) {
 		ProductFactory.productCategory($stateParams.productCategory).then(function(category) {
 			$scope.productCategory = category;
+			$scope.currentCategory = $stateParams.productCategory;
 		})
 	}
 	
@@ -51,8 +55,6 @@ app.controller('ProductsController', function ($scope, $stateParams, $http, Prod
 		}
 	}
 
-
-
 	$scope.reviewItem = {
 	      user_id: null,
 	      product_id: $stateParams.productID,
@@ -60,29 +62,27 @@ app.controller('ProductsController', function ($scope, $stateParams, $http, Prod
 	      review: ''
 	  };
 
-	  $scope.showReviewForm = false;
+	$scope.showReviewForm = false;
 
-	  $scope.$watch('showReviewForm', function(){
-	      $scope.addReviewButtonText = $scope.showReviewForm ? 'Hide Form' : 'Add Review';
-	  })
+	$scope.$watch('showReviewForm', function(){
+	    $scope.addReviewButtonText = $scope.showReviewForm ? 'Hide Form' : 'Add Review';
+	})
 
-	  $scope.submitReview = function (review) {
+	$scope.submitReview = function (review) {
 
-	      $http.post('/api/products/' + $stateParams.productID + '/reviews', review)
-	      	.then(function (response) {
-	      		console.log(response.data);
-	      	});
+	  	ProductFactory.submitReview($stateParams.productID, review).then(function(review) {
+	  		console.log('Review submitted - ', review);
+	  	});
 
-	      $scope.reviewItem = {
-	          user_id: null,
-	          product_id: $stateParams.productID,
-	          stars: 0,
-	          review: ''
-	      };
+	    $scope.reviewItem = {
+	        user_id: null,
+	        product_id: $stateParams.productID,
+	        stars: 0,
+	        review: ''
+	    };
 
-	      $scope.showReviewForm = false;
-	  };
-
+	    $scope.showReviewForm = false;
+	};
 });
 
 
