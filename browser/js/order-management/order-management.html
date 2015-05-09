@@ -21,9 +21,8 @@
 
 				<tbody>
 					<tr ng-repeat="order in orders | orderBy:create_date:reverse">
-
-						<td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="orderMgt.edit({orderId: order._id})" ng-show="!order.checked_out"><span class="glyphicon glyphicon-pencil"></span></button> </td>
-                        <td><a ng-click="deleteOrder(order._id)" type="button" class="btn btn-danger btn-xs" ng-show="!order.checked_out"><span class="glyphicon glyphicon-remove"></span></a></td>
+						<td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".bs-example-modal-lg" ui-sref="orderMgt.edit({orderId: order._id})" ng-hide="{{order.checked_out}}"><span class="glyphicon glyphicon-pencil"></span></button> </td>
+                        <td><a ng-click="deleteOrder(order._id)" type="button" class="btn btn-danger btn-xs" ng-hide="{{order.checked_out}}"><span class="glyphicon glyphicon-remove"></span></a></td>
 						<td> {{order.create_date | date: 'MM/dd/yyyy'}} </td>
 						<td> {{order.user_id.first_name}} </td>
 						<td> {{(order.products | filter: query).length}} </td>
