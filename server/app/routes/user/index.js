@@ -114,9 +114,6 @@ router.use('/:id/allOrders', needUserLoggedIn, function(req, res, next) {
 
 router.param('id', function(req, res, next, id) {
 	User.findOne({'_id': id}, function(err, user) {
-		console.log("user - ", user);
-		console.log("req.user", req.user);
-
 		if(err) return next(err)
 		// I commented this out because currently this code dosent not work when 
 		// temp users want to change the quantity in thier cart.

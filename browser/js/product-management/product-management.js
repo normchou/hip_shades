@@ -41,4 +41,3 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 	}
 
 })
-

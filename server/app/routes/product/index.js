@@ -78,7 +78,7 @@ router.param('id', function(req, res, next, id) {
 
 router.post('/:id', function(req, res, next) {
 // If the user is logged in, use the following logic
-	if (typeof(req.user) != "undefined") {
+	if (typeof(req.user) !== "undefined") {
 		Order.findOne({user_id: req.user._id, checked_out: false})
 			.exec(function (err, order) {
 				if (err) {

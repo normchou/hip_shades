@@ -17,7 +17,6 @@
                     <th>User</th>
                     <th>Order Count</th>
                     <th>isCheckedOut</th>
-					<th>Price</th>
                 </thead>
 
 				<tbody>
@@ -29,7 +28,6 @@
 						<td> {{order.user_id.first_name}} </td>
 						<td> {{(order.products | filter: query).length}} </td>
 						<td> {{order.checked_out}} </td>
-						<td> {{100}} </td>
 
 					</tr>
 				</tbody>
