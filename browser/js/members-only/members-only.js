@@ -22,14 +22,39 @@ app.config(function ($stateProvider) {
             url: '/:userID',
             templateUrl: 'js/members-only/members-only-edit.html'
         })
+        .state('membersOnly.review', {
+            url: '/:productID',
+            templateUrl: 'js/members-only/members-only-review.html',
+            controller: 'MemberController'
+        }) 
 });
 
-app.controller('MemberController', function($scope, order, user) {
+app.controller('MemberController', function($scope, $http, order, user, $stateParams) {
      
-    $scope.order = order;
-    $scope.user = user;
+  $scope.order = order;
+  $scope.user = user;
 
+  $scope.saveUser = function() {
+      $http.put('/api/users', $scope.user)
+          .then(function (response) {
+              console.log(response.data);
+          })
+  }
+
+  if ($stateParams.productID) { 
+    $scope.submitReview = function (review) {
+        review.product_id = $stateParams.productID
+        review.user_id = $scope.user._id
+
+        $http.post('/api/products/' + $stateParams.productID + '/reviews', review)
+          .then(function (response) {
+              console.log('successfully saved review', response.data);
+          });
+        };
+  };
+    
 });
+
 
 
 app.filter('orderStatus', function() {

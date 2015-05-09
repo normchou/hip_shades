@@ -1,5 +1,16 @@
-<div ng-repeat="category in productCategory">
-	<a ui-sref="products.item({productID: category._id})">
-		<img src="{{ category.imageURL[0] }}" class="img-thumbnail" style="width: 50%">
-	</a>
+<h3>Our {{currentCategory}} Collection</h3>
+<br>
+
+<div ng-repeat="category in productCategory" style="height: 220px">
+	<div class="col-md-4">
+	    <a ui-sref="products.item({productID: category._id})">
+	    	<img src="{{ category.imageURL[0] }}" class="img-thumbnail" style="margin-top: 10%"> 
+		</a>
+	</div>
+	<div class="col-md-8">
+	    <h4><a ui-sref="products.item({productID: category._id})">{{ category.title }}</a></h4>
+	    <p>{{ category.description }}</p>
+	    <p>{{ category.price | currency }}</p>
+	</div> 
 </div>
+<br>

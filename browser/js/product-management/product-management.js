@@ -19,6 +19,7 @@ app.controller('ProductManagementController', function ($scope, $stateParams, $h
 			$scope.products = product;
 	})
 	
+
 	if ($stateParams.productID) {
 		ProductFactory.productItem($stateParams.productID).then(function(item) {
 			$scope.productItem = item;

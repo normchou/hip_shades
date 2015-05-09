@@ -1,0 +1,51 @@
+<div class="modal-content">
+	<br>
+	<!-- ng-submit="reviewForm.$valid && submitReview(reviewItem)"  -->
+	<form 	class="form-horizontal" 
+			name="reviewForm" 
+			ng-submit="submitReview(reviewItem)" 
+			novalidate>
+		
+		<div class="form-group">
+			<div class="col-xs-10 col-xs-offset-1">
+				<h4 class="col-sm-10" style="text-align: center; color: gray">Please let us know what you think about this product</h4>
+			  <!--   <span class="error" ng-show="reviewForm.reviewInput.$invalid && reviewForm.$submitted" style="color: red">Please complete review before submitting</span> -->
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-xs-10 col-xs-offset-1">
+			   	<label class="col-sm-2 control-label">1 Star 
+				<input type="radio" ng-model="reviewItem.stars" value="1">
+				</label>
+			   	<label class="col-sm-2 control-label">2 Stars 
+				<input type="radio" ng-model="reviewItem.stars" value="2">
+				</label>		
+			   	<label class="col-sm-2 control-label">3 Stars 
+				<input type="radio" ng-model="reviewItem.stars" value="3">
+				</label>
+			   	<label class="col-sm-2 control-label">4 Stars 
+				<input type="radio" ng-model="reviewItem.stars" value="4">
+				</label>
+			   	<label class="col-sm-2 control-label">5 Stars 
+				<input type="radio" ng-model="reviewItem.stars" value="5">
+				</label>
+			</div>
+		</div>
+<br>
+		<div class="form-group">
+			<div class="col-xs-10 col-xs-offset-1">
+		    	<input class='form-control' row='3' name='reviewInput' required type="text" ng-model="reviewItem.review" placeholder="Describe your experience with these shades here.." />
+			</div>
+		</div>
+
+	 	<div class="form-group">
+			<div class="col-xs-4 col-xs-offset-5">
+		      	<button type="submit" class="btn btn-primary">Submit</button>
+		      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		    </div>
+		</div>
+
+	</form>
+
+<div>

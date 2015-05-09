@@ -20,6 +20,9 @@ var productSchema = new mongoose.Schema({
 	description: {
 		type: String
 	},
+	gender: {
+		type: String
+	},
 	price: {
 		type: Number, // remember to store as cents because of binary arithmatic
 		required: true,
@@ -29,9 +32,6 @@ var productSchema = new mongoose.Schema({
 	categories: {
 		type: [String]
 	},
-	brands: {
-		type: [String]
-	},
 	imageURL: {
 		type: [String]
 	},
@@ -39,6 +39,10 @@ var productSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 		default: 25
+	},
+	promotion_item: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -47,15 +51,60 @@ productSchema.methods.getReviews = function() {
 				.find({product_id: this._id })
 				.populate('user_id')
 				.exec();
-}
+};
+
+productSchema.statics.getByGender = function(gender) {
+	return this.find({ gender: gender })
+				.exec();
+};
+
+productSchema.statics.defineQueryObj = function(queryObj) {
+
+	var initialQueryObj = {};
+	var secondQueryObj = {};
+
+	if (queryObj.title !== '') {
+		initialQueryObj.title = new RegExp('^.*'+queryObj.title+'.*$', "i");
+	} 
+
+	// define categories search paramaters (gender should not be included in this array)
+	if (typeof queryObj.brands === 'string') {
+		initialQueryObj.categories = {"$in": [queryObj.brands]};
+	} else if (queryObj.brands) {
+		initialQueryObj.categories = {"$in": queryObj.brands};
+	}
+
+	if (queryObj.gender !== '') {
+		initialQueryObj.gender = {"$in": [queryObj.gender]};
+	}
+
+	// define the avgStars search paramaters. This needs to be filtered later after initial query
+	if (queryObj.avgStars !== '') {
+		secondQueryObj.avgStars = parseInt(queryObj.avgStars);
+	} 
+
+	// define price range search params
+	queryObj.priceRange = JSON.parse(queryObj.priceRange);
+	if (queryObj.priceRange.max !== '') {
+		initialQueryObj.price = { $lte: queryObj.priceRange.max };
+	}
+
+	if (queryObj.priceRange.min !== '') {
+		if (initialQueryObj.price) {
+			initialQueryObj.price.$gte = queryObj.priceRange.min;
+		} else {
+			initialQueryObj.price = { $gte: queryObj.priceRange.min };
+		}
+	}  
+
+	return {initialQueryObj: initialQueryObj, secondQueryObj: secondQueryObj};
+
+};
 
 productSchema.statics.getByCategory = function(cat) {
 	return this.find({categories: {"$in": [cat]}}).exec();
 }
 
-productSchema.statics.getByBrand = function(cat) {
-	return this.find({brands: {"$in": [cat]}}).exec();
-}
 
 // grabs all categories, but very inneficent. Will have to make a category
 // model & collection later.
@@ -76,22 +125,23 @@ productSchema.statics.getAllCategories = function() {
 	});
 }
 
-productSchema.statics.getAllBrands = function() {
-	return q.ninvoke(Product, 'find', {}).then(function(products) {
-		var brands = [];
-		products.forEach(function(element) {
+productSchema.methods.averageStars = function () {
+	var that = this;
+	return mongoose.model('Review')
+		.find({product_id: this._id }).exec()
+		.then(function(reviews) {
+			var sum = 0;
 
-			element.brands.forEach(function(brand) {
-				if (brands.indexOf(brand) === -1) {
-					brands.push(brand);
-				}
+			reviews.forEach(function(elem) {
+				sum += elem.stars;
 			});
 
-		});
+			var averageStars = sum / reviews.length;
 
-		return brands;
-	});
+			return {populatedDoc: that, avgStars: averageStars};
+		});
 }
+
 
 var Product = mongoose.model('Product', productSchema);
 
