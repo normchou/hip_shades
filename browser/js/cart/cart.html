@@ -20,7 +20,7 @@
                         <td><select data-ng-options="q for q in quantities" data-ng-model="product.quantity"
                             ng-change="saveQuantity()"></select></td>
                         <td>{{product.id.price * product.quantity | currency}}</td>
-                        <td><a ng-click="openModal(product)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
+                        <td><a ng-click="deleteProduct(product)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a></td>
 
                 </tbody>
             </table>
