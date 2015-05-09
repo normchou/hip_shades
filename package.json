@@ -5,7 +5,6 @@
   "main": "server/start.js",
   "scripts": {
     "start": "nodemon server/start.js",
-    "postinstall": "node seed.js && nodemon server/start.js"
   },
   "engines": {
 	    "node": "0.10.x",
