@@ -5,18 +5,30 @@
 		<p>{{ productItem.description }}</p>
 		<p>{{ productItem.price | currency}}</p>
 		<p ng-hide="outOfStock(productItem.stock)" style="color: red"><i>We're sorry, this item is currently not in stock.</i></p>
-		<button ng-click="createOrder(productItem._id)" ng-show="outOfStock(productItem.stock)">Add to cart</button>
+		<button popover-placement="top" popover="Added to your Cart!" popover-trigger="focus" ng-click="createOrder(productItem._id)" ng-show="outOfStock(productItem.stock)" class="btn btn-default">Add to cart</button>
 	</div>
 	<br>
 	<div>
-		<img src="{{ productItem.imageURL[0] }}" class="img-thumbnail" style="width: 75%"> 
+		<!-- <img src="{{ productItem.imageURL[0] }}" class="img-thumbnail" style="width: 75%">  -->
+		<div style="height: 75%; width: 75%;">
+			<carousel interval="5000">
+			    <slide ng-repeat="slide in slides" active="slide.active">
+			        <img ng-src="{{slide.image}}" class="img-thumbnail" style="margin:auto;">
+			    </slide>
+			</carousel>
+		</div>
 	</div>
 </div>
 
 <div class="col-xs-3">
 	<h3>Reviews</h3>
 	<div ng-repeat="review in productReviews">
-		<h4 style="color: gold">{{ review.stars }} Stars</h4>
-		<p> "{{ review.review }}"" <i style="color: gray"> -{{ review.user_id.first_name }} {{ review.user_id.last_name }}</i> </p>
+		
+		<h4 style="color: gold"><ng-pluralize count="review.stars"
+		            when="{'1': '1 Star ',
+		            'other': '{{review.stars}} Stars '}">
+		            </ng-pluralize></h4>
+		<rating ng-model="review.stars" max="5" readonly="true"></rating>
+		<p> "{{ review.review }}" <i style="color: gray"> - {{ review.user_id.first_name }} {{ review.user_id.last_name }}</i> </p>
 	</div>
 </div>
