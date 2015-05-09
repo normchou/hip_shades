@@ -29,6 +29,7 @@
                     <th>Price</th>
                     <th>Current Stock</th>
                     <th>Categories</th>
+                    <th>Gender</th>
                 </thead>
                 <tbody>
                     <tr ng-repeat="product in products">
@@ -45,6 +46,7 @@
                         <td>{{product.price | currency}}</td>
                         <td>{{product.stock}}</td>				
                         <td>{{product.categories}}</td>
+                        <td>{{product.gender}}</td>
                     </tr>                    
                 </tbody>
             </table>

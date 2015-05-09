@@ -17,7 +17,7 @@ app.controller('SignUpCtrl', function ($scope, AuthService, $state, SignUpFactor
 
         SignUpFactory.signupNewUser(signup)
 	        .then(function(user) {
-	        	$state.go('home');
+	        	$state.go('products');
 	        	return AuthService.getLoggedInUser();
 	        })
 	        .catch(function(err) {

@@ -66,6 +66,14 @@ app.controller('ProductsController', function ($scope, $stateParams, ProductFact
 		}
 	}
 
+
+	$scope.showCarousel = true;
+
+	$scope.hideCarousel = function() {
+		$scope.showCarousel = false;
+		consoel.log('....', $scope.showCarousel)
+	}
+
 	$scope.reviewItem = {
 	      user_id: null,
 	      product_id: $stateParams.productID,

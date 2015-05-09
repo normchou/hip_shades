@@ -17,7 +17,7 @@ var orderSchema = new mongoose.Schema({
         required: false
     },
     checked_out: {
-        type: Boolean,
+        type: String,
         required: true,
         default: false
     },
