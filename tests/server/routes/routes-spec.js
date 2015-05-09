@@ -1,8 +1,8 @@
 // var mongoose = require('mongoose');
 // var User = mongoose.model('User');
-// var Products = mongoose.model('Products');
+// var Products = mongoose.model('Product');
 // var Orders = mongoose.model('Order');
-// var Reviews = mongoose.model('Reviews');
+// var Reviews = mongoose.model('Review');
 
 // var supertest = require('supertest');
 // var app = require('../../../server/app/index.js');

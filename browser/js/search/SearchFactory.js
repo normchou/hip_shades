@@ -1,4 +1,4 @@
-app.factory('SearchFactory', function ($http, $q) {
+app.factory('SearchFactory', function ($http) {
 
     return {
 
@@ -15,18 +15,17 @@ app.factory('SearchFactory', function ($http, $q) {
             });
         },
 
-        getSearchPanelData: function () {
-            var dataObj = {};
+        getBrands: function () {
+            return $http.get('api/categories').then(function(res) {
+                var menIndex = res.data.indexOf('men');
+                if (menIndex > -1)
+                    res.data.splice(menIndex, 1);
 
-            var categories = $http.get('/api/categories');
-            var brands = $http.get('api/brands');
+                var womenIndex = res.data.indexOf('women');
+                if (womenIndex > -1)
+                    res.data.splice(womenIndex, 1);
 
-            return $q.all([categories, brands]).then(function(resultsArray) {
-                // dataObj.categories = resultsArray[0].data;
-                // dataObj.brands = resultsArray[1].data;
-                dataObj.brands = ['Oakley', 'Prada', 'Ray-ban'];
-                dataObj.categories = ['Polarized', 'Glass', 'Polycarbonate'];
-                return dataObj;
+                return res.data;
             }).catch(function(err) {
                 console.error(err);
                 return err;
