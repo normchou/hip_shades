@@ -16,16 +16,24 @@ app.config(function ($stateProvider) {
 			}
 		})
 		.state('orderMgt.edit', {
-			url: '/:orderID',
-			templateUrl: 'js/order-manangement/order-management-edit.html',
+			url: '/:orderId',
+			templateUrl: 'js/order-management/order-management-edit.html',
 			controller: 'OrderManagementController'
 		})
 });
 
-app.controller('OrderManagementController', function($scope, AuthService, $stateParams, $http, orders, deleteOrder) {
+app.controller('OrderManagementController', function($scope, AuthService, $stateParams, orders, deleteOrder, Orders) {
 		$scope.orders = orders;
 
+		if ($stateParams.orderId) {
+			Orders.getOrder($stateParams.orderId)
+				.then(function (order) {
+					$scope.orderItem = order;
+				});
+		};
+
 		$scope.deleteOrder = function(orderID) {
+
 			// Delete the order from the database
 			deleteOrder(orderID)
 			
@@ -34,5 +42,9 @@ app.controller('OrderManagementController', function($scope, AuthService, $state
 					return $scope.orders.splice(idx, 1);
 				}
 			})
-		}
+		};
+
+		$scope.saveOrder = function() {
+			Orders.saveOrder($scope.orderItem);
+		};
 });

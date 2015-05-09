@@ -21,6 +21,16 @@ router.get('/:id', function(req, res, next) {
 	});
 });
 
+router.put('/:id', needAdminPrivileges, function(req, res, next) {
+	console.log('Edited Order = ', editOrder);
+	var editOrder = req.body;
+
+	Order.update({_id: editOrder._id}, { $set: editOrder }, function (err) {
+		if (err) return handleError(err);
+		res.send('successfully updated');
+	})
+});
+
 router.post('/:id',function(req, res, next) {
 	var newProductArray = [];
 	for (var i = 0; i < req.body.products.length; i++) {
