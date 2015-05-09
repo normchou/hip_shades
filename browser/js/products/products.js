@@ -23,6 +23,8 @@ app.controller('ProductsController', function ($scope, $stateParams, ProductFact
 
 	$scope.currentCategory;
 	$scope.genders = ['Women', 'Men'];
+	$scope.slides = [];
+
 	ProductFactory.getBrands().then(function(brands) {
 		$scope.brands = brands;
 	});
@@ -37,9 +39,18 @@ app.controller('ProductsController', function ($scope, $stateParams, ProductFact
 	if ($stateParams.productID) {
 		ProductFactory.productReviews($stateParams.productID).then(function(reviews) {
 			$scope.productReviews = reviews;
-		})
+		});
+
 		ProductFactory.productItem($stateParams.productID).then(function(item) {
 			$scope.productItem = item;
+
+			$scope.slides = [];
+			
+			for (var i = 0; i < $scope.productItem.imageURL.length; i++) {
+				$scope.slides.push({
+				  	image: $scope.productItem.imageURL[i]
+				});
+			}
 		});		
 	};
 
