@@ -20,6 +20,9 @@ var productSchema = new mongoose.Schema({
 	description: {
 		type: String
 	},
+	gender: {
+		type: String
+	},
 	price: {
 		type: Number, // remember to store as cents because of binary arithmatic
 		required: true,
@@ -36,6 +39,10 @@ var productSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 		default: 25
+	},
+	promotion_item: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -62,9 +69,8 @@ productSchema.statics.defineQueryObj = function(queryObj) {
 		initialQueryObj.categories = {"$in": queryObj.brands};
 	}
 
-	// define gender search params. This needs to be filtered later after initial query
 	if (queryObj.gender !== '') {
-		secondQueryObj.gender = queryObj.gender;
+		initialQueryObj.gender = {"$in": [queryObj.gender]};
 	}
 
 	// define the avgStars search paramaters. This needs to be filtered later after initial query

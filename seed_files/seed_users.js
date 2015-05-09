@@ -5,7 +5,7 @@ This seed file seeds users into the database.
 */
 
 var mongoose = require('mongoose');
-var connectToDb = require('./server/db');
+var connectToDb = require('./../server/db');
 var User = mongoose.model('User');
 var q = require('q');
 
