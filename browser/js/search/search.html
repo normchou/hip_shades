@@ -5,73 +5,71 @@
     <div class="row">
         <div class="col-md-4 search-panel">
             <h4>Refine by</h4>
+            <form name='searchForm' ng-submit='initializeSearch()'>
+                <h6>Title</h6>
 
-     <!--        <div>
-                <span>1-16 of 102 results for </span>
-            </div> -->
+                <input type="search" ng-model="paramObj.title"placeholder="Search">
+                <br>
+                <br>
+                <h6>Brands</h6>
+                <label ng-repeat="brand in brands">
+                    <input  type="checkbox"
+                            value="{{brand}}"
+                            ng-checked="paramObj.brands.indexOf(brand) > -1"
+                            ng-click="toggleSelection(brand)"
+                     > {{brand}}
+                <br/></label>
+                <br>
+                <h6>Gender</h6>
+                    <label>
+                        <input type="radio" ng-model="paramObj.gender" value="men">
+                        Men
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="paramObj.gender" value="women">
+                        Women
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="paramObj.gender" value="">
+                        Both
+                    </label>
+                <br>
+                <h6>Price</h6>
 
-            <h6>Title</h6>
-            <input type="search" ng-model="paramObj.title"placeholder="Search">
-            <br>
-            <br>
-            <h6>Brands</h6>
-            <label ng-repeat="brand in brands">
-                <input  type="checkbox"
-                        value="{{brand}}"
-                        ng-checked="paramObj.brands.indexOf(brand) > -1"
-                        ng-click="toggleSelection(brand)"
-                 > {{brand}}
-            <br/></label>
-            <br>
-            <h6>Gender</h6>
-                <label>
-                    <input type="radio" ng-model="paramObj.gender" value="men">
-                    Men
-                </label><br/>
-                <label>
-                    <input type="radio" ng-model="paramObj.gender" value="women">
-                    Women
-                </label><br/>
-                <label>
-                    <input type="radio" ng-model="paramObj.gender" value="">
-                    Both
-                </label>
-            <br>
-            <h6>Price</h6>
+                    <p>Between</p>
+                    <select data-ng-options="p.value as p.text for p in minPriceRanges" data-ng-model="paramObj.priceRange.min"></select>
 
-                <p>Between</p>
-                <select data-ng-options="p.value as p.text for p in minPriceRanges" data-ng-model="paramObj.priceRange.min"></select>
+                    <p>and</p>
 
-                <p>and</p>
+                    <select data-ng-options="p.value as p.text for p in maxPriceRanges" data-ng-model="paramObj.priceRange.max"></select>
 
-                <select data-ng-options="p.value as p.text for p in maxPriceRanges" data-ng-model="paramObj.priceRange.max"></select>
+                <br>
+                <h6>Avg. Customer Review</h6>
+                    <label>
+                        <input type="radio" ng-model="paramObj.avgStars" value="">
+                        Any range
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="paramObj.avgStars" value="1">
+                        1 Star & Up
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="paramObj.avgStars" value="2">
+                        2 Stars & Up
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="paramObj.avgStars" value="3">
+                        3 Stars & Up 
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="paramObj.avgStars" value="4">
+                        4 Stars & Up 
+                    </label><br/>
+                <br>
 
-            <br>
-            <h6>Avg. Customer Review</h6>
-                <label>
-                    <input type="radio" ng-model="paramObj.avgStars" value="">
-                    Any range
-                </label><br/>
-                <label>
-                    <input type="radio" ng-model="paramObj.avgStars" value="1">
-                    1 Star & Up
-                </label><br/>
-                <label>
-                    <input type="radio" ng-model="paramObj.avgStars" value="2">
-                    2 Stars & Up
-                </label><br/>
-                <label>
-                    <input type="radio" ng-model="paramObj.avgStars" value="3">
-                    3 Stars & Up 
-                </label><br/>
-                <label>
-                    <input type="radio" ng-model="paramObj.avgStars" value="4">
-                    4 Stars & Up 
-                </label><br/>
-            <br>
-
-            <a class="btn btn-primary btn-lg" ng-click="initializeSearch()" role="button">Search</a>
-            <a class="btn btn-primary btn-lg" ng-click="resetParams()" role="button">Reset</a>
+                <a class="btn btn-primary btn-lg" ng-click="initializeSearch()" role="button">Search</a>
+                <a class="btn btn-primary btn-lg" ng-click="resetParams()" role="button">Reset</a>
+            </form>
             <br>
             <br>
         </div>
@@ -84,15 +82,19 @@
             <br>
             <table class="table">
                 <div ng-repeat="product in searchResults">
-                    <div class="col-md-4 search-image">
-                        <img src="{{ product.populatedDoc.imageURL[0] }}" class="img-thumbnail" style="margin-top: 25%"> 
-                    </div>
-                    <div class="col-md-8">
-                        <h4>{{ product.populatedDoc.title }}</h4>
-                        <p>{{ product.populatedDoc.description }}</p>
-                        <p>${{ product.populatedDoc.price }}</p>
-                        <p> Average Stars: {{ product.avgStars }}</p>
-                    </div>
+                    
+                        <div class="col-md-4 search-image">
+                            <a ui-sref="products.item({productID: product.populatedDoc._id})">
+                            <img src="{{ product.populatedDoc.imageURL[0] }}" class="img-thumbnail" style="margin-top: 25%"> 
+                        </a>
+                        </div>
+                        <div class="col-md-8">
+                            <h4><a ui-sref="products.item({productID: product.populatedDoc._id})">{{ product.populatedDoc.title }}</a></h4>
+                            <p>{{ product.populatedDoc.description }}</p>
+                            <p>${{ product.populatedDoc.price }}</p>
+                            <p> Average Stars: {{ product.avgStars }}</p>
+                        </div>
+
                     
                 </div>
             </table>

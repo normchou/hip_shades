@@ -5,7 +5,7 @@ This seed file seeds reviews into the database.
 */
 
 var mongoose = require('mongoose');
-var connectToDb = require('./server/db');
+var connectToDb = require('./../server/db');
 var Review = mongoose.model('Review');
 var Product = mongoose.model('Product');
 var User = mongoose.model('User');
