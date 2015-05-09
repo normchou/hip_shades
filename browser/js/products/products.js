@@ -2,7 +2,7 @@
 app.config(function ($stateProvider) {
     $stateProvider
 	    .state('products', {
-	        url: '/products',
+	        url: '/',
 	        templateUrl: 'js/products/products.html',
 	        controller: 'ProductsController'
 	    })
