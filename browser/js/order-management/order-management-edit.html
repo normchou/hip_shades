@@ -1,0 +1,28 @@
+<div class="modal-content">
+	<br>
+	<form ng-submit="saveOrder()" class="form-horizontal">
+	  
+	  <div class="form-group">
+	    <label class="col-sm-2 control-label">Create Date</label>
+	    <div class="col-sm-9">
+	      <input type="text" class="form-control" ng-model="orderItem.create_date">
+	    </div>
+	  </div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Is Checked out</label>
+	    <div class="col-sm-1">
+			<input type="checkbox" class="form-control" ng-model="orderItem.checked_out" ng-true-value="true", ng-false-value="false">
+		</div>
+	</div>
+
+
+	<div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-9">
+	      <button type="submit" class="btn btn-primary">Save</button>
+	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    </div>
+	  </div>
+
+  	</form>
+</div>
