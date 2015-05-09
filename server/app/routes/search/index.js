@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 	Product.find(queryObjects.initialQueryObj).exec().then(function(products) {
 		var promises = [];
 
-		//averageStars() is async
+		//averageStars() is async, so we have to use q.all
 		products.forEach(function(elem) {
 			promises.push(elem.averageStars());
 		});
@@ -22,21 +22,13 @@ router.get('/', function(req, res, next) {
 		return q.all(promises);
 	}).then(function(products) {
 		
-		var filtered = products;
-
 		if (queryObjects.secondQueryObj.avgStars) {
-			filtered = filtered.filter(function(elem) {
+			products = products.filter(function(elem) {
 				return elem.avgStars >= queryObjects.secondQueryObj.avgStars;
 			});
 		}
 
-		if (queryObjects.secondQueryObj.gender) {
-			filtered = filtered.filter(function(elem) {
-				return elem.populatedDoc.categories.indexOf(queryObjects.secondQueryObj.gender) > 0;
-			});
-		}	
-
-		res.json(filtered);
+		res.json(products);
 	}, function(err) {
 		res.json(err);
 	});

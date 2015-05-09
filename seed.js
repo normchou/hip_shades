@@ -27,10 +27,10 @@ var Product = mongoose.model('Product');
 var Review = mongoose.model('Review');
 var Order = mongoose.model('Order');
 
-var seedReviews = require('./seed_reviews');
-var seedProducts = require('./seed_products');
-var seedUsers = require('./seed_users');
-var seedOrders = require('./seed_orders');
+var seedReviews = require('./seed_files/seed_reviews');
+var seedProducts = require('./seed_files/seed_products');
+var seedUsers = require('./seed_files/seed_users');
+var seedOrders = require('./seed_files/seed_orders');
 
 
 var q = require('q');
