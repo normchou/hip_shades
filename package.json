@@ -5,7 +5,7 @@
   "main": "server/start.js",
   "scripts": {
     "start": "nodemon server/start.js",
-    "postinstall": "node seed.js && ./node_modules/bower/bin/bower install && gulp build && gulp"
+    "postinstall": "node seed.js && echo 'Done seeding' && ./node_modules/bower/bin/bower install && echo 'Done Bower install' && gulp build && echo 'Done gulp build' && gulp && echo 'Gulping'"
   },
   "engines": {
 	    "node": "0.10.x",
