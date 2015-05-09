@@ -1,11 +1,13 @@
 <!-- this shows product's description -->
 <div class="col-xs-9">
 	<div>
-		<h4>{{ productItem.title }}</h4>
+		<h3>{{ productItem.title }}</h3>
 		<p>{{ productItem.description }}</p>
-		<p>${{ productItem.price }}</p>
-		<button ng-click="createOrder(productItem._id)">Add to cart</button>
+		<p>{{ productItem.price | currency}}</p>
+		<p ng-hide="outOfStock(productItem.stock)" style="color: red"><i>We're sorry, this item is currently not in stock.</i></p>
+		<button ng-click="createOrder(productItem._id)" ng-show="outOfStock(productItem.stock)">Add to cart</button>
 	</div>
+	<br>
 	<div>
 		<img src="{{ productItem.imageURL[0] }}" class="img-thumbnail" style="width: 75%"> 
 	</div>
@@ -13,37 +15,8 @@
 
 <div class="col-xs-3">
 	<h3>Reviews</h3>
-
-	
-	<form name="reviewForm" ng-submit="reviewForm.$valid && submitReview(reviewItem)" ng-show="showReviewForm"
-	novalidate>
-
-	    <span class="error" ng-show="reviewForm.reviewInput.$invalid && reviewForm.$submitted" style="color: red">Please complete review before submitting</span>
-    	
-	    1 Star - <input type="radio" ng-model="reviewItem.stars" value="1">
-		</br>
-	    2 Stars - <input type="radio" ng-model="reviewItem.stars" value="2">
-	    </br>
-	    3 Stars - <input type="radio" ng-model="reviewItem.stars" value="3">
-	    </br>
-	    4 Stars - <input type="radio" ng-model="reviewItem.stars" value="4">
-	    </br>
-	    5 Stars - <input type="radio" ng-model="reviewItem.stars" value="5">
-	    </br>
-
-	    Describe your experience with these shades: <input class='' name='reviewInput' required type="text" ng-model="reviewItem.review" />
-
-	    <br /><button>Submit Review</button> 
-
-	</form>
-
-	</br>
-	<button ng-click="showReviewForm = !showReviewForm">{{addReviewButtonText}}</button>
-
-
 	<div ng-repeat="review in productReviews">
-		<h4 style="color: red">{{ review.stars }} Stars</h5>
-		<p> "{{ review.review }}"" </p>
-		<p><i> -{{ review.user_id.first_name }} {{ review.user_id.last_name }}</i></p>
+		<h4 style="color: gold">{{ review.stars }} Stars</h4>
+		<p> "{{ review.review }}"" <i style="color: gray"> -{{ review.user_id.first_name }} {{ review.user_id.last_name }}</i> </p>
 	</div>
 </div>

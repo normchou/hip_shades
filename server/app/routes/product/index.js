@@ -77,64 +77,76 @@ router.param('id', function(req, res, next, id) {
 })
 
 router.post('/:id', function(req, res, next) {
-	// this is for logged in users
+// If the user is logged in, use the following logic
 	if (typeof(req.user) != "undefined") {
 		Order.findOne({user_id: req.user._id, checked_out: false})
 			.exec(function (err, order) {
 				if (err) {
 					return console.log(err);
-				} else if (!order) { // This user has not added a item into his/her cart
+				} 
+// This user has not added a item into his/her cart
+				else if (!order) { 
 					var newOrder = new Order ({
 						products: [{id: req.params.id, quantity: 1}],
 						user_id: req.user._id
 					});
-
 					newOrder.save(function(err, newOrder) {
 						if (err) return console.error(err);	
 						res.json(newOrder);			
 					});
-				} else { // This user already has items in his/her cart, we just need to add a new item
+				} 
+// This user already has items in his/her cart, we just need to add a new item
+				else { 
 					return order.addProductToOrder(req.params.id);
 				}
 			})
-	// this is for temp user
+// If the user is NOT logged in, use the following logic.
 	} else {		
 		var cookieId = req.cookies['connect.sid'].match(/[a-zA-Z0-9]+/g)[1];
 		User.findOne({email: cookieId + '@temp.com'})
 			.exec(function(err, user) {
 				if (err) {
 					return console.log(err);
-				} else if (!user) {
-					// creates temporary user and save to database
+				} 
+// If the temp user is not a user in the database, create a user for him and save the product to his cart.
+				else if (!user) {		
+console.log('omg...')
 					var tempUser = new User({
 						email: cookieId + '@temp.com',
 						first_name: 'temp'
 					});
-
 					tempUser.save(function(err, tempUser) {
 						if (err) return console.error(err);
-
-						// creates new order for temp user 
 						var newOrder = new Order ({
 							products: [{id: req.params.id, quantity: 1}],
 							user_id: tempUser._id
 						})
-
 						newOrder.save(function(err, newOrder) {
 							if (err) return next(err);
 							res.json(newOrder);
 						})
 					});
-				} else {
+				} 
+// If the temp user is a user in the database, find the user and add the product to his cart.
+				else {
 					Order.findOne({user_id: user._id, checked_out: false}).exec().then(function(order) {
-						return order.addProductToOrder(req.params.id);
+						if (order === null) {
+							var newOrder = new Order ({
+								products: [{id: req.params.id, quantity: 1}],
+								user_id: user._id
+							})
+							return newOrder.save()
+						}
+						else {
+							return order.addProductToOrder(req.params.id);
+						}
 					}).then(function(savedOrder) {
 						res.json(savedOrder);
 					}, function(err) {
-						console.error("Could not add product to order", err);
 						res.json(err);
-				 	});
+					});
 				}
+				
 			})
 	}
 
