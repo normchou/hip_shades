@@ -60,9 +60,19 @@ app.controller('MemberController', function($scope, $http, order, user, $statePa
 app.filter('orderStatus', function() {
     return function(input) {
         if (input === false) {
-            return "In Progress"
+            return "In Cart"
         } else {
-            return "Completed"
+            return "Processing"
+        }
+    }
+})
+
+app.filter('deliverStatus', function() {
+    return function(input) {
+        if (input === false) {
+            return "Shipped"
+        } else {
+            return "Delivered"
         }
     }
 })

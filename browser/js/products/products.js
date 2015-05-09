@@ -51,13 +51,11 @@ app.controller('ProductsController', function ($scope, $stateParams, ProductFact
 		}
 	}
 
+	$scope.showCarousel = true;
+
 	$scope.hideCarousel = function() {
-		if ($stateParams.productCategory || $stateParams.productID) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		$scope.showCarousel = false;
+		consoel.log('....', $scope.showCarousel)
 	}
 
 });
